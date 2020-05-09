@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerResources : MonoBehaviour
 {
+    public float resource_speed = 1.0f;
+
     public uint HR_max = 20;
     //[HideInInspector]
     public float HR_curr = 0;
@@ -22,7 +24,7 @@ public class PlayerResources : MonoBehaviour
     void Update()
     {
         // update resource bar
-        float dt = Time.deltaTime * Time.timeScale;
+        float dt = Time.deltaTime * Time.timeScale * resource_speed;
         HR_curr += dt;
         MR_curr += dt;
         HR_curr = Mathf.Clamp(HR_curr, 0, HR_max);

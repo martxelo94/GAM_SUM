@@ -37,10 +37,17 @@ public class Squad : MonoBehaviour
             if (idx >= battlefield.m_team_grid.Length ||idx < 0)
                 continue;
             int terrain_team = battlefield.m_team_grid[idx];
+            int new_terrain_team = terrain_team;
             if (terrain_team >= 0 && is_enemy)
-                battlefield.m_team_grid[idx] -= 1;
+                new_terrain_team -= 1;
             else if (terrain_team <= 0 && !is_enemy)
-                battlefield.m_team_grid[idx] += 1;
+                new_terrain_team += 1;
+            // update if different
+            if ((new_terrain_team < 0 && terrain_team >= 0) || (new_terrain_team > 0 && terrain_team <= 0))
+            {
+                battlefield.SetVertexColor(coord, new_terrain_team);
+                battlefield.m_team_grid[idx] = new_terrain_team;
+            }
 
         }
         if (troops_destroyed == troops.Length) {
