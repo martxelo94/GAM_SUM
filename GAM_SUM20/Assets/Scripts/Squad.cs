@@ -39,9 +39,9 @@ public class Squad : MonoBehaviour
             int terrain_team = battlefield.m_team_grid[idx];
             int new_terrain_team = terrain_team;
             if (terrain_team >= 0 && is_enemy)
-                new_terrain_team -= 1;
+                new_terrain_team = -1;
             else if (terrain_team <= 0 && !is_enemy)
-                new_terrain_team += 1;
+                new_terrain_team = 1;
             // update if different
             if ((new_terrain_team < 0 && terrain_team >= 0) || (new_terrain_team > 0 && terrain_team <= 0))
             {
