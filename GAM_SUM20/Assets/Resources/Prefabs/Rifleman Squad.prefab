@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -5213398953275227690}
   m_Layer: 0
   m_Name: Rifleman Squad
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db6b17ff172d58f468e8f77060eb44f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 1
 --- !u!1001 &985894492484832552
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -6313748796877482557}
   m_Layer: 0
   m_Name: Tank Squad
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db6b17ff172d58f468e8f77060eb44f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  team: 1
 --- !u!1001 &2481760951703175800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51,10 +52,60 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4097369121608217888}
     m_Modifications:
+    - target: {fileID: 3494832171843542692, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454475859084510502, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4743057618341809062, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875241568724224881, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4965646974805488993, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6115491676151040467, guid: dad6809d66eb40045bbbc942205c2713,
         type: 3}
       propertyPath: m_Name
       value: Tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 6115491676151040467, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6438804858899120467, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6444398388947227339, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7077996740964763533, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7226285107279804170, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7269002947842513324, guid: dad6809d66eb40045bbbc942205c2713,
         type: 3}

@@ -28,6 +28,8 @@ public class MenuManager : MonoBehaviour
 
     public void ResetLevel()
     {
+
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 

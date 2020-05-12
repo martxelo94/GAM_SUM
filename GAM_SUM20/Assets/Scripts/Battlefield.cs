@@ -5,25 +5,26 @@ using UnityEngine.Assertions;
 
 public class Battlefield : MonoBehaviour
 {
-    public Vector2Int grid_size;
-
-    // which team belongs a cell (0: neutral, 1: player, -1: opponent
-    [HideInInspector]
-    public int[] m_team_grid;
-
     // grid spatial dimensions
+    public Vector2Int grid_size;
     public Vector3 grid_center;
     public float cell_size = 1.0f;
 
-    public Color player_color;
-    public Color opposite_color;
-
+    // which team belongs a cell (0: neutral, 1: player, -1: opponent
+    [HideInInspector]
+    public int[] m_team_grid;   // how much influenced by team
     public MeshFilter terrain_mesh_filter;
     Color[] terrain_mesh_colors;
+    public Color[] team_color;
+    public int[] team_terrain_influence;
+    bool terrain_updated = true;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        Assert.IsTrue(team_color.Length == (int)TeamType.TeamCount);
+        Assert.IsTrue(team_terrain_influence.Length == (int)TeamType.TeamCount);
         //grid_size = grid_size;
         ResizeGrid(grid_size);
     }
@@ -31,26 +32,26 @@ public class Battlefield : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (terrain_updated)
+            StartCoroutine(UpdateCellColors());
     }
-
-    public void SetVertexColor(Vector2Int coord, int team)
+    public void SetVertexColor(int coordX, int coordY, TeamType team)
     {
-        int idx = coord.x + 1 + (coord.y + 1) * (grid_size.x + 2);
-        if (team < 0)
-            terrain_mesh_colors[idx] = opposite_color;
-        else if (team > 0)
-            terrain_mesh_colors[idx] = player_color;
-        else
-            terrain_mesh_colors[idx] = Color.white;
-
+        int idx = coordX + 1 + (coordY + 1) * (grid_size.x + 2);
+        terrain_mesh_colors[idx] = team_color[(int)team];
         terrain_mesh_filter.mesh.colors = terrain_mesh_colors;
-        Debug.Log("Vertex Color changed");
+    }
+    public void SetVertexColor(Vector2Int coord, TeamType team)
+    {
+        SetVertexColor(coord.x, coord.y, team);
     }
 
     public void ResizeGrid(Vector2Int size)
     {
         m_team_grid = new int[size.x * size.y];
+        for (int i = 0; i < m_team_grid.Length; ++i) {
+            m_team_grid[i] = 0;
+        }
 
         // create terrain mesh (plane)
         int vertexCount = grid_size.x * grid_size.y + 2 * (grid_size.y + grid_size.x + 2);
@@ -127,6 +128,57 @@ public class Battlefield : MonoBehaviour
 
         Debug.Log("Grid Resized");
     }
+    public bool CaptureCell(Vector3 pos, TeamType team)
+    {
+        Vector2Int coord = GetCellCoord(pos);
+        int idx = coord.x + coord.y * grid_size.x;
+        // outsude grid
+        if (idx >= m_team_grid.Length || idx < 0)
+            return false;
+        TeamType terrain_team = GetTeam(m_team_grid[idx]);
+        if (terrain_team != team)
+        {
+            //SetVertexColor(coord, team);
+            m_team_grid[idx] += team_terrain_influence[(int)team];
+        }
+        return true;
+    }
+    public void CaptureCells(Vector3 pos, TeamType team, int radius)
+    {
+        Vector2Int coord = GetCellCoord(pos);
+        int minY = Mathf.Max(coord.y - radius, 0);
+        int maxY = Mathf.Min(coord.y + radius, grid_size.y - 1);
+        int minX = Mathf.Max(coord.x - radius, 0);
+        int maxX = Mathf.Min(coord.x + radius, grid_size.x - 1);
+
+        for (int y = minY; y <= maxY; ++y) {
+            int row = y * grid_size.x;
+            for (int x = minX; x <= maxX; ++x) {
+                int idx = x + row;
+                TeamType terrain_team = GetTeam(m_team_grid[idx]);
+                if (terrain_team != team)
+                {
+                    //SetVertexColor(x, y, team);
+                    m_team_grid[idx] += team_terrain_influence[(int)team];
+                }
+            }
+        }
+    }
+
+    IEnumerator UpdateCellColors()
+    {
+        terrain_updated = false;
+        for (int y = 0; y < grid_size.y; ++y) {
+            int row = (y + 1) * (grid_size.x + 2) + 1;
+            for (int x = 0; x < grid_size.x; ++x) {
+                int idx = x + row;
+                terrain_mesh_colors[idx] = team_color[(int)GetTeam(m_team_grid[x + y * grid_size.x])];
+                terrain_mesh_filter.mesh.colors = terrain_mesh_colors;
+            }
+            yield return null;  // update a row per frame
+        }
+        terrain_updated = true;
+    }
 
     public Vector3 GetCellPos(Vector2Int coord)
     {
@@ -155,7 +207,6 @@ public class Battlefield : MonoBehaviour
 
         return worldPos;
     }
-
     public Vector2Int GetCellCoordAtTouch()
     {
 #if UNITY_EDITOR
@@ -167,7 +218,6 @@ public class Battlefield : MonoBehaviour
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
         return GetCellCoord(worldPos);
     }
-
     public Vector2Int GetCellCoord(Vector3 worldPos)
     {
         worldPos -= grid_center;
@@ -186,7 +236,14 @@ public class Battlefield : MonoBehaviour
     {
         return coord.x >= 0 && coord.x < grid_size.x && coord.y >= 0 && coord.y < grid_size.y;
     }
-
+    public TeamType GetTeam(int val)
+    {
+        if (val > 0)
+            return TeamType.Player;
+        else if (val < 0)
+            return TeamType.Opponent;
+        return TeamType.None;
+    }
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -195,14 +252,8 @@ public class Battlefield : MonoBehaviour
             int row = y * grid_size.x;
             for (int x = 0; x < grid_size.x; ++x) {
                 int idx = x + row;
-                    int terrain_team = m_team_grid[idx];
-                    if(terrain_team < 0)
-                        Gizmos.color = opposite_color;
-                    else if(terrain_team > 0)
-                        Gizmos.color = player_color;
-                    else
-                        Gizmos.color = Color.white;
-
+                    TeamType terrain_team = GetTeam(m_team_grid[idx]);
+                    Gizmos.color = team_color[(int)terrain_team];
                     Vector3 pos = GetCellPos(new Vector2Int(x, y));
                 Gizmos.DrawCube(pos, Vector3.one * cell_size * 0.9f);
             }

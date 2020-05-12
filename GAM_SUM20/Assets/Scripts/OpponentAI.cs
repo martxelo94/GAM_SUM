@@ -47,12 +47,8 @@ public class OpponentAI : MonoBehaviour
                 deck.selected_card.transform.position = deck.battlefield.GetCellPos(new Vector2Int(randX, deck.battlefield.grid_size.y - 1));
                 //rotate towards down
                 deck.selected_card.transform.Rotate(new Vector3(0, 0, 180));
-                //set opposite direction
-                Movement[] components = deck.selected_card.GetComponentsInChildren<Movement>();
-                foreach(Movement c in components)
-                    c.troop_forward = false;
                 // squad stuff
-                deck.selected_card.GetComponent<Squad>().is_enemy = true;
+                deck.selected_card.GetComponent<Squad>().team = TeamType.Opponent;
                 // confirm type
                 deck.PlaySelected();
                 // consume resources
