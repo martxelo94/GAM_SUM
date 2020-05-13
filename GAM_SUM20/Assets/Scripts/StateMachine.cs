@@ -2,16 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Assertions;
 
 public class StateMachine : MonoBehaviour
 {
-    public Dictionary<string, State> states;
+    [HideInInspector]
+    public Sensor sensor;
+    [HideInInspector]
+    public UnitStats stats;
+    [HideInInspector]
+    public Rigidbody2D rig;
+
     public State current_state;
     public State next_state;
     // Start is called before the first frame update
     void Start()
     {
-        current_state = next_state = new StateAdvance(gameObject);
+        rig = GetComponent<Rigidbody2D>();
+        stats = GetComponent<UnitStats>();
+        sensor = GetComponent<Sensor>();
+
+        current_state = next_state = new StateAdvance(this);
         current_state.Enter();
     }
 
@@ -27,8 +38,9 @@ public class StateMachine : MonoBehaviour
         current_state.Update(Time.deltaTime * Time.timeScale);
     }
 
-    void SetNextState(State state)
+    public void SetNextState(State state)
     {
+        next_state = null;  // delete?
         next_state = state;
     }
 }

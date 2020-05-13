@@ -244,7 +244,7 @@ public class Battlefield : MonoBehaviour
             return TeamType.Opponent;
         return TeamType.None;
     }
-#if UNITY_EDITOR
+#if UNITY_EDITOR && false
     private void OnDrawGizmos()
     {
         if(m_team_grid.Length > 0)

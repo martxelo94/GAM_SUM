@@ -11,9 +11,11 @@ public class DeckManager : MonoBehaviour
     public Battlefield battlefield;
     [HideInInspector]
     public GameObject selected_card;
+    CardType selected_type;
 
     public Vector2Int[] cardCosts;
     public GameObject[] blueprints; // blueprinted card before being played
+    public GameObject[] card_prefabs;   // cards to play all logic included
     private Card[] cards;      // played card (troop, building, spell)
 
     public CardType[] deck_types;   // card types in deck
@@ -23,6 +25,7 @@ public class DeckManager : MonoBehaviour
 
     private void Awake()
     {
+        Assert.IsTrue(card_prefabs.Length == blueprints.Length);
         Assert.IsTrue(blueprints.Length == cardCosts.Length);
         battlefield = FindObjectOfType<Battlefield>();
     }
@@ -45,31 +48,29 @@ public class DeckManager : MonoBehaviour
 
     public void SelectType(CardType type)
     {
+        selected_type = type;
         selected_card = Instantiate(blueprints[(int)type]);
         selected_card.transform.localScale *= battlefield.cell_size;
-
-        // deactivate logic components
-        var components = selected_card.GetComponentsInChildren<MonoBehaviour>();
-        foreach (var c in components)
-        {
-            // only enable render components
-            if (c.GetType() != typeof(Renderer))
-                c.enabled = false;
-        }
     }
 
-    public void PlaySelected()
+    public GameObject PlaySelected()
     {
         Assert.IsTrue(selected_card != null);
         //selected_card.transform.localScale *= battlefield.cell_size;
         // activate logic components
-        var components = selected_card.GetComponentsInChildren<MonoBehaviour>();
-        foreach (var c in components)
-        {
-            c.enabled = true;
-        }
-        Instantiate(selected_card);
+        //var components = selected_card.GetComponentsInChildren<MonoBehaviour>();
+        //foreach (var c in components)
+        //{
+        //    c.enabled = true;
+        //}
+        GameObject squadObj = Instantiate(card_prefabs[(int)selected_type]) as GameObject;
+        squadObj.transform.position = selected_card.transform.position;
+        squadObj.transform.localScale = selected_card.transform.localScale;
         Destroy(selected_card);
+        selected_card = null;
+        //Squad squad = squadObj.GetComponent<Squad>();
+        //Assert.IsTrue(squad != null);
+        return squadObj;
     }
 
     public void UnselectCards()

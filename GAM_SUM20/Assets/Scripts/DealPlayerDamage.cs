@@ -19,12 +19,11 @@ public class DealPlayerDamage : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Something trigger");
-        Movement troop = other.gameObject.GetComponent<Movement>();
+        UnitStats troop = collision.gameObject.GetComponent<UnitStats>();
         if (troop != null) {
-            hit_points -= troop.troop_count;
+            hit_points -= troop.player_damage;
             hit_point_text.text = hit_points.ToString();
             Destroy(troop.gameObject);
             Debug.Log("Toop Attacked");

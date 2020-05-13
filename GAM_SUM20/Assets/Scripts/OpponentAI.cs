@@ -38,6 +38,23 @@ public class OpponentAI : MonoBehaviour
                 card_to_play = Random.Range(0, hand_size);
             }
             CardType card_type = hand_types[card_to_play];
+            // confirm spawn (a frame later to ensure initialization)
+            if (deck.selected_card != null)
+            {
+                // confirm type
+                GameObject squadObj = deck.PlaySelected();
+                Squad squad = squadObj.GetComponent<Squad>();
+                // squad stuff
+                squad.team = TeamType.Opponent;
+                // consume resources
+                m_resources.ConsumeResources(deck.cardCosts[(int)card_type]);
+
+                // draw new card
+                hand_types[card_to_play] = deck.DrawCard();
+                card_to_play = -1;
+                reaction_time_counter = 0.0f;
+                return;
+            }
             Vector2Int cost = deck.cardCosts[(int)card_type];
             if (cost.x < m_resources.HR_curr && cost.y < m_resources.MR_curr)
             {
@@ -47,18 +64,9 @@ public class OpponentAI : MonoBehaviour
                 deck.selected_card.transform.position = deck.battlefield.GetCellPos(new Vector2Int(randX, deck.battlefield.grid_size.y - 1));
                 //rotate towards down
                 deck.selected_card.transform.Rotate(new Vector3(0, 0, 180));
-                // squad stuff
-                deck.selected_card.GetComponent<Squad>().team = TeamType.Opponent;
-                // confirm type
-                deck.PlaySelected();
-                // consume resources
-                m_resources.ConsumeResources(deck.cardCosts[(int)card_type]);
 
-                // draw new card
-                hand_types[card_to_play] = deck.DrawCard();
-                card_to_play = -1;
             }
-            reaction_time_counter = 0.0f;
+           
         }
     }
 }

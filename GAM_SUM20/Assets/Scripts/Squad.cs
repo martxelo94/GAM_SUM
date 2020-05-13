@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class Squad : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Squad : MonoBehaviour
     Battlefield battlefield;
     UnitStats[] troops;
 
-    bool troops_updated = true;
+    bool troops_updated = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,14 +19,38 @@ public class Squad : MonoBehaviour
 
         troops = GetComponentsInChildren<UnitStats>();
 
+        Spawn();
+
+        // deactivate every non render component
+        //var components = gameObject.
+        //foreach (Transform t in transform)
+        //{
+        //    Debug.Log(t.name);
+        //} // only prints INMEDIATE children CONFIRMED
+    }
+
+    public void Spawn()
+    {
         Material mat = Resources.Load<Material>(team == TeamType.Opponent ? "Materials/M_Opponent" : "Materials/M_Player");
         var renderables = GetComponentsInChildren<Renderer>();
         foreach (var r in renderables)
             r.material = mat;
-        // set team to attackers
-        foreach (UnitStats t in troops) {
+        // set team and health bar
+        GameObject healthBarObj = Resources.Load("Prefabs/UI/HealthBar") as GameObject;
+        HealthBar healthBar = healthBarObj.GetComponent<HealthBar>();
+        Assert.IsTrue(healthBar != null);
+        Assert.IsTrue(troops != null);
+        foreach (UnitStats t in troops)
+        {
             t.team = team;
+            healthBar.SetUnit(t);
+            healthBar.SetTeamColor(battlefield.team_color[(int)team]);
+            // instance
+            t.healthBarInstance = Instantiate(healthBar.gameObject);
+            t.healthBarInstance.transform.position = t.transform.position;
         }
+        // troops can capture terrain
+        troops_updated = true; // allows starting coroutine
     }
 
     IEnumerator CaptureTerrain()
@@ -51,7 +76,7 @@ public class Squad : MonoBehaviour
 
         troops_updated = true;
 
-        Debug.Log("Squad updated");
+        //Debug.Log("Squad updated");
     }
 
     // Update is called once per frame

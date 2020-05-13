@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class State
 {
-    protected GameObject gameObject;
+    protected StateMachine stateMachine;
 
-    protected State(GameObject gameObject)
+    protected State(StateMachine stateMachine)
     {
-        this.gameObject = gameObject;
+        this.stateMachine = stateMachine;
     }
 
     public virtual void Enter() { }

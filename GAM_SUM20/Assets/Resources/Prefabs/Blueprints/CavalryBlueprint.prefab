@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &26704923718564801
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1714436191365348779, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_Name
+      value: Cavalry Squad
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -5980394089441351718, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 3354963892079214516, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 3746038038330078511, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 179489005473319933, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 2940045043640200125, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 3872677032193499430, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 306164291808370676, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 8363006000209139471, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 7601229513099992468, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 6412501394705277766, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 613812204936820913, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 1582754337718383146, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 2627330708774391032, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 5319097767657369197, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 6098607686707651830, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 7287860564762401316, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 5623956057968940812, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 6016789728303668631, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 7133380280354792261, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}

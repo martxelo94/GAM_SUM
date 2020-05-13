@@ -82,7 +82,7 @@ public class Card : MonoBehaviour
     }
     private void OnMouseEnter()
     {
-        Debug.Log("Mouse Enter " + name);
+        //Debug.Log("Mouse Enter " + name);
         
     }
 

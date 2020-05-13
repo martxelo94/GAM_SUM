@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class StateAdvance : State
 {
-    Rigidbody2D rig;
-    UnitStats stats;
     bool troop_forward;
 
-    public StateAdvance(GameObject gameObject) : base(gameObject) { }
+    public StateAdvance(StateMachine stateMachine) : base(stateMachine) { }
     public override void Enter()
     {
-        rig = gameObject.GetComponent<Rigidbody2D>();
-        stats = gameObject.GetComponent<UnitStats>();
-        troop_forward = stats.team == TeamType.Player ? true : false;
+        troop_forward = stateMachine.stats.team == TeamType.Player ? true : false;
+
+        Debug.Log("Enter " + typeof(StateAdvance).ToString());
     }
     public override void Update(float dt)
     {
         // physics move
-        float speed2 = rig.velocity.sqrMagnitude;
+        float speed2 = stateMachine.rig.velocity.sqrMagnitude;
         Vector2 dir = troop_forward ? Vector2.up : -Vector2.up;
-        if (speed2 < stats.maxSpeed* stats.maxSpeed)
+        if (speed2 < stateMachine.stats.maxSpeed* stateMachine.stats.maxSpeed)
         {
-            rig.AddForce(new Vector2(0, dir.y * stats.acceleration));
+            stateMachine.rig.AddForce(new Vector2(0, dir.y * stateMachine.stats.acceleration));
         }
-        rig.AddTorque(Vector2.Dot(new Vector2(-gameObject.transform.up.y, gameObject.transform.up.x), dir) * stats.maxSpeed* stats.acceleration);
+        stateMachine.rig.AddTorque(
+            Vector2.Dot(new Vector2(-stateMachine.transform.up.y, stateMachine.transform.up.x), dir)
+            * stateMachine.stats.acceleration);
+
+        // change state
+        if (stateMachine.sensor.target != null)
+            stateMachine.SetNextState(new StateChase(stateMachine));
     }
     public override void Exit() { }
 }
