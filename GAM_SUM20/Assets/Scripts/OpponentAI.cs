@@ -43,6 +43,7 @@ public class OpponentAI : MonoBehaviour
             {
                 // confirm type
                 GameObject squadObj = deck.PlaySelected();
+                squadObj.transform.Rotate(new Vector3(0, 0, 180));
                 Squad squad = squadObj.GetComponent<Squad>();
                 // squad stuff
                 squad.team = TeamType.Opponent;
@@ -61,7 +62,9 @@ public class OpponentAI : MonoBehaviour
                 deck.SelectType(card_type);
                 // randomize position
                 int randX = Random.Range(0, deck.battlefield.grid_size.x);
-                deck.selected_card.transform.position = deck.battlefield.GetCellPos(new Vector2Int(randX, deck.battlefield.grid_size.y - 1));
+                Vector2Int coord = new Vector2Int(randX, 2);
+                deck.battlefield.SnapToCaptured(ref coord, TeamType.Opponent);
+                deck.selected_card.transform.position = deck.battlefield.GetCellPos(coord);
                 //rotate towards down
                 deck.selected_card.transform.Rotate(new Vector3(0, 0, 180));
 

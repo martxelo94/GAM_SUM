@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1714436191365348779, guid: 63b23ac58c12e0240921976dfcc4fa20,
         type: 3}
       propertyPath: m_Name
-      value: Cavalry Squad
+      value: CavalryBlueprint
       objectReference: {fileID: 0}
     - target: {fileID: 2061601896040451410, guid: 63b23ac58c12e0240921976dfcc4fa20,
         type: 3}
@@ -87,4 +87,7 @@ PrefabInstance:
     - {fileID: 5623956057968940812, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
     - {fileID: 6016789728303668631, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
     - {fileID: 7133380280354792261, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 7749576260330032545, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 8574755633400825658, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 6488899261035787123, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}

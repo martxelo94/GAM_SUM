@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -31,6 +30,7 @@ public class Squad : MonoBehaviour
 
     public void Spawn()
     {
+        Assert.IsTrue(team != TeamType.None);
         Material mat = Resources.Load<Material>(team == TeamType.Opponent ? "Materials/M_Opponent" : "Materials/M_Player");
         var renderables = GetComponentsInChildren<Renderer>();
         foreach (var r in renderables)
@@ -42,12 +42,14 @@ public class Squad : MonoBehaviour
         Assert.IsTrue(troops != null);
         foreach (UnitStats t in troops)
         {
+            t.gameObject.layer = (int)team + 7;
             t.team = team;
             healthBar.SetUnit(t);
             healthBar.SetTeamColor(battlefield.team_color[(int)team]);
             // instance
             t.healthBarInstance = Instantiate(healthBar.gameObject);
             t.healthBarInstance.transform.position = t.transform.position;
+            t.healthBarInstance.SetActive(false);
         }
         // troops can capture terrain
         troops_updated = true; // allows starting coroutine

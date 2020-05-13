@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1090020464743149919, guid: 94d7a50047a5642419eec8a33aa772d2,
         type: 3}
       propertyPath: m_Name
-      value: Rifleman Squad
+      value: Rifleman Blueprint
       objectReference: {fileID: 0}
     - target: {fileID: 1916834528088701796, guid: 94d7a50047a5642419eec8a33aa772d2,
         type: 3}
@@ -99,4 +99,9 @@ PrefabInstance:
     - {fileID: 8248280488939412938, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}
     - {fileID: 928686300454737024, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}
     - {fileID: 2735476195975733442, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}
+    - {fileID: 4320195010566974928, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}
+    - {fileID: 4119748297847438932, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}
+    - {fileID: 1381077679845916941, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}
+    - {fileID: 7907774451658999879, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}
+    - {fileID: 4948058137769851909, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 94d7a50047a5642419eec8a33aa772d2, type: 3}

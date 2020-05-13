@@ -13,11 +13,14 @@ public class Battlefield : MonoBehaviour
     // which team belongs a cell (0: neutral, 1: player, -1: opponent
     [HideInInspector]
     public int[] m_team_grid;   // how much influenced by team
+    private float[] terrain_captured_times;
     public MeshFilter terrain_mesh_filter;
     Color[] terrain_mesh_colors;
     public Color[] team_color;
     public int[] team_terrain_influence;
     bool terrain_updated = true;
+
+    public float time_to_secure_terrain = 5.0f;
 
 
     // Start is called before the first frame update
@@ -51,6 +54,17 @@ public class Battlefield : MonoBehaviour
         m_team_grid = new int[size.x * size.y];
         for (int i = 0; i < m_team_grid.Length; ++i) {
             m_team_grid[i] = 0;
+        }
+        terrain_captured_times = new float[size.x * size.y];
+        for (int i = grid_size.x; i < terrain_captured_times.Length - grid_size.x; ++i)
+        {
+            terrain_captured_times[i] = 0.0f;
+            m_team_grid[i] = 0;
+        }
+        for (int i = 0; i < grid_size.x; ++i) {
+            terrain_captured_times[i] = terrain_captured_times[terrain_captured_times.Length - 1 - i] = time_to_secure_terrain;
+            m_team_grid[i] = 100;
+            m_team_grid[m_team_grid.Length - 1 - i] = -100;
         }
 
         // create terrain mesh (plane)
@@ -115,8 +129,20 @@ public class Battlefield : MonoBehaviour
         terrain_mesh.name = "TerrainGrid";
 
        terrain_mesh_colors = new Color[vertexCount];
-       //for (int i = 0; i < terrain_mesh_colors.Length / 2; ++i)
-       //     terrain_mesh_colors[i] = Color.yellow;
+        //for (int i = 0; i < terrain_mesh_colors.Length / 2; ++i)
+        //     terrain_mesh_colors[i] = Color.yellow;
+        // update extreme rows
+        for (int i = 0; i < (grid_size.x + 2) * 2; ++i)
+        {
+            Color c = team_color[(int)TeamType.Player] * 1.2f;
+            terrain_mesh_colors[i] = c;
+        }
+        int top_idx = (grid_size.x + 2) * (grid_size.y);
+        for (int i = top_idx; i < terrain_mesh_colors.Length; ++i)
+        {
+            Color c = team_color[(int)TeamType.Opponent] * 1.2f;
+            terrain_mesh_colors[i] = c;
+        }
 
         Assert.IsTrue(triangles.Count == triangleCount);
         terrain_mesh.vertices = vertices;
@@ -140,14 +166,16 @@ public class Battlefield : MonoBehaviour
         {
             //SetVertexColor(coord, team);
             m_team_grid[idx] += team_terrain_influence[(int)team];
+            terrain_captured_times[idx] = 0.0f;
         }
         return true;
     }
     public void CaptureCells(Vector3 pos, TeamType team, int radius)
     {
         Vector2Int coord = GetCellCoord(pos);
-        int minY = Mathf.Max(coord.y - radius, 0);
-        int maxY = Mathf.Min(coord.y + radius, grid_size.y - 1);
+        // ignore top and bot rows to allow unit spawning
+        int minY = Mathf.Max(coord.y - radius, 1);
+        int maxY = Mathf.Min(coord.y + radius, grid_size.y - 2);
         int minX = Mathf.Max(coord.x - radius, 0);
         int maxX = Mathf.Min(coord.x + radius, grid_size.x - 1);
 
@@ -160,6 +188,7 @@ public class Battlefield : MonoBehaviour
                 {
                     //SetVertexColor(x, y, team);
                     m_team_grid[idx] += team_terrain_influence[(int)team];
+                    terrain_captured_times[idx] = 0.0f;
                 }
             }
         }
@@ -167,17 +196,29 @@ public class Battlefield : MonoBehaviour
 
     IEnumerator UpdateCellColors()
     {
-        terrain_updated = false;
-        for (int y = 0; y < grid_size.y; ++y) {
+        terrain_updated = false; // coroutine control
+
+
+        for (int y = 1; y < grid_size.y - 1; ++y) {
             int row = (y + 1) * (grid_size.x + 2) + 1;
             for (int x = 0; x < grid_size.x; ++x) {
-                int idx = x + row;
-                terrain_mesh_colors[idx] = team_color[(int)GetTeam(m_team_grid[x + y * grid_size.x])];
-                terrain_mesh_filter.mesh.colors = terrain_mesh_colors;
+                int idx = x + y * grid_size.x;
+                if (m_team_grid[idx] == 0)
+                    continue;
+                int meshIdx = x + row;
+                terrain_captured_times[idx] += Time.deltaTime * Time.timeScale * grid_size.y;
+                Color c = team_color[(int)GetTeam(m_team_grid[idx])];
+                if (terrain_captured_times[idx] < time_to_secure_terrain) {
+                    c = c / (0.1f + terrain_captured_times[idx]);
+
+                }
+                terrain_mesh_colors[meshIdx] = c;
             }
+            terrain_mesh_filter.mesh.colors = terrain_mesh_colors;
             yield return null;  // update a row per frame
         }
-        terrain_updated = true;
+
+        terrain_updated = true; // coroutine control
     }
 
     public Vector3 GetCellPos(Vector2Int coord)
@@ -244,6 +285,32 @@ public class Battlefield : MonoBehaviour
             return TeamType.Opponent;
         return TeamType.None;
     }
+    public bool SnapToCaptured(ref Vector2Int coord, TeamType team)
+    {
+        if (team == TeamType.Player)
+        {
+            int idx = coord.x + coord.y * grid_size.x;
+            for (int i = idx; i >= 0; i -= grid_size.x) {
+                if (GetTeam(m_team_grid[i]) == team && terrain_captured_times[i] >= time_to_secure_terrain) {
+                    coord = new Vector2Int(coord.x, i / grid_size.x);
+                    return true;
+                }
+            }
+        }
+        else if (team == TeamType.Opponent) {
+           int idx = grid_size.x;
+            for (int i = idx; i < m_team_grid.Length; i += grid_size.x)
+            {
+                if (GetTeam(m_team_grid[i]) == team && terrain_captured_times[i] >= time_to_secure_terrain)
+                {
+                    coord = new Vector2Int(coord.x, i / grid_size.x);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 #if UNITY_EDITOR && false
     private void OnDrawGizmos()
     {
@@ -310,4 +377,4 @@ public class Battlefield : MonoBehaviour
 #endif
     }
 #endif
-    }
+}

@@ -23,6 +23,7 @@ public class Card : MonoBehaviour
         set { m_type = value; SetCardName(value); }
     }
     private bool has_resources = false;
+    private bool can_spawn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -60,11 +61,13 @@ public class Card : MonoBehaviour
                 deck.SelectType(type);
                 image.enabled = false;
             }
+            can_spawn = battlefield.SnapToCaptured(ref coord, TeamType.Player) ? true : false; ;
             // move unit
             deck.selected_card.transform.position = battlefield.GetCellPos(coord);
         }
         // show card
         else {
+            can_spawn = false;
             // remove spawned unit
             if (deck.selected_card != null) {
                 Destroy(deck.selected_card);
@@ -92,14 +95,14 @@ public class Card : MonoBehaviour
         transform.localPosition = initPos;
         //transform.localScale = initScale;
 
-        if (!has_resources)
+        if (deck.selected_card != null && !has_resources)
             return;
-        Vector2Int coord = battlefield.GetCellCoordAtTouch();
+        if (!can_spawn)
+            return;
+        // Vector2Int coord = battlefield.GetCellCoordAtTouch();
         // show unit on battlefield
-        if (battlefield.IsInsideGrid(coord))
+        //if (battlefield.IsInsideGrid(coord))
         {
-            Assert.IsTrue(deck.selected_card != null);
-
             // consume resources
             player_resources.ConsumeResources(deck.cardCosts[(int)type]);
 
@@ -135,4 +138,5 @@ public class Card : MonoBehaviour
             image.color = Color.grey;
         }
     }
+    
 }
