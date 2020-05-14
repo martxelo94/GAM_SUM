@@ -46,7 +46,7 @@ public class Squad : MonoBehaviour
             t.team = team;
             healthBar.SetUnit(t);
             healthBar.SetTeamColor(battlefield.team_color[(int)team]);
-            // instance
+            // instance (NO!)
             t.healthBarInstance = Instantiate(healthBar.gameObject);
             t.healthBarInstance.transform.position = t.transform.position;
             t.healthBarInstance.SetActive(false);

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DealPlayerDamage : MonoBehaviour
 {
+    public TeamType team;
     public int hit_points = 20;
     public Text hit_point_text;
     // Start is called before the first frame update
@@ -26,6 +27,11 @@ public class DealPlayerDamage : MonoBehaviour
             hit_points -= troop.player_damage;
             hit_point_text.text = hit_points.ToString();
             Destroy(troop.gameObject);
+
+            if (hit_points <= 0) {
+                BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();
+                menu.ShowEndGamePanel(team == TeamType.Opponent);
+            }
             Debug.Log("Toop Attacked");
         }
     }

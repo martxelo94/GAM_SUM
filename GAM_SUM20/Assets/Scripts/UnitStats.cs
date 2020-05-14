@@ -5,8 +5,8 @@ using UnityEngine.Assertions;
 
 public class UnitStats : MonoBehaviour
 {
-
-    public TeamType team;
+    [HideInInspector]
+    public TeamType team; // set by squad
     public int maxHitPoints;
     [HideInInspector]
     public int hitPoints;
@@ -49,6 +49,7 @@ public class UnitStats : MonoBehaviour
     }
     IEnumerator ShowHealthBar()
     {
+        
         healthBarInstance.SetActive(true);
         //Debug.Log("Show Health Bar");
         yield return new WaitForSeconds(3.0f);
