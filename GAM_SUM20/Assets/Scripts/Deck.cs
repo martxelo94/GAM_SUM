@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.Assertions;
 
-public class DeckManager : MonoBehaviour
+public class Deck : MonoBehaviour
 {
     [HideInInspector]
     public Battlefield battlefield;
@@ -16,7 +16,6 @@ public class DeckManager : MonoBehaviour
     public Vector2Int[] cardCosts;
     public GameObject[] blueprints; // blueprinted card before being played
     public GameObject[] card_prefabs;   // cards to play all logic included
-    private Card[] cards;      // played card (troop, building, spell)
 
     public CardType[] deck_types;   // card types in deck
     private BitArray deck_drawed;        // cards that passed by your hand
@@ -28,16 +27,15 @@ public class DeckManager : MonoBehaviour
         Assert.IsTrue(card_prefabs.Length == blueprints.Length);
         Assert.IsTrue(blueprints.Length == cardCosts.Length);
         battlefield = FindObjectOfType<Battlefield>();
+
+        deck_drawed = new BitArray(deck_types.Length);
+        ShuffleDeck();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        cards = FindObjectsOfType<Card>();
-        deck_drawed = new BitArray(deck_types.Length);
-        ShuffleDeck();
-        foreach (Card c in cards)
-            c.type = DrawCard();
     }
 
     // Update is called once per frame
@@ -71,13 +69,6 @@ public class DeckManager : MonoBehaviour
         //Squad squad = squadObj.GetComponent<Squad>();
         //Assert.IsTrue(squad != null);
         return squadObj;
-    }
-
-    public void UnselectCards()
-    {
-        foreach (Card c in cards) {
-            c.transform.localScale = c.initScale;
-        }
     }
 
     public CardType DrawCard()

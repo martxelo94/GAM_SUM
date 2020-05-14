@@ -5,7 +5,7 @@ using UnityEngine;
 public class OpponentAI : MonoBehaviour
 {
 
-    public DeckManager deck;
+    public Deck deck;
     public PlayerResources m_resources;
 
     public float reaction_time = 0.5f;
