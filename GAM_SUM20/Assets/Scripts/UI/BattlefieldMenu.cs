@@ -58,7 +58,7 @@ public class BattlefieldMenu : MonoBehaviour
     public void ShowEndGamePanel(bool is_victory)
     {
         // stop time
-        Time.timeScale = 0.0f;
+        Time.timeScale = 0.3f;
 
         endGamePanel.SetActive(true);
         if (is_victory)
@@ -90,6 +90,7 @@ public class BattlefieldMenu : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("Scenes/MainMenu");
     }
 }

@@ -11,12 +11,15 @@ public class Squad : MonoBehaviour
 
     bool troops_updated = false;
 
+    private void Awake()
+    {
+        battlefield = FindObjectOfType<Battlefield>();
+        troops = GetComponentsInChildren<UnitStats>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        battlefield = FindObjectOfType<Battlefield>();
-
-        troops = GetComponentsInChildren<UnitStats>();
 
         Spawn();
 

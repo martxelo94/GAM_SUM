@@ -26,17 +26,23 @@ public class StateChase : State
             return;
         }
         dir = dir / dist;
+#if true
+
+        stateMachine.transform.up = dir;
+        stateMachine.transform.position += new Vector3(dir.x, dir.y, 0) * stateMachine.stats.maxSpeed * dt;
+
+#else
         float speed2 = stateMachine.rig.velocity.sqrMagnitude;
         if (speed2 < stateMachine.stats.maxSpeed * stateMachine.stats.maxSpeed)
         {
             stateMachine.rig.AddForce(dir * stateMachine.stats.acceleration);
             //Debug.DrawRay(stateMachine.transform.position, dir * stateMachine.stats.maxSpeed, Color.red);
         }
-        //else Debug.DrawRay(stateMachine.transform.position, dir * Mathf.Sqrt(speed2), Color.yellow);
-
         stateMachine.rig.AddTorque(
-            Vector2.Dot(new Vector2(-stateMachine.transform.up.y, stateMachine.transform.up.x), dir)
-            * stateMachine.stats.acceleration);
+    Vector2.Dot(new Vector2(-stateMachine.transform.up.y, stateMachine.transform.up.x), dir)
+    * stateMachine.stats.acceleration);
+
+#endif
 
     }
     public override void Exit() { }

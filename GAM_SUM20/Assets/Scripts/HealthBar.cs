@@ -24,7 +24,7 @@ public class HealthBar : MonoBehaviour
     {
         transform.position = stats.transform.position + Vector3.back * 100;
         float factor = (float)stats.hitPoints / stats.maxHitPoints;
-        Debug.Log("Factor health " + factor.ToString());
+        //Debug.Log("Factor health " + factor.ToString());
         bar.transform.localPosition = new Vector3((-0.5f + factor / 2) * 4, 0, -1);
         bar.transform.localScale = new Vector3(factor, 1, 1);
     }

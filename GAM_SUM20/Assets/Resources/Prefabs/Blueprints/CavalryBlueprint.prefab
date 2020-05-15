@@ -72,12 +72,9 @@ PrefabInstance:
     - {fileID: 3354963892079214516, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
     - {fileID: 3746038038330078511, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
     - {fileID: 179489005473319933, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 2940045043640200125, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 3872677032193499430, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 306164291808370676, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 8363006000209139471, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 7601229513099992468, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 6412501394705277766, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 613812204936820913, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
     - {fileID: 1582754337718383146, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
     - {fileID: 2627330708774391032, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
@@ -87,7 +84,4 @@ PrefabInstance:
     - {fileID: 5623956057968940812, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
     - {fileID: 6016789728303668631, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
     - {fileID: 7133380280354792261, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 7749576260330032545, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 8574755633400825658, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
-    - {fileID: 6488899261035787123, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 63b23ac58c12e0240921976dfcc4fa20, type: 3}

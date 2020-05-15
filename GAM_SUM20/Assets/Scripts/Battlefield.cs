@@ -311,9 +311,10 @@ public class Battlefield : MonoBehaviour
         return false;
     }
 
-#if UNITY_EDITOR && false
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
+#if false
         if(m_team_grid.Length > 0)
         for (int y = 0; y < grid_size.y; ++y) {
             int row = y * grid_size.x;
@@ -325,7 +326,9 @@ public class Battlefield : MonoBehaviour
                 Gizmos.DrawCube(pos, Vector3.one * cell_size * 0.9f);
             }
         }
-#if false
+#endif
+
+#if true
         Gizmos.color = Color.white;
         float hh_size = (grid_size.x * cell_size) / 2;
         float vh_size = (grid_size.y * cell_size) / 2;

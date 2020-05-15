@@ -24,18 +24,21 @@ public class CardPlayable : MonoBehaviour
     private bool can_spawn = false;
     private bool has_selected = false;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         card = GetComponent<Card>();
-
         playerHand = FindObjectOfType<PlayerHand>();
-
-        initPos = transform.localPosition;
-        initScale = transform.localScale;
         battlefield = FindObjectOfType<Battlefield>();
         Assert.IsTrue(deck != null);
         player_resources = deck.gameObject.GetComponent<PlayerResources>();
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+        initPos = transform.localPosition;
+        initScale = transform.localScale;
     }
 
     // Update is called once per frame
@@ -57,7 +60,7 @@ public class CardPlayable : MonoBehaviour
             if (deck.selected_card == null)
             {
                 deck.SelectType(card.type);
-                card.image.enabled = false;
+                ShowCard(false);
             }
             can_spawn = battlefield.SnapToCaptured(ref coord, TeamType.Player) ? true : false; ;
             // move unit
@@ -71,7 +74,7 @@ public class CardPlayable : MonoBehaviour
             if (deck.selected_card != null)
             {
                 Destroy(deck.selected_card);
-                card.image.enabled = true;
+                ShowCard(true);
             }
             // move card
             Vector3 pos = Input.mousePosition - new Vector3(Screen.width, Screen.height, 0) / 2;
@@ -100,7 +103,7 @@ public class CardPlayable : MonoBehaviour
         {
             // destroy blueprint
             Destroy(deck.selected_card);
-            card.image.enabled = true;
+            ShowCard(false);
         }
         if (!can_spawn)
             return;
@@ -112,7 +115,7 @@ public class CardPlayable : MonoBehaviour
             player_resources.ConsumeResources(deck.cardCosts[(int)card.type]);
 
             // make visible again
-            card.image.enabled = true;
+            ShowCard(true);
 
             // randomize next type
             SetType(deck.DrawCard());
@@ -121,6 +124,13 @@ public class CardPlayable : MonoBehaviour
             deck.PlaySelected();
         }
 
+    }
+
+    void ShowCard(bool show)
+    {
+        card.image.enabled = show;
+        HR_text.gameObject.SetActive(show);
+        MR_text.gameObject.SetActive(show);
     }
 
     public void SetType(CardType _type)

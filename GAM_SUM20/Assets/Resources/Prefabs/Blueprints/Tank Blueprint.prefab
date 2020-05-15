@@ -70,10 +70,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -6313748796877482557, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}
     - {fileID: 6300525140365761007, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}
-    - {fileID: 7020025348249495134, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}
-    - {fileID: 3331666660923311898, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}
+    - {fileID: 0}
     - {fileID: 709883353781256907, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}
     - {fileID: 3543790627549151947, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}
     - {fileID: 7100741319592856826, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}
-    - {fileID: 7166443014509432236, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f5483d1ec87a9d144acaa41ca494e62b, type: 3}

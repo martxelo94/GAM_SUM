@@ -31,20 +31,22 @@ public class UnitStats : MonoBehaviour
 
     public bool ReceiveDamage(int _damage)
     {
-        Debug.Log(name + " receives " + _damage.ToString() + " damage!");
+        //Debug.Log(name + " receives " + _damage.ToString() + " damage!");
         hitPoints -= _damage;
         if (hitPoints <= 0) {
             Kill();
             return true;
         }
         Assert.IsTrue(healthBarInstance != null);
-        StartCoroutine(ShowHealthBar());
+        if(!healthBarInstance.activeSelf)
+            StartCoroutine(ShowHealthBar());
         return false;
     }
 
     public void Kill()
     {
-        Debug.Log("Unit Killed");
+        //Debug.Log("Unit Killed");
+        Destroy(healthBarInstance);
         Destroy(gameObject);
     }
     IEnumerator ShowHealthBar()
@@ -59,6 +61,6 @@ public class UnitStats : MonoBehaviour
     private void OnDestroy()
     {
         //StopCoroutine(ShowHealthBar());
-        Destroy(healthBarInstance);
+        //Destroy(healthBarInstance);
     }
 }

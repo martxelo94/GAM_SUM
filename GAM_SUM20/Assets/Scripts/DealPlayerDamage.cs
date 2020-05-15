@@ -26,7 +26,8 @@ public class DealPlayerDamage : MonoBehaviour
         if (troop != null) {
             hit_points -= troop.player_damage;
             hit_point_text.text = hit_points.ToString();
-            Destroy(troop.gameObject);
+            troop.Kill();
+            //Destroy(troop.gameObject);
 
             if (hit_points <= 0) {
                 BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();

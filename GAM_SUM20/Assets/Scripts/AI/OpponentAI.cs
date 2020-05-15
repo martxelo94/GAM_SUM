@@ -43,7 +43,7 @@ public class OpponentAI : MonoBehaviour
             {
                 // confirm type
                 GameObject squadObj = deck.PlaySelected();
-                squadObj.transform.Rotate(new Vector3(0, 0, 180));
+                //squadObj.transform.Rotate(new Vector3(0, 0, 180));
                 Squad squad = squadObj.GetComponent<Squad>();
                 // squad stuff
                 squad.team = TeamType.Opponent;

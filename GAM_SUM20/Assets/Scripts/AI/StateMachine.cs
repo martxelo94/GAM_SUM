@@ -15,13 +15,17 @@ public class StateMachine : MonoBehaviour
 
     public State current_state;
     public State next_state;
-    // Start is called before the first frame update
-    void Start()
+
+    private void Awake()
     {
         rig = GetComponent<Rigidbody2D>();
         stats = GetComponent<UnitStats>();
         sensor = GetComponent<Sensor>();
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         current_state = next_state = new StateAdvance(this);
         current_state.Enter();
     }
