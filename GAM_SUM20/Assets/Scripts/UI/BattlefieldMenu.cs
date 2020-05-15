@@ -44,10 +44,16 @@ public class BattlefieldMenu : MonoBehaviour
         Time.timeScale = time_scale;
     }
 
-    public void Toggle(GameObject obj)
+    public void ToggleActive(GameObject obj)
     {
         obj.SetActive(!obj.activeSelf);
     }
+
+    public void ToggleSoundListener(AudioListener listener)
+    {
+        listener.enabled = !listener.enabled;
+    }
+
 
     public void DrawFPS(Text text)
     {
