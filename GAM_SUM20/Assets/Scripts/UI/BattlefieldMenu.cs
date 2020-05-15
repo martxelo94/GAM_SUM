@@ -49,9 +49,9 @@ public class BattlefieldMenu : MonoBehaviour
         obj.SetActive(!obj.activeSelf);
     }
 
-    public void ToggleSoundListener(AudioListener listener)
+    public void ToggleSound(AudioSource source)
     {
-        listener.enabled = !listener.enabled;
+        source.mute = !source.mute;
     }
 
 
