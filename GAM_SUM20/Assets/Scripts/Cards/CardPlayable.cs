@@ -112,7 +112,7 @@ public class CardPlayable : MonoBehaviour
         //if (battlefield.IsInsideGrid(coord))
         {
             // consume resources
-            player_resources.ConsumeResources(deck.cardCosts[(int)card.type]);
+            player_resources.ConsumeResources(deck.cards.costs[(int)card.type]);
 
             // make visible again
             ShowCard(true);
@@ -137,7 +137,7 @@ public class CardPlayable : MonoBehaviour
     {
         card.type = _type;
         // set resource UI
-        Vector2Int costs = deck.cardCosts[(int)_type];
+        Vector2Int costs = deck.cards.costs[(int)_type];
         HR_text.text = costs.x.ToString();
         MR_text.text = costs.y.ToString();
     }
@@ -163,7 +163,7 @@ public class CardPlayable : MonoBehaviour
 
     void HasResources()
     {
-        Vector2Int cost = deck.cardCosts[(int)card.type];
+        Vector2Int cost = deck.cards.costs[(int)card.type];
         if (cost.x < player_resources.HR_curr && cost.y < player_resources.MR_curr)
         {
             has_resources = true;

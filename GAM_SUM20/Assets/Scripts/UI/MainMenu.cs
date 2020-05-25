@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public int quickGameSceneIndex = 2;
+    public int campaignSceneIndex = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -18,12 +19,20 @@ public class MainMenu : MonoBehaviour
     {
     }
 
-    public void StartQuickGame()
+    public void LoadLevelScene(int nextLevel)
     {
-        // save Battlefield scene to PlayerPrefs
-        //int battlefieldSceneIdx = SceneManager.GetSceneByName("Battlefield").buildIndex;
-        PlayerPrefs.SetInt("NextScene", quickGameSceneIndex); // MAGIC NUMBER: build index
+        GameSettings.INSTANCE.nextSceneIdx = nextLevel;
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
+
+    }
+
+    public void StartQuickGame()
+    {
+        LoadLevelScene(quickGameSceneIndex);
+    }
+    public void StartCampaign()
+    {
+        LoadLevelScene(campaignSceneIndex);
     }
 }

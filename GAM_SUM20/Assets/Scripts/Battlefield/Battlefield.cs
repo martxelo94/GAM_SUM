@@ -22,6 +22,24 @@ public class Battlefield : MonoBehaviour
 
     public float time_to_secure_terrain = 5.0f;
 
+    private void Awake()
+    {
+        // set decks from campaign
+        if (GameSettings.INSTANCE.IsBattle()) {
+            Deck[] decks = FindObjectsOfType<Deck>();
+            Assert.IsTrue(decks.Length == 2);
+            foreach (Deck d in decks) {
+                if (d.team == TeamType.Player)
+                {
+                    d.deck_types = GameSettings.INSTANCE.attack_deck;
+                }
+                else {
+                    d.deck_types = GameSettings.INSTANCE.target_deck;
+                }
+            }
+            Debug.Log("Decks set from Campaign");
+        }
+    }
 
     // Start is called before the first frame update
     void Start()

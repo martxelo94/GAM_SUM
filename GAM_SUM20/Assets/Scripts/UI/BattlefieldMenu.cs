@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
 
 public class BattlefieldMenu : MonoBehaviour
 {
@@ -69,19 +70,34 @@ public class BattlefieldMenu : MonoBehaviour
         endGamePanel.SetActive(true);
         if (is_victory)
         {
+            defeatPanel.SetActive(false);
             victoryPanel.SetActive(true);
+            GameSettings.INSTANCE.last_battle_won = true;
             Debug.Log("VICTORY!");
         }
         else {
+            victoryPanel.SetActive(false);
             defeatPanel.SetActive(true);
+            GameSettings.INSTANCE.last_battle_won = false;
             Debug.Log("DEFEAT!");
         }
     }
 
     public void LoadNextLevel()
     {
+        if (GameSettings.INSTANCE.IsBattle() == false)
+        {
+            // QuickGame MODE
+            ReplayLevel();
+            return;
+        }
+        else
+            UpdateCampaignFile();
+
+        // previously set
         Time.timeScale = 1.0f;
-        PlayerPrefs.SetInt("NextScene", nextLevel);
+        GameSettings.INSTANCE.nextSceneIdx = nextLevel;
+
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
     }
@@ -89,15 +105,66 @@ public class BattlefieldMenu : MonoBehaviour
     public void ReplayLevel()
     {
         Time.timeScale = 1.0f;
-        PlayerPrefs.SetInt("NextScene", SceneManager.GetActiveScene().buildIndex);
+        GameSettings.INSTANCE.nextSceneIdx = SceneManager.GetActiveScene().buildIndex;
+
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
     }
 
     public void LoadMainMenu()
     {
+        if (GameSettings.INSTANCE.IsBattle()) {
+            UpdateCampaignFile();
+        }
         Time.timeScale = 1.0f;
+        GameSettings.INSTANCE.nextSceneIdx = 0;
+
         SceneManager.LoadScene("Scenes/MainMenu");
+    }
+
+    void UpdateCampaignFile()
+    {
+        // update decks
+        Deck[] decks = FindObjectsOfType<Deck>();
+        Assert.IsTrue(decks.Length == 2);
+        foreach (Deck d in decks)
+        {
+            d.RemoveDrawCards();
+            if (d.team == TeamType.Player)
+            {
+                GameSettings.INSTANCE.SetAttackDeck(d.deck_types);
+            }
+            else
+            {
+                GameSettings.INSTANCE.SetTargetDeck(d.deck_types);
+            }
+        }
+        MapCampaign.UpdateFile();
+    }
+
+    public void LevelWin()
+    {
+        GameSettings.INSTANCE.last_battle_won = true;
+        LoadNextLevel();
+    }
+
+    public void LevelLose()
+    {
+        GameSettings.INSTANCE.last_battle_won = false;
+
+        LoadNextLevel();
+    }
+
+    public void CheatWin()
+    {
+        BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();
+        menu.ShowEndGamePanel(true);
+    }
+
+    public void CheatLose()
+    {
+        BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();
+        menu.ShowEndGamePanel(false);
     }
 }
 

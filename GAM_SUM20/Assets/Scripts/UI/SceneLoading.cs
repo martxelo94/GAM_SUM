@@ -14,7 +14,7 @@ public class SceneLoading : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sceneIndex = PlayerPrefs.GetInt("NextScene");
+        sceneIndex = GameSettings.INSTANCE.nextSceneIdx;
         // start async operation
         StartCoroutine(LoadAsyncOperation());
     }

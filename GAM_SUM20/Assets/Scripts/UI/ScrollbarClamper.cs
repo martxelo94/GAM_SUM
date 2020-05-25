@@ -26,6 +26,6 @@ public class ScrollbarClamper : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Debug.Log("MouseUp on" + typeof(ScrollbarClamper).ToString());
+        //Debug.Log("MouseUp on" + typeof(ScrollbarClamper).ToString());
     }
 }

@@ -46,9 +46,9 @@ public class OpponentAI : MonoBehaviour
                 //squadObj.transform.Rotate(new Vector3(0, 0, 180));
                 Squad squad = squadObj.GetComponent<Squad>();
                 // squad stuff
-                squad.team = TeamType.Opponent;
+                squad.team = deck.team; // TeamType.Opponent;
                 // consume resources
-                m_resources.ConsumeResources(deck.cardCosts[(int)card_type]);
+                m_resources.ConsumeResources(deck.cards.costs[(int)card_type]);
 
                 // draw new card
                 hand_types[card_to_play] = deck.DrawCard();
@@ -56,14 +56,14 @@ public class OpponentAI : MonoBehaviour
                 reaction_time_counter = 0.0f;
                 return;
             }
-            Vector2Int cost = deck.cardCosts[(int)card_type];
+            Vector2Int cost = deck.cards.costs[(int)card_type];
             if (cost.x < m_resources.HR_curr && cost.y < m_resources.MR_curr)
             {
                 deck.SelectType(card_type);
                 // randomize position
                 int randX = Random.Range(0, deck.battlefield.grid_size.x);
                 Vector2Int coord = new Vector2Int(randX, 2);
-                deck.battlefield.SnapToCaptured(ref coord, TeamType.Opponent);
+                deck.battlefield.SnapToCaptured(ref coord, deck.team); // TeamType.Opponent);
                 deck.selected_card.transform.position = deck.battlefield.GetCellPos(coord);
                 //rotate towards down
                 deck.selected_card.transform.Rotate(new Vector3(0, 0, 180));
