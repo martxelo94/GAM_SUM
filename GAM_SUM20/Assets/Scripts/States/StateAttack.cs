@@ -30,11 +30,21 @@ public class StateAttack : State
         // attack cooldown
         if (attackTime > stateMachine.stats.attackTime) {
             if (stateMachine.sensor.target != null) {
-                if (stateMachine.sensor.target.ReceiveDamage(stateMachine.stats.damage))
+                if (stateMachine.stats.attackPrefab != null)
+                    SpawnProyectilAttack(stateMachine.transform.position, stateMachine.sensor.target.transform.position);
+                else if (stateMachine.sensor.target.ReceiveDamage(stateMachine.stats.damage))
                     stateMachine.sensor.target = null;
             }
             attackTime = 0.0f;
         }
     }
     public override void Exit() { }
+
+    void SpawnProyectilAttack(Vector3 start, Vector3 end)
+    {
+        ProyectilAttack attack = GameObject.Instantiate(stateMachine.stats.attackPrefab);
+        attack.startShoot = start;
+        attack.endShoot = end;
+
+    }
 }

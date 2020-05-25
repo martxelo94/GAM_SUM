@@ -460,6 +460,8 @@ MonoBehaviour:
   acceleration: 300
   capture_radius: 3
   player_damage: 5
+  attackPrefab: {fileID: 1744010685313727640, guid: 7dd275024d9d485429b31e239e9f7bb1,
+    type: 3}
   healthBarInstance: {fileID: 0}
 --- !u!114 &1395815318627614899
 MonoBehaviour:

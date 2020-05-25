@@ -17,6 +17,7 @@ public class UnitStats : MonoBehaviour
     public float acceleration;
     public int capture_radius;
     public int player_damage; // damage to player
+    public ProyectilAttack attackPrefab;
 
     [HideInInspector]
     public GameObject healthBarInstance;

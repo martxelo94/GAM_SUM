@@ -17,8 +17,16 @@ public class Deck : MonoBehaviour
     public GameObject selected_card;
     CardType selected_type;
 
-
-    public CardType[] deck_types;   // card types in deck
+    [SerializeField]
+    private CardType[] _deck_types;
+    public CardType[] deck_types {
+        get { return _deck_types; }
+        set
+        {
+            _deck_types = value;
+            deck_drawed = new BitArray(_deck_types.Length);
+        }
+    }// card types in deck
     private BitArray deck_drawed;        // cards that passed by your hand
     private int current_card = 0;
     private int played_cards = 0;
@@ -28,12 +36,16 @@ public class Deck : MonoBehaviour
     {
         battlefield = FindObjectOfType<Battlefield>();
         cards = FindObjectOfType<CardManager>();
+        deck_drawed = new BitArray(deck_types.Length);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        deck_drawed = new BitArray(deck_types.Length);
+        if (deck_drawed != null)
+            Assert.IsTrue(deck_drawed.Length == deck_types.Length);
+        else
+            deck_drawed = new BitArray(deck_types.Length);
         ShuffleDeck();
     }
 
@@ -129,40 +141,10 @@ public class Deck : MonoBehaviour
         deck_types = new_deck;
     }
 
-    public void Save()
+    public void Randomize()
     {
-        Dictionary<CardType, int> cards_in_deck = new Dictionary<CardType, int>();
-        foreach (CardType t in deck_types) {
-            int val;
-            if (cards_in_deck.TryGetValue(t, out val)) {
-                cards_in_deck.Add(t, val + 1);
-            }
-            else
-                cards_in_deck.Add(t, 1);
+        for (int i = 0; i < deck_types.Length; ++i) {
+            deck_types[i] = (CardType)randomizer.Next(0, (int)(CardType.CardType_Count));
         }
-        string key_pref = gameObject.GetInstanceID().ToString();
-        PlayerPrefs.SetInt(key_pref, 1);
-        foreach (var pair in cards_in_deck) {
-            string key = key_pref + pair.Key.ToString();
-            PlayerPrefs.SetInt(key, pair.Value);
-        }
-    }
-
-    public bool Load()
-    {
-        string key_pref = gameObject.GetInstanceID().ToString();
-        int id_found = PlayerPrefs.GetInt(key_pref, 0);
-        if (id_found == 0)
-            return false;
-
-        deck_types = new CardType[0];
-        for (int i = 0; i < (int)CardType.CardType_Count; ++i) {
-            CardType t = (CardType)i;
-            int val = PlayerPrefs.GetInt(key_pref + t.ToString(), 0);
-            if (val > 0) {
-                AddToDeck(t, val);
-            }
-        }
-        return true;
     }
 }
