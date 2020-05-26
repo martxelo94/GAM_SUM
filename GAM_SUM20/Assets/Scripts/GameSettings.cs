@@ -71,7 +71,7 @@ public class GameSettings : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
 
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 30;
 
     }
     // Start is called before the first frame update

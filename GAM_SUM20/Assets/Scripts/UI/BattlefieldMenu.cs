@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
+using System.Text;
 
 public class BattlefieldMenu : MonoBehaviour
 {
@@ -59,7 +60,9 @@ public class BattlefieldMenu : MonoBehaviour
     public void DrawFPS(Text text)
     {
         int frameRate = (int)(1.0f / Time.deltaTime);
-        text.text = "FPS: " + frameRate.ToString();
+        StringBuilder t = new StringBuilder();
+        t.Append("FPS:").Append(frameRate.ToString());
+        text.text = t.ToString();
     }
 
     public void ShowEndGamePanel(bool is_victory)

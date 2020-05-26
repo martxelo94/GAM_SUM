@@ -43,14 +43,20 @@ public class MapNode : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (is_selected && map.is_attaking) {
+        if (map.is_moving) {
+            transform.localScale = initScale;
+            return;
+        }
+        if (is_selected && map.is_attaking)
+        {
             // highlight adyacents
-            float sin = Mathf.Sin( (Time.realtimeSinceStartup)) * initScale.x * 0.5f;
-            //Debug.Log(sin);
-            for (int i = 0; i < nextNodes.Length; ++i) {
-                nextNodes[i].transform.localScale = nextNodes[i].initScale* 1.5f + new Vector3(sin, sin, sin);
+            for (int i = 0; i < nextNodes.Length; ++i)
+            {
+                nextNodes[i].Pulse();
             }
         }
+        else if (army != null && team == TeamType.Player)
+            Pulse();
     }
 
     private void OnMouseEnter()
@@ -76,6 +82,12 @@ public class MapNode : MonoBehaviour
                 map.SelectNode(this);
         }
 
+    }
+
+    public void Pulse()
+    {
+        float t = Mathf.PingPong(Time.time * Time.timeScale, 0.5f);
+        transform.localScale = initScale + initScale * t;
     }
 
     public void SetTeamColor()
@@ -150,7 +162,7 @@ public class MapNode : MonoBehaviour
     public void Select()
     {
         is_selected = true;
-        transform.localScale *= 2.0f;
+        transform.localScale = initScale * 1.5f;
         //for (int i = 0; i < nextNodes.Length; ++i)
         //{
         //    nextNodes[i].transform.localScale *= 1.5f;

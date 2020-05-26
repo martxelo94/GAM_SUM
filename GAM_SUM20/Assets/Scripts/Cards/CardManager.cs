@@ -22,4 +22,16 @@ public class CardManager : MonoBehaviour
         
     }
 
+    public GameObject PlayType(CardType type)
+    {
+        GameObject squadObj = Instantiate(card_prefabs[(int)type]) as GameObject;
+
+        return squadObj;
+    }
+
+    public GameObject BlueprintType(CardType type)
+    {
+        GameObject blueprintObj = Instantiate(blueprints[(int)type]);
+        return blueprintObj;
+    }
 }

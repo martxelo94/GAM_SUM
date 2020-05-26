@@ -45,6 +45,6 @@ public class StateAttack : State
         ProyectilAttack attack = GameObject.Instantiate(stateMachine.stats.attackPrefab);
         attack.startShoot = start;
         attack.endShoot = end;
-
+        attack.shootDamage = stateMachine.stats.damage;
     }
 }

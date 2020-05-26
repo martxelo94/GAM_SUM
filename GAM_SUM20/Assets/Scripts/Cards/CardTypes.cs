@@ -2,4 +2,4 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum CardType { None = -1, Riflemen = 0, Cavalry, Tank, CardType_Count };
+public enum CardType { None = -1, Riflemen = 0, Cavalry, Tank, Sniper, CardType_Count };

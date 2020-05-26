@@ -5,6 +5,8 @@ using UnityEngine.Assertions;
 
 public class Battlefield : MonoBehaviour
 {
+    private Camera mainCamera;
+
     // grid spatial dimensions
     public Vector2Int grid_size;
     public Vector3 grid_center;
@@ -24,6 +26,7 @@ public class Battlefield : MonoBehaviour
 
     private void Awake()
     {
+        mainCamera = Camera.main;
         // set decks from campaign
         if (GameSettings.INSTANCE.IsBattle()) {
             Deck[] decks = FindObjectsOfType<Deck>();
@@ -256,7 +259,7 @@ public class Battlefield : MonoBehaviour
         Vector3 screenPos = Input.touches[0].position;
 #endif
         screenPos.z = grid_center.z;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
         worldPos -= grid_center;
         // center at cell
 
@@ -277,7 +280,7 @@ public class Battlefield : MonoBehaviour
         Vector3 screenPos = Input.touches[0].position;
 #endif
         screenPos.z = grid_center.z;
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
         return GetCellCoord(worldPos);
     }
     public Vector2Int GetCellCoord(Vector3 worldPos)

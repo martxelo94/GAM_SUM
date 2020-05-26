@@ -4,12 +4,12 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class NodeSaveData
+public struct NodeSaveData
 {
     public string name;
-    public CardType[] deck = null;
-    public TeamType team = TeamType.None;
-    public int model_idx = -1;
+    public CardType[] deck;
+    public TeamType team;
+    public int model_idx;
 
     public NodeSaveData(MapNode node)
     {
@@ -17,6 +17,7 @@ public class NodeSaveData
         model_idx = node.army_model_idx;
         if (node.army != null)
             deck = node.army.deck_types;
+        else deck = null;
         team = node.team;
     }
 }

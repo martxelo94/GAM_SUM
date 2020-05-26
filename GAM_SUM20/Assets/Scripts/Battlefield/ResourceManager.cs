@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;   // text
+using System.Text;
 
 public class ResourceManager : MonoBehaviour
 {
@@ -28,8 +29,13 @@ public class ResourceManager : MonoBehaviour
         HR_bar.transform.localScale = new Vector3(HR_maxScale * m_resources.HR_curr / m_resources.HR_max, HR_bar.transform.localScale.y, HR_bar.transform.localScale.z);
         MR_bar.transform.localScale = new Vector3(MR_maxScale * m_resources.MR_curr / m_resources.MR_max, MR_bar.transform.localScale.y, MR_bar.transform.localScale.z);
 
-        HR_text.text = ((int)m_resources.HR_curr).ToString() + "/" + m_resources.HR_max.ToString();
-        MR_text.text = ((int)m_resources.MR_curr).ToString() + "/" + m_resources.MR_max.ToString();
+        StringBuilder t = new StringBuilder();
+        t.Append(((int)m_resources.HR_curr).ToString()).Append("/").Append(m_resources.HR_max.ToString());
+        HR_text.text = t.ToString();
+
+        t.Clear();
+        t.Append(((int)m_resources.MR_curr).ToString()).Append("/").Append(m_resources.MR_max.ToString());
+        MR_text.text = t.ToString();
     }
 
 

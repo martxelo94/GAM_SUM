@@ -20,6 +20,8 @@ public class Squad : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // scale to battlefield grid size
+        //transform.localScale *= battlefield.cell_size;
 
         Spawn();
 

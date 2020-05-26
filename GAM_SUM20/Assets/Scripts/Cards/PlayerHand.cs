@@ -10,6 +10,7 @@ public class PlayerHand : MonoBehaviour
 
     private CardPlayable[] cards;      // played card (troop, building, spell)
     Deck deck;
+    //Battlefield battlefield;
 
     // Start is called before the first frame update
     void Start()
@@ -24,7 +25,7 @@ public class PlayerHand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+           
     }
 
     public void UnselectCards()

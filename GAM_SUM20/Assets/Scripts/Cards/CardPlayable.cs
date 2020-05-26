@@ -23,6 +23,7 @@ public class CardPlayable : MonoBehaviour
     private bool has_resources = false;
     private bool can_spawn = false;
     private bool has_selected = false;
+    private bool has_exited = false;
 
     private void Awake()
     {
@@ -57,23 +58,25 @@ public class CardPlayable : MonoBehaviour
         if (battlefield.IsInsideGrid(coord))
         {
             // spawn unit
-            if (deck.selected_card == null)
+            if (deck.HasSelected() == false)
             {
                 deck.SelectType(card.type);
+                // set scale
+                deck.selected_transform.localScale = new Vector3(battlefield.cell_size, battlefield.cell_size, battlefield.cell_size);
                 ShowCard(false);
             }
             can_spawn = battlefield.SnapToCaptured(ref coord, TeamType.Player) ? true : false; ;
             // move unit
-            deck.selected_card.transform.position = battlefield.GetCellPos(coord);
+            deck.selected_transform.position = battlefield.GetCellPos(coord);
         }
         // show card
         else
         {
             can_spawn = false;
             // remove spawned unit
-            if (deck.selected_card != null)
+            if (deck.HasSelected())
             {
-                Destroy(deck.selected_card);
+                deck.Unselect();
                 ShowCard(true);
             }
             // move card
@@ -89,20 +92,28 @@ public class CardPlayable : MonoBehaviour
     private void OnMouseEnter()
     {
         //Debug.Log("Mouse Enter " + name);
-        
+        has_exited = false;
+    }
+
+    private void OnMouseExit()
+    {
+        has_exited = true;
     }
 
     private void OnMouseUp()
     {
         //Debug.Log("Mouse Up " + name);
+        //if (has_exited == false)
+        //    return;
+
         Unselect();
 
-        if (deck.selected_card == null)
+        if (deck.HasSelected() == false)
             return;
         if (!has_resources)
         {
             // destroy blueprint
-            Destroy(deck.selected_card);
+            deck.Unselect();
             ShowCard(false);
         }
         if (!can_spawn)
@@ -151,7 +162,7 @@ public class CardPlayable : MonoBehaviour
     public void Select()
     {
         has_selected = true;
-        transform.localScale *= playerHand.cardSelectedScale;
+        transform.localScale = initScale * playerHand.cardSelectedScale;
         
     }
 

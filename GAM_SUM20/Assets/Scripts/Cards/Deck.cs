@@ -10,12 +10,19 @@ public class Deck : MonoBehaviour
 {
     public TeamType team;
 
-    [HideInInspector]
-    public Battlefield battlefield;
+    //[HideInInspector]
+    //public Battlefield battlefield;
     public CardManager cards { get; private set; }
     [HideInInspector]
-    public GameObject selected_card;
-    CardType selected_type;
+    private GameObject selected_card;
+    private CardType selected_type = CardType.None;
+
+    public Transform selected_transform {
+        get {
+            Assert.IsTrue(selected_card != null);
+            return selected_card.transform;
+        }
+    }
 
     [SerializeField]
     private CardType[] _deck_types;
@@ -34,7 +41,7 @@ public class Deck : MonoBehaviour
 
     private void Awake()
     {
-        battlefield = FindObjectOfType<Battlefield>();
+        //battlefield = FindObjectOfType<Battlefield>();
         cards = FindObjectOfType<CardManager>();
         deck_drawed = new BitArray(deck_types.Length);
     }
@@ -55,11 +62,26 @@ public class Deck : MonoBehaviour
         
     }
 
+    public bool HasSelected()
+    {
+        //Assert.IsTrue(selected_card != null);
+        return selected_type != CardType.None;
+    }
+
+    public void Unselect()
+    {
+        selected_type = CardType.None;
+        Assert.IsTrue(selected_card != null);
+        Destroy(selected_card);
+        selected_card = null;
+    }
+
     public void SelectType(CardType type)
     {
+        Assert.IsTrue(type != CardType.None);
         selected_type = type;
-        selected_card = Instantiate(cards.blueprints[(int)type]);
-        selected_card.transform.localScale *= battlefield.cell_size;
+        selected_card = cards.BlueprintType(type);
+        //selected_card.transform.localScale *= battlefield.cell_size;
     }
 
     public GameObject PlaySelected()
@@ -72,11 +94,11 @@ public class Deck : MonoBehaviour
         //{
         //    c.enabled = true;
         //}
-        GameObject squadObj = Instantiate(cards.card_prefabs[(int)selected_type]) as GameObject;
+        GameObject squadObj = cards.PlayType(selected_type);
         squadObj.transform.position = selected_card.transform.position;
         squadObj.transform.localScale = selected_card.transform.localScale;
-        Destroy(selected_card);
-        selected_card = null;
+
+        Unselect();
         //Squad squad = squadObj.GetComponent<Squad>();
         //Assert.IsTrue(squad != null);
 

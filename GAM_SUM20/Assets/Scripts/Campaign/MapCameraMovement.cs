@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class MapCameraMovement : MonoBehaviour
 {
+    private Camera mainCamera;
+
     public float minHeight = 0.0f;
     public float maxHeight = 1.0f;
     public bool invertY = true;
     public Transform target;    // to move by dragging
 
+    private void Awake()
+    {
+        mainCamera = Camera.main;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +71,7 @@ public class MapCameraMovement : MonoBehaviour
 #endif
         screenPos.z = target.position.z;
 
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(screenPos);
+        Vector3 worldPos = mainCamera.ScreenToWorldPoint(screenPos);
         //Debug.Log("World Delta = " + worldDeltaPos);
         return worldPos.y;
     }
@@ -82,7 +88,7 @@ public class MapCameraMovement : MonoBehaviour
         screenDeltaPos.x = Screen.width / 2;
         screenDeltaPos.y += Screen.height / 2;
 
-        Vector3 worldDeltaPos = Camera.main.ScreenToWorldPoint(screenDeltaPos);
+        Vector3 worldDeltaPos = mainCamera.ScreenToWorldPoint(screenDeltaPos);
         worldDeltaPos -= transform.position;
         //Debug.Log("World Delta = " + worldDeltaPos);
         return worldDeltaPos.y;

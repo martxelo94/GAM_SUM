@@ -7,6 +7,7 @@ public class OpponentAI : MonoBehaviour
 
     public Deck deck;
     public PlayerResources m_resources;
+    Battlefield battlefield;
 
     public float reaction_time = 0.5f;
     private float reaction_time_counter = 0.0f;
@@ -15,6 +16,10 @@ public class OpponentAI : MonoBehaviour
     int hand_size = 5;
     int card_to_play = -1;
 
+    private void Awake()
+    {
+        battlefield = FindObjectOfType<Battlefield>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +44,7 @@ public class OpponentAI : MonoBehaviour
             }
             CardType card_type = hand_types[card_to_play];
             // confirm spawn (a frame later to ensure initialization)
-            if (deck.selected_card != null)
+            if (deck.HasSelected())
             {
                 // confirm type
                 GameObject squadObj = deck.PlaySelected();
@@ -61,12 +66,14 @@ public class OpponentAI : MonoBehaviour
             {
                 deck.SelectType(card_type);
                 // randomize position
-                int randX = Random.Range(0, deck.battlefield.grid_size.x);
+                int randX = Random.Range(0, battlefield.grid_size.x);
                 Vector2Int coord = new Vector2Int(randX, 2);
-                deck.battlefield.SnapToCaptured(ref coord, deck.team); // TeamType.Opponent);
-                deck.selected_card.transform.position = deck.battlefield.GetCellPos(coord);
+                battlefield.SnapToCaptured(ref coord, deck.team); // TeamType.Opponent);
+                deck.selected_transform.position = battlefield.GetCellPos(coord);
                 //rotate towards down
-                deck.selected_card.transform.Rotate(new Vector3(0, 0, 180));
+                deck.selected_transform.Rotate(new Vector3(0, 0, 180));
+                //scale to cell size
+                deck.selected_transform.localScale = new Vector3(battlefield.cell_size, battlefield.cell_size, battlefield.cell_size);
 
             }
            

@@ -12,18 +12,12 @@ public class Explosion : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Die());
+        Destroy(gameObject, lifeTime);
     }
 
     // Update is called once per frame
     void Update()
     {
-    }
-    IEnumerator Die()
-    {
-        yield return new WaitForSeconds(lifeTime);
-
-        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

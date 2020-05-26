@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class CampaignMenu : MonoBehaviour
 {
@@ -20,6 +21,11 @@ public class CampaignMenu : MonoBehaviour
     public void ToggleActive(GameObject obj)
     {
         obj.SetActive(!obj.activeSelf);
+    }
+
+    public void ToggleButton(Button button)
+    {
+        button.interactable = !button.interactable;
     }
 
     public void ToggleSound(AudioSource source)

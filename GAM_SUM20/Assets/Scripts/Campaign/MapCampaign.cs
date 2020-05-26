@@ -55,8 +55,8 @@ public class MapCampaign : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (selected_node != null)
-            FollowGUI();
+        //if (selected_node != null)
+        //    FollowGUI();
     }
 
     void ConfirmBattleResult()
@@ -224,12 +224,12 @@ public class MapCampaign : MonoBehaviour
         if (selected_node.army != null && selected_node.team == TeamType.Player)
         {
             selectedArmyPanel.SetActive(true);
-            selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
+            //selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
         }
         else
         {
             selectedNodePanel.SetActive(true);
-            selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
+            //selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
         }
     }
 
@@ -266,7 +266,7 @@ public class MapCampaign : MonoBehaviour
 
         target_node = target;
         battlePanel.SetActive(true);
-        battlePanel.transform.position = Vector3.Lerp(target_node.transform.position, selected_node.transform.position, 0.5f);
+        //battlePanel.transform.position = Vector3.Lerp(target_node.transform.position, selected_node.transform.position, 0.5f);
         // toggle buttons
         Button[] buttons = selectedArmyPanel.GetComponentsInChildren<Button>();
         foreach (Button b in buttons)
