@@ -4066,10 +4066,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource_speed: 0.5
-  HR_max: 10
-  HR_curr: 10
-  MR_max: 10
-  MR_curr: 10
+  HR_max: 1000
+  HR_curr: 1000
+  MR_max: 1000
+  MR_curr: 1000
 --- !u!114 &1099055928
 MonoBehaviour:
   m_ObjectHideFlags: 0

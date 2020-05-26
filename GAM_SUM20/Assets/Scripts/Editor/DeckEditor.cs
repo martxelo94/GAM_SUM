@@ -15,5 +15,20 @@ public class DeckEditor : Editor
         {
             _target.Randomize();
         }
+        if (GUILayout.Button("Rifleman Only"))
+        {
+            for(int i = 0; i < _target.deck_types.Length; ++i)
+                _target.deck_types[i] = CardType.Riflemen;
+        }
+        if (GUILayout.Button("Cavalry Only"))
+        {
+            for (int i = 0; i < _target.deck_types.Length; ++i)
+                _target.deck_types[i] = CardType.Cavalry;
+        }
+        if (GUILayout.Button("Tank Only"))
+        {
+            for (int i = 0; i < _target.deck_types.Length; ++i)
+                _target.deck_types[i] = CardType.Tank;
+        }
     }
 }

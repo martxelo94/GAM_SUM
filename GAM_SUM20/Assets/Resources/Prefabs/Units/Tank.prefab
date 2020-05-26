@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 1395815318627614899}
   - component: {fileID: 4682084398348193410}
   - component: {fileID: 886234146969257314}
-  - component: {fileID: -783896454004515945}
+  - component: {fileID: 4610744450902827159}
   m_Layer: 8
   m_Name: Tank
   m_TagString: Player
@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  maxHitPoints: 100
+  maxHitPoints: 180
   hitPoints: 100
   damage: 18
   range: 440
@@ -512,8 +512,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &-783896454004515945
-CircleCollider2D:
+--- !u!61 &4610744450902827159
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -522,12 +522,22 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 8
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &6438804858899120467
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,8 +629,8 @@ GameObject:
   - component: {fileID: 5001624181228865376}
   - component: {fileID: 5708785379824084968}
   - component: {fileID: 8649351567432953482}
-  - component: {fileID: 4685060397921603540}
-  m_Layer: 0
+  - component: {fileID: 5141386239747033336}
+  m_Layer: 10
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -688,8 +698,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!61 &4685060397921603540
-BoxCollider2D:
+--- !u!58 &5141386239747033336
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -698,22 +708,12 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 6
 --- !u!1 &7077996740964763533
 GameObject:
   m_ObjectHideFlags: 0

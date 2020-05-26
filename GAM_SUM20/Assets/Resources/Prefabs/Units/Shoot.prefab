@@ -152,8 +152,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startShoot: {x: 0, y: 0, z: 0}
   endShoot: {x: 0, y: 0, z: 0}
-  shootDamage: 30
-  shootSpeed: 350
+  shootDamage: 10
+  shootSpeed: 400
   attackRange: 10
   explosionPrefab: {fileID: 1906239374414604114, guid: 2e0b786fc7b3efe47bfb77e49b3d2bee,
     type: 3}

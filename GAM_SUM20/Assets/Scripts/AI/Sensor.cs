@@ -26,12 +26,22 @@ public class Sensor : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if (target == null && potential_targets.Count > 0)
         {
-            // update target
+            //remove nulls
+            List<UnitStats> to_remove = new List<UnitStats>();
+            foreach(UnitStats t in potential_targets)
+                if (t == null)
+                    to_remove.Add(t);
+            foreach(UnitStats r in to_remove)
+                potential_targets.Remove(r);
+            if (potential_targets.Count == 0)
+                return;
+            // sort by closest distance
             potential_targets.Sort(SortByDistance);
+            // update target
             target = potential_targets.ElementAt(0);
             potential_targets.RemoveAt(0);
         }
@@ -39,6 +49,8 @@ public class Sensor : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (collision.isTrigger)
+            return;
         UnitStats unit = collision.GetComponent<UnitStats>();
         if (unit != null && unit.team != team)
         {
@@ -48,6 +60,8 @@ public class Sensor : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (collision.isTrigger)
+            return;
         UnitStats unit = collision.GetComponent<UnitStats>();
         if (unit != null) {
             potential_targets.Remove(unit);

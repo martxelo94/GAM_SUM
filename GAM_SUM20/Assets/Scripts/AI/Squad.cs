@@ -45,7 +45,9 @@ public class Squad : MonoBehaviour
         Assert.IsTrue(troops != null);
         foreach (UnitStats t in troops)
         {
+            // set layers
             t.gameObject.layer = (int)team + 7;
+            t.transform.GetChild(0).gameObject.layer = (int)team + 9;
             t.team = team;
             healthBar.SetUnit(t);
             healthBar.SetTeamColor(battlefield.team_color[(int)team]);
@@ -53,6 +55,7 @@ public class Squad : MonoBehaviour
             t.healthBarInstance = Instantiate(healthBar.gameObject);
             t.healthBarInstance.transform.position = t.transform.position;
             t.healthBarInstance.SetActive(false);
+            
         }
         // troops can capture terrain
         troops_updated = true; // allows starting coroutine
@@ -71,7 +74,7 @@ public class Squad : MonoBehaviour
                 continue;
             }
             battlefield.CaptureCells(t.transform.position, team, t.capture_radius);
-            yield return null;  // update one unit each frame
+            yield return new WaitForSeconds(1.0f / troops.Length);  // update one unit each frame
         }
         // destroy self if no units left
         if (troops_destroyed == troops.Length)

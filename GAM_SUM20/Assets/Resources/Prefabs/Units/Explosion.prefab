@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: -329175828399021254}
   - component: {fileID: 266794572}
   - component: {fileID: 266794571}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,6 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 0.5
   damage: 1
+  damage_falloff: 1
 --- !u!23 &266794572
 MeshRenderer:
   m_ObjectHideFlags: 0

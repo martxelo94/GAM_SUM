@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1906239374414604114}
   - component: {fileID: 4476730478780640910}
   - component: {fileID: 4476730478780640909}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,6 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifeTime: 0.2
   damage: 1
+  damage_falloff: 0
 --- !u!198 &4476730478780640910
 ParticleSystem:
   m_ObjectHideFlags: 0

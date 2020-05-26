@@ -206,8 +206,11 @@ public class Battlefield : MonoBehaviour
                 {
                     //SetVertexColor(x, y, team);
                     m_team_grid[idx] += team_terrain_influence[(int)team];
-                    terrain_captured_times[idx] = 0.0f;
+                    m_team_grid[idx] = Mathf.Min(1, Mathf.Max(m_team_grid[idx], -1));   // magic clamp
+                    terrain_captured_times[idx] = 0;
                 }
+                //else
+                //    terrain_captured_times[idx] = Mathf.Min(terrain_captured_times[idx] + 1.0f, time_to_secure_terrain);
             }
         }
     }
