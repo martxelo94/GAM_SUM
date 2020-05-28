@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3822864994112369304}
   - component: {fileID: 4631401156485286696}
   - component: {fileID: 2744103345355404374}
-  - component: {fileID: -9129426927273977432}
   - component: {fileID: 4308863167353047460}
   - component: {fileID: 6110327973993461782}
   m_Layer: 8
@@ -48,19 +47,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  common: {fileID: 11400000, guid: f237a4532f9c4a447a39ce98ead006e8, type: 2}
   team: 0
-  maxHitPoints: 10
-  hitPoints: 10
-  damage: 6
-  range: 240
-  attackTime: 2
-  maxSpeed: 12
-  acceleration: 20
-  capture_radius: 1
-  player_damage: 1
-  attackPrefab: {fileID: 1522591111564954434, guid: 5e3d0c594a450014ab4569d66c64e80d,
-    type: 3}
+  currentHitPoints: 0
+  currentAttackTime: 0
   healthBarInstance: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &2744103345355404374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,21 +66,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensor: {fileID: 0}
-  stats: {fileID: 0}
+  unit: {fileID: 0}
   rig: {fileID: 0}
---- !u!114 &-9129426927273977432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7355300726091684637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea519b60928ba9840a3feaf4543925d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!50 &4308863167353047460
 Rigidbody2D:
   serializedVersion: 4
@@ -109,7 +88,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &6110327973993461782
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -147,8 +126,7 @@ GameObject:
   - component: {fileID: 3146339861361019928}
   - component: {fileID: 2694976059528191824}
   - component: {fileID: 7626440280839581097}
-  - component: {fileID: 3365405374503496340}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +154,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8230486097871699042}
-  m_Mesh: {fileID: -2827698739503645720, guid: 28d6f375fb179f14ea3f6a314b595eb8, type: 3}
+  m_Mesh: {fileID: -3806681195042825389, guid: 28bf6f1d490add2489affbd410ad4885, type: 3}
 --- !u!23 &7626440280839581097
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -216,19 +194,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!58 &3365405374503496340
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8230486097871699042}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 5

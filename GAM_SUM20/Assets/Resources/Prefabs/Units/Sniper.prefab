@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1754269414065283521}
   m_LocalRotation: {x: 0, y: 0, z: 0.8825829, w: 0.47015673}
-  m_LocalPosition: {x: -0.313, y: -0, z: 0.56999993}
+  m_LocalPosition: {x: -0.43, y: -0.08, z: 0.69}
   m_LocalScale: {x: 0.05, y: 0.8, z: 0.05}
   m_Children: []
   m_Father: {fileID: 1679775887247793771}
@@ -86,6 +86,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3146339861361019928, guid: 30b39ba952396354b9dc9d350a84b197,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3365405374503496340, guid: 30b39ba952396354b9dc9d350a84b197,
         type: 3}
       propertyPath: m_Radius
@@ -146,6 +151,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4308863167353047460, guid: 30b39ba952396354b9dc9d350a84b197,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4631401156485286696, guid: 30b39ba952396354b9dc9d350a84b197,
         type: 3}
       propertyPath: range
@@ -166,6 +176,12 @@ PrefabInstance:
       propertyPath: maxSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 4631401156485286696, guid: 30b39ba952396354b9dc9d350a84b197,
+        type: 3}
+      propertyPath: common
+      value: 
+      objectReference: {fileID: 11400000, guid: a6cd7bf084f50fe4b9c9af48dd5a17aa,
+        type: 2}
     - target: {fileID: 7355300726091684637, guid: 30b39ba952396354b9dc9d350a84b197,
         type: 3}
       propertyPath: m_Name

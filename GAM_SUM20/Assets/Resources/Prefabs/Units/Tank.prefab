@@ -408,12 +408,11 @@ GameObject:
   - component: {fileID: 7269002947842513324}
   - component: {fileID: -6076764054264987469}
   - component: {fileID: 1395815318627614899}
-  - component: {fileID: 4682084398348193410}
   - component: {fileID: 886234146969257314}
   - component: {fileID: 4610744450902827159}
   m_Layer: 8
   m_Name: Tank
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -450,19 +449,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  common: {fileID: 11400000, guid: dd3a0eaed16388d4697a597871007cd4, type: 2}
   team: 0
-  maxHitPoints: 180
-  hitPoints: 100
-  damage: 18
-  range: 440
-  attackTime: 4
-  maxSpeed: 25
-  acceleration: 300
-  capture_radius: 3
-  player_damage: 5
-  attackPrefab: {fileID: 1744010685313727640, guid: 7dd275024d9d485429b31e239e9f7bb1,
-    type: 3}
+  currentHitPoints: 0
+  currentAttackTime: 0
   healthBarInstance: {fileID: 0}
+  target: {fileID: 0}
 --- !u!114 &1395815318627614899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,21 +468,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sensor: {fileID: 0}
-  stats: {fileID: 0}
+  unit: {fileID: 0}
   rig: {fileID: 0}
---- !u!114 &4682084398348193410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6115491676151040467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea519b60928ba9840a3feaf4543925d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
 --- !u!50 &886234146969257314
 Rigidbody2D:
   serializedVersion: 4
@@ -511,7 +490,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &4610744450902827159
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -629,8 +608,7 @@ GameObject:
   - component: {fileID: 5001624181228865376}
   - component: {fileID: 5708785379824084968}
   - component: {fileID: 8649351567432953482}
-  - component: {fileID: 5141386239747033336}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -698,22 +676,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!58 &5141386239747033336
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6444398388947227339}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 6
 --- !u!1 &7077996740964763533
 GameObject:
   m_ObjectHideFlags: 0

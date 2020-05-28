@@ -46,7 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db6b17ff172d58f468e8f77060eb44f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 1
+  team: 0
+  update_time: 1
+  battlefield: {fileID: 11400000, guid: 11c871481e4ce2248bd610816d7a9760, type: 2}
 --- !u!1001 &4986932136164279533
 PrefabInstance:
   m_ObjectHideFlags: 0

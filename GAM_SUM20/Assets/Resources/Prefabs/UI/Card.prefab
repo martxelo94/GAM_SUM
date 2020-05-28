@@ -409,6 +409,7 @@ MonoBehaviour:
   HR_text: {fileID: 1372394775806382841}
   MR_text: {fileID: 3382619349870172383}
   deck: {fileID: 0}
+  battlefield: {fileID: 11400000, guid: 11c871481e4ce2248bd610816d7a9760, type: 2}
 --- !u!61 &8693895426570288699
 BoxCollider2D:
   m_ObjectHideFlags: 0

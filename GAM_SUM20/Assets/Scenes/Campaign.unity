@@ -136,7 +136,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &3462585
 Transform:
@@ -856,7 +856,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: team
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
@@ -922,6 +922,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Node (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -2150,7 +2155,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &480219390
 Transform:
@@ -2610,7 +2615,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &572441265
 Transform:
@@ -2914,7 +2919,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: team
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
@@ -2985,6 +2990,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Node (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -3783,7 +3793,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &755710185
 MonoBehaviour:
@@ -4295,9 +4305,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc1680accd003d4691ca1538b5141b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 2
-  battlefield: {fileID: 0}
-  selected_card: {fileID: 0}
+  team: 1
+  cm: {fileID: 0}
   _deck_types: 010000000000000000000000000000000000000000000000010000000000000001000000000000000100000001000000010000000100000001000000
 --- !u!1 &982814187
 GameObject:
@@ -4520,7 +4529,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &996323992
 Transform:
@@ -5160,7 +5169,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1167088100
 Transform:
@@ -5504,9 +5513,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc1680accd003d4691ca1538b5141b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 1
-  battlefield: {fileID: 0}
-  selected_card: {fileID: 0}
+  team: 0
+  cm: {fileID: 0}
   _deck_types: 0000000000000000010000000100000000000000010000000100000000000000000000000000000000000000000000000100000001000000010000000000000001000000000000000100000001000000
 --- !u!1 &1295957276
 GameObject:
@@ -5690,7 +5698,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1306138886
 Transform:
@@ -5917,7 +5925,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: team
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
@@ -5983,6 +5991,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Node (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -6858,7 +6871,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1546939482
 MonoBehaviour:
@@ -7293,9 +7306,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc1680accd003d4691ca1538b5141b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 2
-  battlefield: {fileID: 0}
-  selected_card: {fileID: 0}
+  team: 1
+  cm: {fileID: 0}
   _deck_types: 02000000020000000200000002000000
 --- !u!1001 &1672116068
 PrefabInstance:
@@ -7317,7 +7329,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: team
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
@@ -7384,6 +7396,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Node (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
 --- !u!4 &1672116069 stripped
@@ -7434,7 +7451,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: team
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
@@ -7495,6 +7512,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Node (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -8118,9 +8140,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc1680accd003d4691ca1538b5141b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 2
-  battlefield: {fileID: 0}
-  selected_card: {fileID: 0}
+  team: 1
+  cm: {fileID: 0}
   _deck_types: 01000000010000000100000001000000010000000100000001000000
 --- !u!1 &1801901144
 GameObject:
@@ -8308,7 +8329,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1945440145
 Transform:
@@ -8444,7 +8465,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1948589013
 Transform:
@@ -9352,9 +9373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffc1680accd003d4691ca1538b5141b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 2
-  battlefield: {fileID: 0}
-  selected_card: {fileID: 0}
+  team: 1
+  cm: {fileID: 0}
   _deck_types: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
 --- !u!1001 &3546247979574968115
 PrefabInstance:
@@ -9378,6 +9398,11 @@ PrefabInstance:
       propertyPath: army
       value: 
       objectReference: {fileID: 1229289078}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: team
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9437,6 +9462,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Node
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}

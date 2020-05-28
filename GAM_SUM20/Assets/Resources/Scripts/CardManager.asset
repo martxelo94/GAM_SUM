@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b23235dd820dc346ba9810205263037, type: 3}
+  m_Name: CardManager
+  m_EditorClassIdentifier: 
+  cards:
+  - spawnTime: 1
+    cost: {x: 5, y: 1}
+    spawnedPrefab: {fileID: 1090020464743149919, guid: 94d7a50047a5642419eec8a33aa772d2,
+      type: 3}
+    blueprintPrefab: {fileID: 6944943668602125739, guid: 3e4208d47683dfa42bc49cd40d1e48f7,
+      type: 3}
+  - spawnTime: 1
+    cost: {x: 3, y: 3}
+    spawnedPrefab: {fileID: 1714436191365348779, guid: 63b23ac58c12e0240921976dfcc4fa20,
+      type: 3}
+    blueprintPrefab: {fileID: 1699046032691168874, guid: b17125a75b13d224f9e593c8d8cb83e5,
+      type: 3}
+  - spawnTime: 3
+    cost: {x: 3, y: 7}
+    spawnedPrefab: {fileID: 5041951708728181703, guid: f5483d1ec87a9d144acaa41ca494e62b,
+      type: 3}
+    blueprintPrefab: {fileID: 2650879046645598742, guid: 14fa5e6bc81192a4789d20f027ad83b0,
+      type: 3}
+  - spawnTime: 2
+    cost: {x: 2, y: 1}
+    spawnedPrefab: {fileID: 714671629763451612, guid: babc756131f8b9c42bde1cc3d68cf1d4,
+      type: 3}
+    blueprintPrefab: {fileID: 5480219247358311083, guid: 113cc302dfecc9143b9596c6876265e0,
+      type: 3}
