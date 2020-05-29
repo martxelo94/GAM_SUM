@@ -6,9 +6,10 @@ using UnityEngine.Assertions;
 public class HealthBar : MonoBehaviour
 {
     public Transform bar;
+    float zOffset = 2f;
     // set by squad
     [HideInInspector]
-    public UnitStats stats;
+    public Unit stats;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,8 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = stats.transform.position + Vector3.back * 100;
+        transform.position = stats.transform.position + Vector3.back * zOffset;
+        transform.eulerAngles = Vector3.zero;
         float factor = (float)stats.currentHitPoints / stats.common.maxHitPoints;
         //Debug.Log("Factor health " + factor.ToString());
         bar.transform.localPosition = new Vector3((-0.5f + factor / 2) * 4, 0, -1);
@@ -36,7 +38,7 @@ public class HealthBar : MonoBehaviour
         Assert.IsTrue(sprite != null);
         sprite.color = color;
     }
-    public void SetUnit(UnitStats unit)
+    public void SetUnit(Unit unit)
     {
         stats = unit;
     }

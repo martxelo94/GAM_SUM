@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Rifleman Unit Common Stats
   m_EditorClassIdentifier: 
   maxHitPoints: 10
-  damage: 9
+  pierceArmor: 0
+  slashArmor: 0
+  rangedAttack: 0
   sensorRange: 6
   attackRange: 5
-  attackTime: 2
+  attackTime: 1
   maxSpeed: 1
-  acceleration: 20
   capture_radius: 1
   player_damage: 1
-  attackPrefab: {fileID: 1522591111564954434, guid: 5e3d0c594a450014ab4569d66c64e80d,
-    type: 3}
+  attackPrefabs:
+  - {fileID: 1522591111564954434, guid: 5e3d0c594a450014ab4569d66c64e80d, type: 3}

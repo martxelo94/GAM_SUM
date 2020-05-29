@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: Sniper Unit Common Stats
   m_EditorClassIdentifier: 
   maxHitPoints: 10
-  damage: 15
-  sensorRange: 8
-  attackRange: 8
+  pierceArmor: 0
+  slashArmor: 0
+  rangedAttack: 0
+  sensorRange: 15
+  attackRange: 14
   attackTime: 3
   maxSpeed: 0.8
-  acceleration: 20
   capture_radius: 1
   player_damage: 1
-  attackPrefab: {fileID: 1522591111564954434, guid: 5e3d0c594a450014ab4569d66c64e80d,
-    type: 3}
+  attackPrefabs:
+  - {fileID: 2523152992420655505, guid: 770e533c61eb15c4d8f33159b2b5f8e0, type: 3}

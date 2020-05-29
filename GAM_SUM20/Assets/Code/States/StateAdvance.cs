@@ -18,7 +18,7 @@ public class StateAdvance : State
     public override void Update(float dt)
     {
         // change state
-        if (ai.unit.target != null) {
+        if (ai.unit.IsTargetAlive() == true) {
             ai.SetNextState(new StateChase(ai));
             return;
         }

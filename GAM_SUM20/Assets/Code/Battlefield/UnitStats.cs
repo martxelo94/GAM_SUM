@@ -1,58 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 
-public class UnitStats : MonoBehaviour
+[CreateAssetMenu]
+public class UnitStats : ScriptableObject
 {
-    public UnitCommonStats common;
-    //[HideInInspector]
-    public TeamType team; // set by squad
-    [HideInInspector]
-    public int currentHitPoints;
-    [HideInInspector]
-    public float currentAttackTime;
-    [HideInInspector]
-    public GameObject healthBarInstance;
-    [HideInInspector]
-    public UnitStats target = null;
+    public int maxHitPoints;
+    // protection types (percentages)
+    [Range(0, 100)]
+    public float pierceArmor;
+    [Range(0, 100)]
+    public float slashArmor;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        currentHitPoints = common.maxHitPoints;
+    // damage types (on Attack)
+    // public float pierceDamage;
+    // public float slashDamage;
+    // public float blastDamage;
 
-        //healthBar.SetActive(false);
-    }
-
-    public bool ReceiveDamage(int _damage)
-    {
-        //Debug.Log(name + " receives " + _damage.ToString() + " damage!");
-        currentHitPoints -= _damage;
-        if (currentHitPoints <= 0) {
-            Kill();
-            return true;
-        }
-        Assert.IsTrue(healthBarInstance != null);
-        if(!healthBarInstance.activeSelf)
-            StartCoroutine(ShowHealthBar());
-        return false;
-    }
-
-    public void Kill()
-    {
-        //Debug.Log("Unit Killed");
-        //Destroy(healthBarInstance);
-        Destroy(gameObject);
-    }
-    IEnumerator ShowHealthBar()
-    {
-        
-        healthBarInstance.SetActive(true);
-        //Debug.Log("Show Health Bar");
-        yield return new WaitForSeconds(3.0f);
-        healthBarInstance.SetActive(false);
-    }
-
+    // attack and reaction
+    public bool rangedAttack;
+    public float sensorRange;
+    public float attackRange;
+    public float attackTime;
+    //speed
+    public float maxSpeed;
+    public int capture_radius;
+    public int player_damage; // damage to player
+    public ProyectilAttack[] attackPrefabs;
 
 }

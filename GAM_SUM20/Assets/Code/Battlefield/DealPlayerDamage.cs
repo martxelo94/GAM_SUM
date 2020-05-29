@@ -22,7 +22,7 @@ public class DealPlayerDamage : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        UnitStats troop = collision.gameObject.GetComponentInParent<UnitStats>();
+        Unit troop = collision.gameObject.GetComponentInParent<Unit>();
         if (troop != null) {
             hit_points -= troop.common.player_damage;
             hit_point_text.text = hit_points.ToString();

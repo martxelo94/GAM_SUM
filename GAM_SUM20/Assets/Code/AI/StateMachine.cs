@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 public class StateMachine : MonoBehaviour
 {
     [HideInInspector]
-    public UnitStats unit;
+    public Unit unit;
     [HideInInspector]
     public Rigidbody2D rig;
 
@@ -17,7 +17,7 @@ public class StateMachine : MonoBehaviour
     private void Awake()
     {
         rig = GetComponent<Rigidbody2D>();
-        unit = GetComponent<UnitStats>();
+        unit = GetComponent<Unit>();
     }
 
     // Start is called before the first frame update

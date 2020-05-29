@@ -22,17 +22,12 @@ public class PlayerHand : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-           
-    }
 
     public void UnselectCards()
     {
-        foreach (CardPlayable c in cards)
+        for(int i = 0; i < cards.Length; ++i)
         {
-            c.Unselect();
+            cards[i].Unselect();
         }
     }
 }

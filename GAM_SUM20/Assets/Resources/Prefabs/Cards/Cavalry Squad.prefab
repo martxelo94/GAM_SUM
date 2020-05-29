@@ -49,6 +49,10 @@ MonoBehaviour:
   team: 0
   update_time: 1
   battlefield: {fileID: 11400000, guid: 11c871481e4ce2248bd610816d7a9760, type: 2}
+  troops:
+  - {fileID: 2627330708774391032}
+  - {fileID: 613812204936820913}
+  - {fileID: 1582754337718383146}
 --- !u!1001 &4986932136164279533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -56,6 +60,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2061601896040451410}
     m_Modifications:
+    - target: {fileID: 1896988387556750470, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1896988387556750470, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5865905208860982631, guid: 6c867ef1644df87479dd4c24982b5cd9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -116,6 +130,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cavalry
       objectReference: {fileID: 0}
+    - target: {fileID: 8025787088888277613, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025787088888277613, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c867ef1644df87479dd4c24982b5cd9, type: 3}
 --- !u!4 &1464450456910100874 stripped
@@ -124,6 +148,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4986932136164279533}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2627330708774391032 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7008448774204049429, guid: 6c867ef1644df87479dd4c24982b5cd9,
+    type: 3}
+  m_PrefabInstance: {fileID: 4986932136164279533}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7622256563913928868
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131,6 +167,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2061601896040451410}
     m_Modifications:
+    - target: {fileID: 1896988387556750470, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1896988387556750470, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5865905208860982631, guid: 6c867ef1644df87479dd4c24982b5cd9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -191,6 +237,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cavalry (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8025787088888277613, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025787088888277613, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c867ef1644df87479dd4c24982b5cd9, type: 3}
 --- !u!4 &4080349501338881475 stripped
@@ -199,6 +255,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7622256563913928868}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &613812204936820913 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7008448774204049429, guid: 6c867ef1644df87479dd4c24982b5cd9,
+    type: 3}
+  m_PrefabInstance: {fileID: 7622256563913928868}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8409365818241841727
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -206,6 +274,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2061601896040451410}
     m_Modifications:
+    - target: {fileID: 1896988387556750470, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1896988387556750470, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5865905208860982631, guid: 6c867ef1644df87479dd4c24982b5cd9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -266,6 +344,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cavalry (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8025787088888277613, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8025787088888277613, guid: 6c867ef1644df87479dd4c24982b5cd9,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c867ef1644df87479dd4c24982b5cd9, type: 3}
 --- !u!4 &2725786208089687896 stripped
@@ -274,3 +362,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8409365818241841727}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1582754337718383146 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7008448774204049429, guid: 6c867ef1644df87479dd4c24982b5cd9,
+    type: 3}
+  m_PrefabInstance: {fileID: 8409365818241841727}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

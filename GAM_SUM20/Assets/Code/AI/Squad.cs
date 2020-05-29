@@ -7,14 +7,14 @@ public class Squad : MonoBehaviour
     public TeamType team;
     public float update_time = 1f;
     public Battlefield battlefield;
-    UnitStats[] troops;
-    bool units_updated = false;
-    int targetLayerMask = -1;   // layer of the oposite team to sense
+    public Unit[] troops;
+    private bool units_updated = false;
 
     private void Awake()
     {
         Assert.IsTrue(battlefield != null);
-        troops = GetComponentsInChildren<UnitStats>();
+        if(troops == null)
+            troops = GetComponentsInChildren<Unit>();
     }
 
     // Start is called before the first frame update
@@ -22,50 +22,11 @@ public class Squad : MonoBehaviour
     {
         // scale to battlefield grid size
         //transform.localScale *= battlefield.cell_size;
-        targetLayerMask = LayerMask.GetMask(team == TeamType.Player ? "Opponent" : "Player");
+        //targetLayerMask = LayerMask.GetMask(team == TeamType.Player ? "Opponent" : "Player");
 
         Spawn();
-
-        // deactivate every non render component
-        //var components = gameObject.
-        //foreach (Transform t in transform)
-        //{
-        //    Debug.Log(t.name);
-        //} // only prints INMEDIATE children CONFIRMED
     }
 
-    public void Spawn()
-    {
-        Assert.IsTrue(team != TeamType.None);
-        gameObject.layer = (int)team + 8;
-        Material mat = Resources.Load<Material>(team == TeamType.Opponent ? "Materials/M_Opponent" : "Materials/M_Player");
-        var renderables = GetComponentsInChildren<Renderer>();
-        foreach (var r in renderables)
-            r.material = mat;
-        // set team and health bar
-        GameObject healthBarObj = Resources.Load("Prefabs/UI/HealthBar") as GameObject;
-        HealthBar healthBar = healthBarObj.GetComponent<HealthBar>();
-        Assert.IsTrue(healthBar != null);
-        Assert.IsTrue(troops != null);
-        foreach (UnitStats t in troops)
-        {
-            // set layers
-            t.gameObject.layer = gameObject.layer;
-            // set team
-            t.team = team;
-            // set healthbar
-            healthBar.SetUnit(t);
-            healthBar.SetTeamColor(battlefield.team_color[(int)team + 1]);
-            // copy healthbar prefab
-            t.healthBarInstance = Instantiate(healthBar.gameObject);
-            t.healthBarInstance.transform.parent = t.transform; // make destructible with unit instance
-            t.healthBarInstance.transform.position = t.transform.position;
-            t.healthBarInstance.SetActive(false);   // invisible inactive
-            
-        }
-        // troops can capture terrain and sense
-        units_updated = true; // allows starting coroutine
-    }
 
 
     // Update is called once per frame
@@ -74,19 +35,74 @@ public class Squad : MonoBehaviour
         if (units_updated)
             StartCoroutine(UnitUpdate());
     }
-
-    public void SenseTarget(UnitStats unit)
+    public void Spawn()
     {
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(unit.transform.position, unit.common.sensorRange, Vector2.zero, 0, targetLayerMask);
-        if (hits.Length > 0)
+        Assert.IsTrue(team != TeamType.None);
+        gameObject.layer = (int)team + 8;
+        
+        //Material mat = Resources.Load<Material>(team == TeamType.Opponent ? "Materials/M_Opponent" : "Materials/M_Player");
+        var renderables = GetComponentsInChildren<MeshRenderer>();
+        foreach (var r in renderables)
+            //r.material = mat;
+            r.material.color = battlefield.team_color[(int)team + 1];
+
+        // set team
+        Assert.IsTrue(troops != null);
+
+        // create troops in positions
+        for (int i = 0; i < troops.Length; ++i)
         {
-            UnitStats target = hits[0].collider.GetComponent<UnitStats>();
-            unit.target = target;
-            if(unit.target == null)
-                Assert.IsTrue(unit.target != null);
+            Unit t = troops[i];
+            Assert.IsTrue(t.transform.parent == transform);
+            // set layers
+            t.gameObject.layer = gameObject.layer;
+            // set team
+            t.team = team;
+            // set healthbar team color
+            Assert.IsTrue(t.healthBarInstance != null);
+            t.healthBarInstance.SetTeamColor(battlefield.team_color[(int)team + 1]);
         }
+
+        // troops can capture terrain and sense
+        units_updated = true; // allows starting coroutine
     }
 
+#if false
+    public int maxUnitSense = 5;
+    private int targetLayerMask = -1;   // layer of the oposite team to sense
+
+    Unit SenseTarget(Unit unit)
+    {
+        RaycastHit2D[] hits = new RaycastHit2D[maxUnitSense];
+        int hitCount = Physics2D.CircleCastNonAlloc(unit.transform.position, unit.common.sensorRange, Vector2.zero, hits, 0f, targetLayerMask);
+        if (hitCount > 0)
+        {
+            Assert.IsTrue(hitCount <= hits.Length);
+            Unit unitTarget = GetClosest(unit, hits, hitCount);
+            Assert.IsTrue(unitTarget != null);
+            return unitTarget;
+        }
+        return null;
+    }
+
+    Unit GetClosest(Unit sensor, RaycastHit2D[] hits, int hitCount)
+    {
+        RaycastHit2D closestHit = hits[0];
+        Vector3 sensorPos = sensor.transform.position;
+        float closestDist2 = (sensorPos - closestHit.transform.position).sqrMagnitude;
+        for (int i = 1; i < hitCount; ++i) {
+            Vector3 dif = sensorPos - hits[i].transform.position;
+            float dist2 = dif.sqrMagnitude;
+            if (dist2 < closestDist2) {
+                closestDist2 = dist2;
+                closestHit = hits[i];
+            }
+        }
+        Unit unit = closestHit.transform.GetComponent<Unit>();
+        Assert.IsTrue(unit != null);
+        return unit;
+    }
+#endif
     IEnumerator UnitUpdate()
     {
         units_updated = false;
@@ -94,15 +110,22 @@ public class Squad : MonoBehaviour
         // capture land
         for (int i= 0; i < troops.Length; ++i)
         {
-            UnitStats t = troops[i];
-            if (t == null)
+
+            Unit t = troops[i];
+            Assert.IsTrue(t != null);
+            if (t.IsAlive() == false)
             {
                 troops_destroyed++;
                 continue;
             }
+            // capture terrain
             battlefield.CaptureCells(t.transform.position, team, t.common.capture_radius);
-            if(t.target == null)
-                SenseTarget(t);
+
+#if false   // no target assigning
+            // set target
+            if (t.IsTargetAlive() == false)
+                t.SetTarget(SenseTarget(t));
+#endif   
             yield return new WaitForSeconds(update_time / troops.Length);  // update one unit each frame
         }
         // destroy self if no units left
@@ -135,10 +158,10 @@ public class Squad : MonoBehaviour
 
         for (int i = 0; i < troops.Length; ++i)
         {
-            UnitStats t = troops[i];
+            Unit t = troops[i];
             if (t == null)
                 continue;
-            Gizmos.color = Color.yellow;
+            Gizmos.color = team == TeamType.Player ? Color.blue : Color.red;
             for (int j = 0; j < circleGizmo.Length - 1; ++j)
             {
                 Vector3 s = t.transform.position + circleGizmo[j] * t.common.sensorRange;
@@ -148,7 +171,8 @@ public class Squad : MonoBehaviour
             Gizmos.DrawLine(
                 t.transform.position + circleGizmo[circleGizmo.Length - 1] * t.common.sensorRange,
                 t.transform.position + circleGizmo[0] * t.common.sensorRange);
-            Gizmos.color = Color.red;
+#if true
+            Gizmos.color = Color.yellow;
             for (int j = 0; j < circleGizmo.Length - 1; ++j)
             {
                 Vector3 s = t.transform.position + circleGizmo[j] * t.common.attackRange;
@@ -158,6 +182,7 @@ public class Squad : MonoBehaviour
             Gizmos.DrawLine(
                 t.transform.position + circleGizmo[circleGizmo.Length - 1] * t.common.attackRange,
                 t.transform.position + circleGizmo[0] * t.common.attackRange);
+#endif
         }
     }
 }

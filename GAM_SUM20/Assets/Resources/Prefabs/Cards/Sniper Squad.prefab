@@ -48,6 +48,9 @@ MonoBehaviour:
   team: 0
   update_time: 2
   battlefield: {fileID: 11400000, guid: 11c871481e4ce2248bd610816d7a9760, type: 2}
+  troops:
+  - {fileID: 5308913690471372606}
+  - {fileID: 8451221260064827907}
 --- !u!1001 &714671631565304664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55,6 +58,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 714671629763451614}
     m_Modifications:
+    - target: {fileID: 21829936071450058, guid: e94a3738054e91344a1ed3a815328da0,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 21829936071450058, guid: e94a3738054e91344a1ed3a815328da0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 713894617194389739, guid: e94a3738054e91344a1ed3a815328da0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -115,6 +128,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sniper (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8466670546363630369, guid: e94a3738054e91344a1ed3a815328da0,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8466670546363630369, guid: e94a3738054e91344a1ed3a815328da0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e94a3738054e91344a1ed3a815328da0, type: 3}
 --- !u!4 &920638094103475 stripped
@@ -123,6 +146,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 714671631565304664}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8451221260064827907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8981236462483347803, guid: e94a3738054e91344a1ed3a815328da0,
+    type: 3}
+  m_PrefabInstance: {fileID: 714671631565304664}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3823219796185058917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +165,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 714671629763451614}
     m_Modifications:
+    - target: {fileID: 21829936071450058, guid: e94a3738054e91344a1ed3a815328da0,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 21829936071450058, guid: e94a3738054e91344a1ed3a815328da0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 713894617194389739, guid: e94a3738054e91344a1ed3a815328da0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -195,6 +240,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sniper
       objectReference: {fileID: 0}
+    - target: {fileID: 8466670546363630369, guid: e94a3738054e91344a1ed3a815328da0,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8466670546363630369, guid: e94a3738054e91344a1ed3a815328da0,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e94a3738054e91344a1ed3a815328da0, type: 3}
 --- !u!4 &4388350445286157966 stripped
@@ -203,3 +258,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 3823219796185058917}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5308913690471372606 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8981236462483347803, guid: e94a3738054e91344a1ed3a815328da0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3823219796185058917}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -47,6 +47,8 @@ MonoBehaviour:
   team: 0
   update_time: 2
   battlefield: {fileID: 11400000, guid: 11c871481e4ce2248bd610816d7a9760, type: 2}
+  troops:
+  - {fileID: 709883353781256907}
 --- !u!1001 &2481760951703175800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54,6 +56,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4097369121608217888}
     m_Modifications:
+    - target: {fileID: 686548930385359801, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 686548930385359801, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3494832171843542692, guid: dad6809d66eb40045bbbc942205c2713,
         type: 3}
       propertyPath: m_Layer
@@ -174,6 +186,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8986153140416769362, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986153140416769362, guid: dad6809d66eb40045bbbc942205c2713,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dad6809d66eb40045bbbc942205c2713, type: 3}
 --- !u!4 &5084656084184964052 stripped
@@ -182,3 +204,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2481760951703175800}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &709883353781256907 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -6076764054264987469, guid: dad6809d66eb40045bbbc942205c2713,
+    type: 3}
+  m_PrefabInstance: {fileID: 2481760951703175800}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

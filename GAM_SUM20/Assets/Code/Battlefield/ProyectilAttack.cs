@@ -1,22 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(LineRenderer))]
 public class ProyectilAttack : MonoBehaviour
 {
     LineRenderer line;
 
-    [HideInInspector]
-    public Vector3 startShoot;
-    [HideInInspector]
-    public Vector3 endShoot;
+    private Unit unit;
+    private Unit target;
 
-    [HideInInspector]
-    public float shootDamage = 1.0f;
+    private Vector3 startShoot;
+    private Vector3 endShoot;
+    private TeamType unitTeam;
+
     public float shootSpeed = 1.0f;
-    public float attackRange = 1.0f;
-    public Explosion explosionPrefab;
+    public Attack attack;
 
     // vars to control trajectory
     private float maxTime;
@@ -31,10 +31,8 @@ public class ProyectilAttack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        line.SetPosition(0, startShoot);
-        line.SetPosition(1, startShoot);
-        Vector3 dif = endShoot - startShoot;
-        maxTime = dif.magnitude / shootSpeed;
+        // is set
+        Assert.IsTrue(target != null);
     }
 
     // Update is called once per frame
@@ -42,18 +40,33 @@ public class ProyectilAttack : MonoBehaviour
     {
         curTime += Time.deltaTime;
         if (curTime >= maxTime) {
-            if (explosionPrefab)
-            {
-                Explosion inst = Instantiate(explosionPrefab, endShoot, new Quaternion()) as Explosion;
-                inst.transform.up = dif.normalized;
-                inst.transform.localScale = new Vector3(attackRange, attackRange, attackRange);
-                inst.damage = shootDamage;
-            }
-
+            attack.SpawnAttack(endShoot, startShoot, unitTeam, target);
             Destroy(gameObject);
             return;
         }
         Vector3 endPos = Vector3.Lerp(startShoot, endShoot, curTime / maxTime);
         line.SetPosition(1, endPos);
+    }
+
+    public void SetAttack(Unit _target, Unit _unit)
+    {
+        target = _target;
+        unit = _unit;
+
+        startShoot = unit.transform.position;
+        endShoot = target.transform.position;
+        unitTeam = unit.team;
+        // calculate if moving
+        Rigidbody2D rig = target.GetComponent<Rigidbody2D>();
+        if (rig != null)
+        {
+            Vector2 v = rig.velocity;
+            endShoot += new Vector3(v.x, v.y, 0f);
+        }
+
+        line.SetPosition(0, startShoot);
+        line.SetPosition(1, startShoot);
+        Vector3 dif = endShoot - startShoot;
+        maxTime = dif.magnitude / shootSpeed;
     }
 }

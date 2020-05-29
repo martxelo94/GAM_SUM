@@ -43,6 +43,22 @@ public class OpponentAI : MonoBehaviour
                 card_to_play = Random.Range(0, hand_size);
             }
             CardType card_type = hand_types[card_to_play];
+            if (card_type == CardType.None) {
+                // get first playable card
+                for (int i = 0; i < hand_size; ++i) {
+                    if (hand_types[i] != CardType.None) {
+                        card_type = hand_types[i];
+                        card_to_play = i;
+                        break;
+                    }
+                }
+                // switch AI off if no cards left
+                if (card_type == CardType.None) {
+                    enabled = false;
+                    return;
+                }
+            }
+
             // confirm spawn (a frame later to ensure initialization)
             if (deck.HasSelected())
             {

@@ -12,13 +12,13 @@ public class StateChase : State
     public override void Update(float dt)
     {
         // change state to advance
-        if (ai.unit.target == null) {
+        if (ai.unit.IsTargetAlive() == false) {
             ai.SetNextState(new StateAdvance(ai));
             return;
         }
         // physics move
         // change to attack if in range
-        Vector2 dir = ai.unit.target.transform.position - ai.transform.position;
+        Vector2 dir = ai.unit.DifToTarget();
         float dist2 = dir.sqrMagnitude; // not using squared becouse can be reused later
         float range2 = ai.unit.common.attackRange; range2 *= range2;
         if (dist2 < range2)

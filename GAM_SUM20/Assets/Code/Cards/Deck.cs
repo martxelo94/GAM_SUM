@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using TMPro;
 using UnityEngine.Assertions;
 using System.Linq;
 
@@ -13,7 +14,7 @@ public class Deck : MonoBehaviour
     //[HideInInspector]
     //public Battlefield battlefield;
     public CardManager cm;
-    [HideInInspector]
+    public TextMeshPro deckCountText;
     private GameObject selected_card;
     private CardType selected_type = CardType.None;
 
@@ -46,11 +47,17 @@ public class Deck : MonoBehaviour
             cm = Resources.Load("Scripts/CardManager") as CardManager;
         Assert.IsTrue(cm != null);
         deck_drawed = new BitArray(deck_types.Length);
+
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        if (deckCountText != null)
+        {
+            UpdateText();
+        }
         if (deck_drawed != null)
             Assert.IsTrue(deck_drawed.Length == deck_types.Length);
         else
@@ -58,10 +65,14 @@ public class Deck : MonoBehaviour
         ShuffleDeck();
     }
 
-    // Update is called once per frame
-    void Update()
+    void UpdateText()
     {
-        
+        int count = deck_types.Length - played_cards;
+        bool overflow = count > 999;
+        count = Math.Min(999, count);
+        deckCountText.text = count.ToString();
+        if (overflow)
+            deckCountText.text += "+";
     }
 
     public bool HasSelected()
@@ -106,6 +117,8 @@ public class Deck : MonoBehaviour
 
         played_cards++;
 
+        UpdateText();
+
         return squadObj;
     }
 
@@ -131,11 +144,13 @@ public class Deck : MonoBehaviour
 
     public CardType DrawCard()
     {
-        // shuffle if ended
         if (current_card >= deck_types.Length)
         {
-            ShuffleDeck();
-            current_card = 0;
+            // no more cards
+            return CardType.None;
+            // shuffle if ended
+            //ShuffleDeck();
+            //current_card = 0;
         }
         deck_drawed[current_card] = true;
         return deck_types[current_card++];

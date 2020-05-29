@@ -8,6 +8,7 @@ public class MapCameraMovement : MonoBehaviour
 
     public float minHeight = 0.0f;
     public float maxHeight = 1.0f;
+    public float speed = 1f;
     public bool invertY = true;
     public Transform target;    // to move by dragging
 
@@ -98,7 +99,7 @@ public class MapCameraMovement : MonoBehaviour
     void MoveY(float deltaY)
     {
         Vector3 p = transform.position;
-        p.y += deltaY;
+        p.y += deltaY * speed;
         p.y = Mathf.Clamp(p.y, minHeight, maxHeight);
         transform.position = p;
         //Debug.Log("Moved deltaY = " + deltaY);
@@ -110,11 +111,11 @@ public class MapCameraMovement : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawCube(
             new Vector3(0, minHeight - Screen.height, target.position.z),
-            new Vector3(500, 10, 10));
+            new Vector3(500, 1, 1));
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(
             new Vector3(0, maxHeight + Screen.height, target.position.z),
-            new Vector3(500, 10, 10));
+            new Vector3(500, 1, 1));
 
     }
 }

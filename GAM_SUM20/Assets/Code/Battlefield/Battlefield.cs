@@ -360,6 +360,8 @@ public class Battlefield : ScriptableObject
     }
     public bool SnapToCaptured(ref Vector2Int coord, TeamType team)
     {
+        if (coord.x < 0 || coord.x >= grid_size.x || coord.y < 0 || coord.y >= grid_size.y)
+            return false;
         if (team == TeamType.Player)
         {
             int idx = coord.x + coord.y * grid_size.x;
@@ -371,7 +373,7 @@ public class Battlefield : ScriptableObject
             }
         }
         else if (team == TeamType.Opponent) {
-           int idx = grid_size.x;
+           int idx = grid_size.x + coord.x; // NINJA BUG?
             for (int i = idx; i < m_team_grid.Length; i += grid_size.x)
             {
                 if (GetTeam(m_team_grid[i]) == team && terrain_captured_times[i] >= time_to_secure_terrain)

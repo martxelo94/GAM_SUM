@@ -4,8 +4,72 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Assertions;
 
+[RequireComponent(typeof(CircleCollider2D))]
 public class Sensor : MonoBehaviour
 {
+    public Unit unit;
+    public CircleCollider2D circle;
+
+    private List<Unit> potentialTargets;
+
+    private void Awake()
+    {
+        Assert.IsTrue(unit != null);
+        Assert.IsTrue(circle != null);
+
+        potentialTargets = new List<Unit>();
+    }
+
+    private void Start()
+    {
+
+        SetLayer(unit.team);
+        SetRange(unit.common.sensorRange);
+    }
+
+    private void Update()
+    {
+        // get closest target
+        if (potentialTargets.Count > 0)
+        {
+            // sort by distance
+            potentialTargets.Sort(SortByDistance);
+            // set first as target
+            unit.SetTarget(potentialTargets[0]);
+            // reset
+            potentialTargets.Clear();
+            // switch off sensor
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        // get unit colliding and set as target
+        Unit unitTarget = collision.GetComponent<Unit>();
+        // if layers set correctly, this should success
+        Assert.IsTrue(unitTarget != null);
+        // target shouldn't be in potentials already
+        Assert.IsTrue(potentialTargets.Contains(unitTarget) == false);
+
+        potentialTargets.Add(unitTarget);
+    }
+    public void SetRange(float range)
+    {
+        circle.radius = range;
+    }
+    public void SetLayer(TeamType team)
+    {
+        circle.gameObject.layer = 10 + (int)team;
+    }
+    bool UnitCompare(Unit a, Unit b) { return a == b; }
+    int SortByDistance(Unit a, Unit b)
+    {
+        float dist2A = (transform.position - a.transform.position).sqrMagnitude;
+        float dist2B = (transform.position - b.transform.position).sqrMagnitude;
+        return dist2A.CompareTo(dist2B);
+    }
+
 #if false
 
     [HideInInspector]

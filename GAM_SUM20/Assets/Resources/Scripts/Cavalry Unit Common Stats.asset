@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Cavalry Unit Common Stats
   m_EditorClassIdentifier: 
   maxHitPoints: 25
-  damage: 7
+  pierceArmor: 0
+  slashArmor: 0
+  rangedAttack: 0
   sensorRange: 5
-  attackRange: 1.5
+  attackRange: 2
   attackTime: 0.5
   maxSpeed: 2
-  acceleration: 100
   capture_radius: 2
   player_damage: 2
-  attackPrefab: {fileID: 0}
+  attackPrefabs:
+  - {fileID: 763354543988571733, guid: 880054380659fb445aff53e78a1958b1, type: 3}
