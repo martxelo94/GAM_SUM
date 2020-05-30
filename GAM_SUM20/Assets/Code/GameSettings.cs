@@ -20,6 +20,7 @@ public class GameSettings : MonoBehaviour
         private set { _instance = value; }
     }
 
+    public System.Random randomizer = new System.Random();   // to shuffle deck
 
     public int nextSceneIdx = -1;
 

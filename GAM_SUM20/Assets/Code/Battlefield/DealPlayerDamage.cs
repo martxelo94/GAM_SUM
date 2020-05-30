@@ -21,10 +21,6 @@ public class DealPlayerDamage : MonoBehaviour
         Assert.IsTrue(menu != null);
         Assert.IsTrue(opponent != null);
         hit_point_text.text = hit_points.ToString();
-    }
-
-    private void OnDestroy()
-    {
         totalTroopCount = 0;
     }
 
@@ -50,23 +46,29 @@ public class DealPlayerDamage : MonoBehaviour
                     && totalTroopCount == 0)
                 {
                     // check result
-                    if (team == TeamType.Player)
-                    {
-                        if (hit_points > opponent.hit_points)
-                            menu.ShowEndGamePanel(true);
-                        else
-                            menu.ShowEndGamePanel(false);
-                    }
-                    else {
-                        Assert.IsTrue(team == TeamType.Opponent);
-                        if (hit_points > opponent.hit_points)
-                            menu.ShowEndGamePanel(false);
-                        else
-                            menu.ShowEndGamePanel(true);
-                    }
+                    EndGamePanelByHitPoints();
                 }
             }
             //Debug.Log("Toop Attacked");
+        }
+    }
+
+    public void EndGamePanelByHitPoints()
+    {
+        if (team == TeamType.Player)
+        {
+            if (hit_points > opponent.hit_points)
+                menu.ShowEndGamePanel(true);
+            else
+                menu.ShowEndGamePanel(false);
+        }
+        else
+        {
+            Assert.IsTrue(team == TeamType.Opponent);
+            if (hit_points > opponent.hit_points)
+                menu.ShowEndGamePanel(false);
+            else
+                menu.ShowEndGamePanel(true);
         }
     }
 }

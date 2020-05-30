@@ -2231,7 +2231,7 @@ MonoBehaviour:
   menu: {fileID: 1010654236}
   opponent: {fileID: 594677828}
   team: 1
-  hit_points: 10
+  hit_points: 20
   hit_point_text: {fileID: 90265644}
 --- !u!1 &594677823
 GameObject:
@@ -3346,6 +3346,13 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8693895426805955140, guid: b90de322d408b0442ba3173ff9f668ad,
+        type: 3}
+      propertyPath: m_Text
+      value: '
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b90de322d408b0442ba3173ff9f668ad, type: 3}
 --- !u!224 &879315938 stripped
@@ -3773,6 +3780,13 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8693895426805955140, guid: b90de322d408b0442ba3173ff9f668ad,
+        type: 3}
+      propertyPath: m_Text
+      value: '
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b90de322d408b0442ba3173ff9f668ad, type: 3}
 --- !u!224 &960330981 stripped
@@ -4079,10 +4093,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource_speed: 0.5
-  HR_max: 1000
-  HR_curr: 1000
-  MR_max: 1000
-  MR_curr: 1000
+  HR_max: 10
+  HR_curr: 5
+  MR_max: 10
+  MR_curr: 5
 --- !u!114 &1006059828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4100,13 +4114,13 @@ MonoBehaviour:
   deckCountText: {fileID: 1439529480}
   deck_types:
   - type: 0
-    count: 3
+    count: 612
   - type: 1
-    count: 0
+    count: 26
   - type: 2
-    count: 0
+    count: 182
   - type: 3
-    count: 0
+    count: 180
 --- !u!114 &1006059829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4175,6 +4189,9 @@ MonoBehaviour:
   decks:
   - {fileID: 1099055928}
   - {fileID: 1006059828}
+  playerHitPoints:
+  - {fileID: 594677828}
+  - {fileID: 593349249}
   nextLevel: 3
 --- !u!4 &1010654237
 Transform:
@@ -4462,10 +4479,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource_speed: 0.5
-  HR_max: 1000
-  HR_curr: 1000
-  MR_max: 1000
-  MR_curr: 1000
+  HR_max: 10
+  HR_curr: 5
+  MR_max: 10
+  MR_curr: 5
 --- !u!114 &1099055928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4483,13 +4500,13 @@ MonoBehaviour:
   deckCountText: {fileID: 646242309}
   deck_types:
   - type: 0
-    count: 0
+    count: 487
   - type: 1
-    count: 0
+    count: 238
   - type: 2
-    count: 1
+    count: 189
   - type: 3
-    count: 2
+    count: 86
 --- !u!4 &1099055929
 Transform:
   m_ObjectHideFlags: 0
@@ -6650,6 +6667,13 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8693895426805955140, guid: b90de322d408b0442ba3173ff9f668ad,
+        type: 3}
+      propertyPath: m_Text
+      value: '
+
+'
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b90de322d408b0442ba3173ff9f668ad, type: 3}
 --- !u!224 &1515983118 stripped
@@ -7330,6 +7354,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Offset.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693895426805955140, guid: b90de322d408b0442ba3173ff9f668ad,
+        type: 3}
+      propertyPath: m_Text
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b90de322d408b0442ba3173ff9f668ad, type: 3}
@@ -9348,6 +9377,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_type
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8693895426805955140, guid: b90de322d408b0442ba3173ff9f668ad,
+        type: 3}
+      propertyPath: m_Text
+      value: '
+
+'
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b90de322d408b0442ba3173ff9f668ad, type: 3}

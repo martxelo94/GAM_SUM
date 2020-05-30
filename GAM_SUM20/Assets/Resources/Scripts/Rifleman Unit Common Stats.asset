@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHitPoints: 10
   pierceArmor: 0
-  slashArmor: 0
+  slashArmor: 20
   rangedAttack: 0
   sensorRange: 6
   attackRange: 5

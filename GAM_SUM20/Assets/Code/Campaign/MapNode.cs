@@ -69,7 +69,7 @@ public class MapNode : MonoBehaviour
             if (map.selected_node != this)
             {
                 if (!map.ShowBattlePanel(this))
-                    map.HideBattlePanel();
+                    map.menu.LockBattlePanel(true);
                 else {
                     Vector3 dir = map.selected_node.army.transform.position - transform.position;
                     map.selected_node.army.transform.up = -dir.normalized;
@@ -77,7 +77,7 @@ public class MapNode : MonoBehaviour
             }
         }
         else {
-            map.HideBattlePanel();
+            map.menu.LockBattlePanel(false);
             if (!is_selected)
                 map.SelectNode(this);
         }

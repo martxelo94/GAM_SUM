@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Sniper Unit Common Stats
   m_EditorClassIdentifier: 
   maxHitPoints: 10
-  pierceArmor: 0
-  slashArmor: 0
+  pierceArmor: 10
+  slashArmor: 10
   rangedAttack: 0
   sensorRange: 15
   attackRange: 14

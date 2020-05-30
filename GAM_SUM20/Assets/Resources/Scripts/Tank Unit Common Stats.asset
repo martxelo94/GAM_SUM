@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tank Unit Common Stats
   m_EditorClassIdentifier: 
   maxHitPoints: 300
-  pierceArmor: 0
+  pierceArmor: 40
   slashArmor: 0
   rangedAttack: 0
   sensorRange: 10

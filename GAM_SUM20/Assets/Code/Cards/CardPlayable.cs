@@ -50,9 +50,17 @@ public class CardPlayable : MonoBehaviour
     {
         if (deck.cards_to_play_count > 0)
         {
+            if (card.type != CardType.None)
+            {
+                HasResources();
+            }
+            else
+            {
+                return;
+            }
             if (has_selected)
             {
-                if (IsTouchDrag())
+                if (IsTouchDown() || IsTouchDrag())
                 {                    
                     Vector2Int coord = battlefield.GetCellCoordAtTouch();
                     // show unit on battlefield

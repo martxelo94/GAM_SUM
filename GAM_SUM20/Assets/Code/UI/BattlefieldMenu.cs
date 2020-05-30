@@ -17,13 +17,16 @@ public class BattlefieldMenu : MonoBehaviour
     public GameObject defeatPanel;
 
     public Deck[] decks;
+    public DealPlayerDamage[] playerHitPoints;
 
     public int nextLevel = 2;
+    private bool game_ended = false;
 
     private void Awake()
     {
+        game_ended = false;
         Assert.IsTrue(decks.Length == 2);
-
+        Assert.IsTrue(playerHitPoints != null);
             // set decks from campaign
         if (GameSettings.INSTANCE.IsBattle())
         {
@@ -51,6 +54,13 @@ public class BattlefieldMenu : MonoBehaviour
         if (fps_update_counter > 1.0f) {
             DrawFPS(fps_text);
             fps_update_counter = 0.0f;
+        }
+
+        if ((decks[0].cards_to_play_count == 0)
+                    && DealPlayerDamage.totalTroopCount == 0)
+        {
+            // check result
+            playerHitPoints[0].EndGamePanelByHitPoints();
         }
     }
 
@@ -87,6 +97,9 @@ public class BattlefieldMenu : MonoBehaviour
 
     public void ShowEndGamePanel(bool is_victory)
     {
+        if (game_ended)
+            return;
+        game_ended = true;
         // stop time
         Time.timeScale = 0.3f;
 

@@ -36,7 +36,6 @@ public class Deck : MonoBehaviour
     //private BitArray deck_drawed;        // cards that passed by your hand
     //private int current_card = 0;
     //private int played_cards = 0;
-    private System.Random randomizer = new System.Random();   // to shuffle deck
 
     private void Awake()
     {
@@ -70,7 +69,7 @@ public class Deck : MonoBehaviour
         total_card_count = cards_to_play_count = CardCount();
     }
 
-    void UpdateText()
+    public void UpdateText()
     {
 
         int count = cards_to_play_count;
@@ -207,6 +206,7 @@ public class Deck : MonoBehaviour
 
     public void Randomize()
     {
+        System.Random randomizer = GameSettings.INSTANCE.randomizer;
         // shuffle indices
         int[] indices = new int[deck_types.Length];
         int p = indices.Length;
@@ -229,7 +229,7 @@ public class Deck : MonoBehaviour
 
     CardType GetRandomType()
     {
-        int randomNum = randomizer.Next(0, total_card_count);
+        int randomNum = GameSettings.INSTANCE.randomizer.Next(0, total_card_count);
         CardType type = CardType.None;
         for (int i = 0; i < deck_types.Length; ++i)
         {

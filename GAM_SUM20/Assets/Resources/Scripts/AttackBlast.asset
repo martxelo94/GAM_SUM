@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12041d635cc5ecc41ae91ea5b8b8a89c, type: 3}
   m_Name: AttackBlast
   m_EditorClassIdentifier: 
-  pierceDamage: 12
+  pierceDamage: 8
   slashDamage: 20
   attackRange: 2
   damage_falloff: 1

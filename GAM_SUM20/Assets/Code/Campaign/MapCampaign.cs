@@ -10,15 +10,10 @@ using System.IO;
 using System;
 using System.Runtime.Serialization;
 
-
 public class MapCampaign : MonoBehaviour
 {
 
     public int battleLevelBuildIdx = 2;
-    public GameObject campaignEndPanel;
-    public GameObject battlePanel;
-    public GameObject selectedNodePanel;
-    public GameObject selectedArmyPanel;
 
     [HideInInspector]
     public MapNode selected_node;
@@ -30,8 +25,12 @@ public class MapCampaign : MonoBehaviour
     public float movement_duration = 2.0f;
     private MapNode[] nodes;
 
+    public CampaignMenu menu;
+
     private void Awake()
     {
+        if(menu == null)
+            menu = GetComponent<CampaignMenu>();
         nodes = FindObjectsOfType<MapNode>();
         System.Comparison<MapNode> comp = (a, b) => a.name.CompareTo(b.name);
         System.Array.Sort(nodes, comp);
@@ -203,7 +202,7 @@ public class MapCampaign : MonoBehaviour
 
         // if target node is dead end, then campaign finished
         if (target.nextNodes.Length == 0) {
-            campaignEndPanel.SetActive(true);
+            menu.ShowEndPanel(true);
         }
     }
 
@@ -212,9 +211,11 @@ public class MapCampaign : MonoBehaviour
         target_node = null;
         if(selected_node != null)
             selected_node.Unselect();
-        selectedArmyPanel.SetActive(false);
-        selectedNodePanel.SetActive(false);
-        HideBattlePanel();
+        menu.ShowArmyPanel(false);
+        menu.ShowNodePanel(false);
+        menu.LockBattlePanel(false);
+        is_attaking = false;
+
     }
     public void SelectNode(MapNode node)
     {
@@ -223,12 +224,18 @@ public class MapCampaign : MonoBehaviour
         selected_node.Select();
         if (selected_node.army != null && selected_node.team == TeamType.Player)
         {
-            selectedArmyPanel.SetActive(true);
+            menu.ShowArmyPanel(true);
+            if (selected_node.army.cards_to_play_count == 0)
+            {
+                menu.ShowMoveButton(false);
+            }
+            else
+                menu.ShowMoveButton(true);
             //selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
         }
         else
         {
-            selectedNodePanel.SetActive(true);
+            menu.ShowNodePanel(true);
             //selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
         }
     }
@@ -265,24 +272,11 @@ public class MapCampaign : MonoBehaviour
         }
 
         target_node = target;
-        battlePanel.SetActive(true);
-        //battlePanel.transform.position = Vector3.Lerp(target_node.transform.position, selected_node.transform.position, 0.5f);
-        // toggle buttons
-        Button[] buttons = selectedArmyPanel.GetComponentsInChildren<Button>();
-        foreach (Button b in buttons)
-            b.interactable = false;
+        menu.LockBattlePanel(true);
+
         return true;
     }
-    public void HideBattlePanel()
-    {
-        battlePanel.SetActive(false);
-        is_attaking = false;
-        // toggle buttons
-        Button[] buttons = selectedArmyPanel.GetComponentsInChildren<Button>();
-        foreach (Button b in buttons)
-            b.interactable = true;
 
-    }
     public void MoveArmy()
     {
         Assert.IsTrue(selected_node.army != null);
@@ -290,8 +284,8 @@ public class MapCampaign : MonoBehaviour
         // move army
         StartCoroutine(MoveArmyAnimaton(movement_duration));
 
-        battlePanel.SetActive(false);
-        selectedArmyPanel.SetActive(false);
+        menu.ShowBattlePanel(false);
+        menu.ShowArmyPanel(false);
         is_attaking = false;
     }
 
@@ -321,8 +315,21 @@ public class MapCampaign : MonoBehaviour
 
     public void FollowGUI()
     {
-        selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
-        selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
+        menu.selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
+        menu.selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
     }
     #endregion
+
+    public void AddRandomCardsToSelectedDeck(int count)
+    {
+        if (selected_node == null || selected_node.army == null)
+            return;
+        Deck deck = selected_node.army;
+
+        for (int i = 0; i < count; ++i)
+        {
+            deck.AddToDeck((CardType)GameSettings.INSTANCE.randomizer.Next(0, (int)CardType.CardType_Count), 1);
+        }
+        deck.UpdateText();
+    }
 }
