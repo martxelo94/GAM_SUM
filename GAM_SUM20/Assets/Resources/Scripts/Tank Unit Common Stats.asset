@@ -18,7 +18,7 @@ MonoBehaviour:
   rangedAttack: 0
   sensorRange: 10
   attackRange: 12
-  attackTime: 4
+  attackTime: 3
   maxSpeed: 1.3
   capture_radius: 3
   player_damage: 4

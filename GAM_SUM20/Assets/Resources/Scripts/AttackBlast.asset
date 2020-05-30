@@ -14,8 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pierceDamage: 12
   slashDamage: 20
-  attackRange: 3
-  lifeTime: 0
+  attackRange: 2
   damage_falloff: 1
   areaDamage: 1
   effectPrefab: {fileID: 7621809814496761580, guid: ef3a4142489eb8b46b2d250cd4d6c84c,

@@ -65,6 +65,8 @@ public class Squad : MonoBehaviour
 
         // troops can capture terrain and sense
         units_updated = true; // allows starting coroutine
+
+        DealPlayerDamage.totalTroopCount += troops.Length;
     }
 
 #if false
@@ -131,6 +133,7 @@ public class Squad : MonoBehaviour
         // destroy self if no units left
         if (troops_destroyed == troops.Length)
         {
+
             gameObject.SetActive(false);
             Destroy(gameObject);
         }

@@ -198,14 +198,18 @@ public class BattlefieldMenu : MonoBehaviour
         // add cards not played
         for (int i = 0; i < ai.hand_types.Length; ++i)
         {
-            ai.deck.AddToDeck(ai.hand_types[i], 1);
+            if(ai.hand_types[i] != CardType.None)
+                ai.deck.AddToDeck(ai.hand_types[i], 1);
         }
         ai.enabled = false;
         PlayerHand hand = FindObjectOfType<PlayerHand>();
         CardPlayable[] cards = hand.cards;
         for (int i = 0; i < cards.Length; ++i) {
             // add card to deck for saving
-            cards[i].deck.AddToDeck(cards[i].card.type, 1);
+            if (cards[i].card.type != CardType.None)
+            {
+                cards[i].deck.AddToDeck(cards[i].card.type, 1);
+            }
             cards[i].enabled = false;
         }
     }

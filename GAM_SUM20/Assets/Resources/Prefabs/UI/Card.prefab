@@ -406,6 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2757bb753f4c64ba325312497b2474, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  card: {fileID: 8693895426570288696}
   HR_text: {fileID: 1372394775806382841}
   MR_text: {fileID: 3382619349870172383}
   deck: {fileID: 0}

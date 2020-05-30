@@ -55,7 +55,7 @@ public class TerrainUpdater : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
 #if false
         if(m_team_grid.Length > 0)

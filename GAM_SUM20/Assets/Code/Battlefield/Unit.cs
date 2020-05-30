@@ -86,6 +86,7 @@ public class Unit : MonoBehaviour
 
     public void Kill()
     {
+        DealPlayerDamage.totalTroopCount--;
         //Debug.Log("Unit Killed");
         //Destroy(healthBarInstance);
         //Destroy(gameObject);
@@ -95,7 +96,7 @@ public class Unit : MonoBehaviour
     {
 
         healthBarInstance.gameObject.SetActive(true);
-        Debug.Log("Show Health Bar");
+        //Debug.Log("Show Health Bar");
         yield return new WaitForSeconds(3.0f);
         healthBarInstance.gameObject.SetActive(false);
     }

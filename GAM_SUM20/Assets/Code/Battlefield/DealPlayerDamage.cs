@@ -6,6 +6,10 @@ using UnityEngine.Assertions;
 
 public class DealPlayerDamage : MonoBehaviour
 {
+    // veery hacky...
+    public static int totalTroopCount = 0;
+
+
     public BattlefieldMenu menu;
     public DealPlayerDamage opponent;
     public TeamType team;
@@ -19,24 +23,31 @@ public class DealPlayerDamage : MonoBehaviour
         hit_point_text.text = hit_points.ToString();
     }
 
+    private void OnDestroy()
+    {
+        totalTroopCount = 0;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Unit troop = collision.gameObject.GetComponentInParent<Unit>();
         if (troop != null) {
             hit_points -= troop.common.player_damage;
             hit_point_text.text = hit_points.ToString();
+
             troop.Kill();
+  
             //Destroy(troop.gameObject);
 
             // TOTAL VICTORY
             if (hit_points <= 0)
             {
-                BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();
                 menu.ShowEndGamePanel(team == TeamType.Opponent);
             }
             else {
                 // CHECK PARTIAL VICTORY
-                if (menu.decks[0].cards_to_play_count == 0 && menu.decks[1].cards_to_play_count == 0)
+                if ((menu.decks[0].cards_to_play_count == 0 || menu.decks[1].cards_to_play_count == 0)
+                    && totalTroopCount == 0)
                 {
                     // check result
                     if (team == TeamType.Player)
@@ -55,7 +66,7 @@ public class DealPlayerDamage : MonoBehaviour
                     }
                 }
             }
-            Debug.Log("Toop Attacked");
+            //Debug.Log("Toop Attacked");
         }
     }
 }

@@ -7,7 +7,7 @@ public class StateChase : State
     public StateChase(StateMachine stateMachine) : base(stateMachine) { }
     public override void Enter()
     {
-        Debug.Log("Enter " + typeof(StateChase).ToString());
+        //Debug.Log("Enter " + typeof(StateChase).ToString());
     }
     public override void Update(float dt)
     {

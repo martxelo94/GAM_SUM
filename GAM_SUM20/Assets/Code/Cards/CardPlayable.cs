@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CardImage))]
 public class CardPlayable : MonoBehaviour
 {
-    public CardImage card { get; private set; }
+    public CardImage card;
     private PlayerHand playerHand;
 
     public Text HR_text;
@@ -15,8 +15,8 @@ public class CardPlayable : MonoBehaviour
     public Battlefield battlefield;
     PlayerResources player_resources;
 
-    Vector2 initPos;
-    Vector3 initScale;
+    public Vector3 initPos { get; private set; }
+    public Vector3 initScale { get; private set; }
 
     private bool has_resources = false;
     private bool can_spawn = false;
@@ -25,18 +25,24 @@ public class CardPlayable : MonoBehaviour
     private void Awake()
     {
         Assert.IsTrue(battlefield != null);
-        card = GetComponent<CardImage>();
+        Assert.IsTrue(card != null);
         playerHand = FindObjectOfType<PlayerHand>();
         Assert.IsTrue(deck != null);
         player_resources = deck.gameObject.GetComponent<PlayerResources>();
+
+        initPos = transform.position;
+        initPos = transform.InverseTransformPoint(initPos);
+        initPos = new Vector3(initPos.z, initPos.y, 0f);
+        initPos = transform.TransformPoint(initPos);
+
+        initScale = transform.localScale;
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
 
-        initPos = transform.localPosition;
-        initScale = transform.localScale;
     }
 
     // Update is called once per frame
@@ -117,13 +123,13 @@ public class CardPlayable : MonoBehaviour
                             ShowCard(true);
 
                             // randomize next type
-                            SetType(deck.DrawCard());
+                            playerHand.DrawCardAnimation(this);
 
                             // confirm spawn
                             deck.PlaySelected();
 
                             // reset the selection
-                            ToggleSelect();
+                            ToggleSelect(); // unselect
                         }
                     }
 
@@ -134,121 +140,14 @@ public class CardPlayable : MonoBehaviour
     }
     private void OnMouseDown()
     {
-        //if (has_exited == false)
-        //    return;
-        //if(IsTouchDown())
-        ToggleSelect();
+        if(card.type != CardType.None)
+            ToggleSelect();
     }
-#if false
-    private void OnMouseDrag()
-    {
-        if (!has_selected || !has_resources)
-            return;
-        Vector2Int coord = battlefield.GetCellCoordAtTouch();
-        // show unit on battlefield
-        if (battlefield.IsInsideGrid(coord))
-        {
-            ConfirmSpawn(coord);
-        }
-        // show card
-        else
-        {
-            can_spawn = false;
-            // remove spawned unit
-            if (deck.HasSelected())
-            {
-                deck.Unselect();
-                ShowCard(true);
-            }
-            // move card
-            //Vector3 pos = Input.mousePosition - new Vector3(Screen.width, Screen.height, 0) / 2;
-            //SetCardPos(pos);
-            // set selected transform card
-            SetCardPos(initPos);
-            transform.localScale = initScale * 1.2f;
-        }
-    }
-
-    private void OnMouseEnter()
-    {
-        //Debug.Log("Mouse Enter " + name);
-    }
-
-    private void OnMouseExit()
-    {
-        has_exited = true;
-    }
-
-    private void OnMouseUp()
-    {
-        //Debug.Log("Mouse Up " + name);
-        //if (has_exited == false)
-        //    return;
-        if (has_exited == false)
-            return;
-        has_exited = true;
-        SetCardInitTransform();
-
-        if (deck.HasSelected() == false)
-            return;
-        if (!has_resources)
-        {
-            ShowCard(false);
-        }
-        if (!can_spawn)
-            return;
-        // Vector2Int coord = battlefield.GetCellCoordAtTouch();
-        // show unit on battlefield
-        //if (battlefield.IsInsideGrid(coord))
-        {
-            PlaySpawned();
-
-        }
-
-    }
-
-
-        void PlaySpawned()
-    {
-        // consume resources
-        player_resources.ConsumeResources(deck.cm.cards[(int)card.type].cost);
-
-        // make visible again
-        ShowCard(true);
-
-        // randomize next type
-        SetType(deck.DrawCard());
-
-        // confirm spawn
-        deck.PlaySelected();
-
-        // reset the selection
-        has_selected = false;
-    }
-
-    bool ConfirmSpawn(Vector2Int coord)
-    {
-        has_exited = true;
-        // spawn unit
-        if (deck.HasSelected() == false)
-        {
-            deck.SelectType(card.type);
-            // set scale
-            deck.selected_transform.localScale = new Vector3(battlefield.cell_size, battlefield.cell_size, battlefield.cell_size);
-            ShowCard(false);
-        }
-        can_spawn = battlefield.SnapToCaptured(ref coord, TeamType.Player) ? true : false;
-        // move unit
-        deck.selected_transform.position = battlefield.GetCellPos(coord);
-
-        return can_spawn;
-    }
-#endif
 
     public void SetCardInitTransform()
     {
         transform.localScale = initScale;
-        transform.localPosition = initPos;
+        transform.position = initPos;
     }
     void ToggleSelect()
     {
@@ -280,22 +179,19 @@ public class CardPlayable : MonoBehaviour
         {
             HasResources();
             Vector2Int cost = deck.cm.cards[(int)_type].cost;
-
-            HR_text.gameObject.SetActive(true);
-            MR_text.gameObject.SetActive(true);
+            ShowCard(true);
             HR_text.text = cost.x.ToString();
             MR_text.text = cost.y.ToString();
         }
         else {
-            HR_text.gameObject.SetActive(false);
-            MR_text.gameObject.SetActive(false);
+            ShowCard(false);
         }
     }
 
     void SetCardPos(Vector3 pos)
     {
-        transform.localPosition = pos;
-        transform.localPosition += playerHand.cardSelectedPivot;
+        transform.position = pos;
+        transform.position += playerHand.cardSelectedPivot;
     }
 
     public void Select()
@@ -307,7 +203,7 @@ public class CardPlayable : MonoBehaviour
     {
         has_selected = false;
         SetCardInitTransform();
-        ShowCard(true);
+        //ShowCard(true);
     }
 
     bool HasResources()

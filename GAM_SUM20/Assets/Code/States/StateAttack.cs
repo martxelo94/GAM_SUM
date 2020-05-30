@@ -10,7 +10,7 @@ public class StateAttack : State
     {
         // stop movement
         ai.rig.velocity = Vector3.zero;
-    Debug.Log("Enter " + typeof(StateAttack).ToString());
+    //Debug.Log("Enter " + typeof(StateAttack).ToString());
     }
     public override void Update(float dt)
     {
