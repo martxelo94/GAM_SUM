@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CardImage))]
 public class CardPlayable : MonoBehaviour
 {
-    CardImage card;
+    public CardImage card { get; private set; }
     private PlayerHand playerHand;
 
     public Text HR_text;
@@ -42,18 +42,12 @@ public class CardPlayable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (has_selected)
+        if (deck.cards_to_play_count > 0)
         {
-            HasResources();
             if (has_selected)
             {
                 if (IsTouchDrag())
-                {
-                    //Debug.Log(name + " dragging but Selected=" + has_selected.ToString());
-                    if (!has_selected)
-                        return;
-                    //Debug.Log(name + " dragging.");
-                    
+                {                    
                     Vector2Int coord = battlefield.GetCellCoordAtTouch();
                     // show unit on battlefield
                     if (battlefield.IsInsideGrid(coord))
@@ -143,7 +137,7 @@ public class CardPlayable : MonoBehaviour
         //if (has_exited == false)
         //    return;
         //if(IsTouchDown())
-            ToggleSelect();
+        ToggleSelect();
     }
 #if false
     private void OnMouseDrag()
@@ -282,9 +276,20 @@ public class CardPlayable : MonoBehaviour
     {
         card.type = _type;
         // set resource UI
-        Vector2Int cost = deck.cm.cards[(int)_type].cost;
-        HR_text.text = cost.x.ToString();
-        MR_text.text = cost.y.ToString();
+        if (_type != CardType.None)
+        {
+            HasResources();
+            Vector2Int cost = deck.cm.cards[(int)_type].cost;
+
+            HR_text.gameObject.SetActive(true);
+            MR_text.gameObject.SetActive(true);
+            HR_text.text = cost.x.ToString();
+            MR_text.text = cost.y.ToString();
+        }
+        else {
+            HR_text.gameObject.SetActive(false);
+            MR_text.gameObject.SetActive(false);
+        }
     }
 
     void SetCardPos(Vector3 pos)

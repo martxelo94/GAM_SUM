@@ -2228,6 +2228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bdaf3b8b22fa3e4c83a88fcef2b8d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menu: {fileID: 1010654236}
+  opponent: {fileID: 594677828}
   team: 1
   hit_points: 20
   hit_point_text: {fileID: 90265644}
@@ -2350,6 +2352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bdaf3b8b22fa3e4c83a88fcef2b8d92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menu: {fileID: 1010654236}
+  opponent: {fileID: 593349249}
   team: 0
   hit_points: 20
   hit_point_text: {fileID: 451207582}
@@ -2539,7 +2543,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646242307}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 562521908}
@@ -4072,7 +4076,15 @@ MonoBehaviour:
   team: 1
   cm: {fileID: 11400000, guid: 6ae97c698b56eec4dae808df14c26c3b, type: 2}
   deckCountText: {fileID: 1439529480}
-  _deck_types: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  deck_types:
+  - type: 0
+    count: 3
+  - type: 1
+    count: 0
+  - type: 2
+    count: 0
+  - type: 3
+    count: 0
 --- !u!114 &1006059829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4138,6 +4150,9 @@ MonoBehaviour:
   endGamePanel: {fileID: 512013320}
   victoryPanel: {fileID: 553932922}
   defeatPanel: {fileID: 1261474101}
+  decks:
+  - {fileID: 1099055928}
+  - {fileID: 1006059828}
   nextLevel: 3
 --- !u!4 &1010654237
 Transform:
@@ -4432,7 +4447,15 @@ MonoBehaviour:
   team: 0
   cm: {fileID: 11400000, guid: 6ae97c698b56eec4dae808df14c26c3b, type: 2}
   deckCountText: {fileID: 646242309}
-  _deck_types: 0100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  deck_types:
+  - type: 0
+    count: 0
+  - type: 1
+    count: 0
+  - type: 2
+    count: 1
+  - type: 3
+    count: 0
 --- !u!4 &1099055929
 Transform:
   m_ObjectHideFlags: 0
@@ -5647,7 +5670,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439529478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1555001758}

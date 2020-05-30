@@ -8,7 +8,7 @@ public class PlayerHand : MonoBehaviour
     public float cardSelectedScale = 1.1f;
     public Vector3 cardSelectedPivot;
 
-    private CardPlayable[] cards;      // played card (troop, building, spell)
+    public CardPlayable[] cards { get; private set; }      // played card (troop, building, spell)
     Deck deck;
     //Battlefield battlefield;
 

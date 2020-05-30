@@ -24,13 +24,6 @@ public class CardImage : MonoBehaviour
         image = GetComponent<Image>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-
     public void SetCardName(CardType _type)
     {
         Text text = gameObject.GetComponentInChildren<Text>();

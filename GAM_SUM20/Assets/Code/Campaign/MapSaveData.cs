@@ -4,10 +4,17 @@ using UnityEngine;
 
 
 [System.Serializable]
+public struct CardTypeCount
+{
+    public CardType type;
+    public int count;
+}
+
+[System.Serializable]
 public struct NodeSaveData
 {
     public string name;
-    public CardType[] deck;
+    public CardTypeCount[] deck;
     public TeamType team;
     public int model_idx;
 

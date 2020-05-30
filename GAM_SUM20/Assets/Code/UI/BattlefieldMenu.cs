@@ -16,25 +16,28 @@ public class BattlefieldMenu : MonoBehaviour
     public GameObject victoryPanel;
     public GameObject defeatPanel;
 
+    public Deck[] decks;
+
     public int nextLevel = 2;
 
     private void Awake()
     {
-        // set decks from campaign
+        Assert.IsTrue(decks.Length == 2);
+
+            // set decks from campaign
         if (GameSettings.INSTANCE.IsBattle())
         {
-            Deck[] decks = FindObjectsOfType<Deck>();
             Assert.IsTrue(decks.Length == 2);
             for (int i = 0; i < decks.Length; ++i)
             {
                 Deck d = decks[i];
                 if (d.team == TeamType.Player)
                 {
-                    d.deck_types = GameSettings.INSTANCE.attack_deck;
+                    d.SetDeck(GameSettings.INSTANCE.attack_deck);
                 }
                 else
                 {
-                    d.deck_types = GameSettings.INSTANCE.target_deck;
+                    d.SetDeck(GameSettings.INSTANCE.target_deck);
                 }
             }
             Debug.Log("Decks set from Campaign");
@@ -86,6 +89,8 @@ public class BattlefieldMenu : MonoBehaviour
     {
         // stop time
         Time.timeScale = 0.3f;
+
+        DisablePlayers();
 
         endGamePanel.SetActive(true);
         if (is_victory)
@@ -147,9 +152,9 @@ public class BattlefieldMenu : MonoBehaviour
         // update decks
         Deck[] decks = FindObjectsOfType<Deck>();
         Assert.IsTrue(decks.Length == 2);
-        foreach (Deck d in decks)
+        for(int i = 0; i < decks.Length; ++i)
         {
-            d.RemoveDrawCards();
+            Deck d = decks[i];
             if (d.team == TeamType.Player)
             {
                 GameSettings.INSTANCE.SetAttackDeck(d.deck_types);
@@ -185,6 +190,24 @@ public class BattlefieldMenu : MonoBehaviour
     {
         BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();
         menu.ShowEndGamePanel(false);
+    }
+
+    void DisablePlayers()
+    {
+        OpponentAI ai = FindObjectOfType<OpponentAI>();
+        // add cards not played
+        for (int i = 0; i < ai.hand_types.Length; ++i)
+        {
+            ai.deck.AddToDeck(ai.hand_types[i], 1);
+        }
+        ai.enabled = false;
+        PlayerHand hand = FindObjectOfType<PlayerHand>();
+        CardPlayable[] cards = hand.cards;
+        for (int i = 0; i < cards.Length; ++i) {
+            // add card to deck for saving
+            cards[i].deck.AddToDeck(cards[i].card.type, 1);
+            cards[i].enabled = false;
+        }
     }
 }
 

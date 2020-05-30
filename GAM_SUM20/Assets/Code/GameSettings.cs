@@ -23,18 +23,18 @@ public class GameSettings : MonoBehaviour
 
     public int nextSceneIdx = -1;
 
-    public CardType[] attack_deck { get; private set; } = null;
+    public CardTypeCount[] attack_deck { get; private set; } = null;
     public int attack_idx { get; private set; } = -1;
-    public CardType[] target_deck { get; private set; } = null;
+    public CardTypeCount[] target_deck { get; private set; } = null;
     public int target_idx { get; private set; } = -1;
     public bool last_battle_won = false;
     public string campaign_battle_name;
 
-    public void SetAttackDeck(CardType[] deck)
+    public void SetAttackDeck(CardTypeCount[] deck)
     {
         attack_deck = deck;
     }
-    public void SetTargetDeck(CardType[] deck)
+    public void SetTargetDeck(CardTypeCount[] deck)
     {
         target_deck = deck;
     }

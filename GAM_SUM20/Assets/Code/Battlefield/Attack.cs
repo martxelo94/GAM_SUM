@@ -50,7 +50,7 @@ public class Attack : ScriptableObject
             GameObject inst = Instantiate(effectPrefab);
             inst.transform.position = attackPosition;
             inst.transform.up = (attackPosition - sourcePosition).normalized;
-            inst.transform.localScale *= attackRange;
+            inst.transform.localScale *= attackRange * 2;
         }
     }
 

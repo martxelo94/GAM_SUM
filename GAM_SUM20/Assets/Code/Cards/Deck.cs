@@ -1,4 +1,7 @@
 ﻿using System;
+using UnityEditor;
+using System.Reflection;
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +12,8 @@ using System.Linq;
 
 public class Deck : MonoBehaviour
 {
+
+
     public TeamType team;
 
     //[HideInInspector]
@@ -24,20 +29,13 @@ public class Deck : MonoBehaviour
             return selected_card.transform;
         }
     }
-
-    [SerializeField]
-    private CardType[] _deck_types;
-    public CardType[] deck_types {
-        get { return _deck_types; }
-        set
-        {
-            _deck_types = value;
-            deck_drawed = new BitArray(_deck_types.Length);
-        }
-    }// card types in deck
-    private BitArray deck_drawed;        // cards that passed by your hand
-    private int current_card = 0;
-    private int played_cards = 0;
+    public CardTypeCount[] deck_types;
+    private int total_card_count = -1;
+    public int cards_to_play_count { get; private set; } = -1;
+    // card types in deck
+    //private BitArray deck_drawed;        // cards that passed by your hand
+    //private int current_card = 0;
+    //private int played_cards = 0;
     private System.Random randomizer = new System.Random();   // to shuffle deck
 
     private void Awake()
@@ -46,7 +44,6 @@ public class Deck : MonoBehaviour
         if (cm == null)
             cm = Resources.Load("Scripts/CardManager") as CardManager;
         Assert.IsTrue(cm != null);
-        deck_drawed = new BitArray(deck_types.Length);
 
 
     }
@@ -54,20 +51,29 @@ public class Deck : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        if (deck_types == null || deck_types.Length != (int)CardType.CardType_Count)
+        {
+            InitCardTypes();
+        }
+        else UpdateCardCount();
+        Assert.IsTrue(total_card_count > -1);
         if (deckCountText != null)
         {
             UpdateText();
         }
-        if (deck_drawed != null)
-            Assert.IsTrue(deck_drawed.Length == deck_types.Length);
-        else
-            deck_drawed = new BitArray(deck_types.Length);
-        ShuffleDeck();
+    }
+
+    public void SetDeck(CardTypeCount[] deck)
+    {
+        deck_types = deck;
+        total_card_count = cards_to_play_count = CardCount();
     }
 
     void UpdateText()
     {
-        int count = deck_types.Length - played_cards;
+
+        int count = cards_to_play_count;
         bool overflow = count > 999;
         count = Math.Min(999, count);
         deckCountText.text = count.ToString();
@@ -111,79 +117,147 @@ public class Deck : MonoBehaviour
         squadObj.transform.position = selected_card.transform.position;
         squadObj.transform.localScale = selected_card.transform.localScale;
 
-        Unselect();
         //Squad squad = squadObj.GetComponent<Squad>();
         //Assert.IsTrue(squad != null);
 
-        played_cards++;
+        // remove from deck
+        Assert.IsTrue(selected_type != CardType.None);
+        cards_to_play_count--;
 
         UpdateText();
+
+        Unselect();
 
         return squadObj;
     }
 
-    public void RemoveDrawCards()
+    public void InitCardTypes()
     {
-        CardType[] new_deck = new CardType[Mathf.Max(deck_types.Length - played_cards, 0)];
-        for (int i = played_cards; i < deck_types.Length; ++i)
-            new_deck[i - played_cards] = deck_types[i];
-        deck_types = new_deck;
-        deck_drawed = new BitArray(deck_types.Length);
+        deck_types = new CardTypeCount[(int)CardType.CardType_Count];
+        // set types to show in the inspector and reset the count
+        for (int i = 0; i < (int)CardType.CardType_Count; ++i)
+        {
+            deck_types[i].type = (CardType)i;
+            deck_types[i].count = 0;
+        }
+        total_card_count = 0;
     }
 
-    public void CombineCards(CardType[] other_deck)
+    public void ClearCardTypes()
     {
-        CardType[] new_deck = new CardType[deck_types.Length + other_deck.Length];
-        for (int i = 0; i < deck_types.Length; ++i)
-            new_deck[i] = deck_types[i];
-        for (int i = 0; i < other_deck.Length; ++i)
-            new_deck[deck_types.Length + i] = other_deck[i];
-        deck_types = new_deck;
-        deck_drawed = new BitArray(deck_types.Length);
+        for (int i = 0; i < (int)CardType.CardType_Count; ++i)
+        {
+            Assert.IsTrue(deck_types[i].type == (CardType)i);
+            deck_types[i].count = 0;
+        }
+        total_card_count = cards_to_play_count = 0;
+    }
+    public void CombineCards(CardTypeCount[] other_deck)
+    {
+        Assert.IsTrue(deck_types.Length == other_deck.Length);
+        for (int i = 0; i < (int)CardType.CardType_Count; ++i)
+        {
+            deck_types[i].count += other_deck[i].count;
+        }
     }
 
     public CardType DrawCard()
     {
-        if (current_card >= deck_types.Length)
+        if (total_card_count == 0)
         {
-            // no more cards
             return CardType.None;
-            // shuffle if ended
-            //ShuffleDeck();
-            //current_card = 0;
         }
-        deck_drawed[current_card] = true;
-        return deck_types[current_card++];
+        CardType type = GetRandomType();
+        Assert.IsTrue(type != CardType.None);
+        deck_types[(int)type].count -= 1;
+        total_card_count--;
+        return type;
     }
 
-    void ShuffleDeck()
+    public bool RemoveFromDeck(CardType type, int count)
     {
-        int p = deck_types.Length;
-        for (int n = p - 1; n > 0; n--) {
-            int r = randomizer.Next(0, n);
-            // swap type
-            CardType t = deck_types[r];
-            deck_types[r] = deck_types[n];
-            deck_types[n] = t;
+        if (type == CardType.None)
+            return false;
+        int c = deck_types[(int)type].count;
+        bool underflow = c < count;
+        int dif = cards_to_play_count - total_card_count;
+        if (underflow)
+        {
+            total_card_count = total_card_count - (count - c);
         }
-        // reset drawed
-        deck_drawed.SetAll(false);
-        current_card = 0;
+        else {
+            total_card_count = Mathf.Max(total_card_count - count, 0);
+        }
+        cards_to_play_count = total_card_count + dif;
+        c = Mathf.Max(c - count, 0);
+        deck_types[(int)type].count = c;
+        return true;
     }
 
-    void AddToDeck(CardType card_type, int count)
+    public bool AddToDeck(CardType card_type, int count)
     {
-        CardType[] new_deck = new CardType[deck_types.Length + count];
-        deck_types.CopyTo(new_deck, 0);
-        for (int i = deck_types.Length; i < deck_types.Length + count; ++i)
-            new_deck[i] = card_type;
-        deck_types = new_deck;
+        if (card_type == CardType.None)
+            return false;
+        Assert.IsTrue(card_type == deck_types[(int)card_type].type);
+        deck_types[(int)card_type].count += count;
+        total_card_count += count;
+        cards_to_play_count += count;
+        return true;
     }
 
     public void Randomize()
     {
-        for (int i = 0; i < deck_types.Length; ++i) {
-            deck_types[i] = (CardType)randomizer.Next(0, (int)(CardType.CardType_Count));
+        // shuffle indices
+        int[] indices = new int[deck_types.Length];
+        int p = indices.Length;
+        for (int n = p - 1; n > 0; n--)
+        {
+            int r = randomizer.Next(0, n);
+            // swap type
+            int t = indices[r];
+            indices[r] = indices[n];
+            indices[n] = t;
         }
+        // randomize values
+        int weight = total_card_count;
+        for (int i = 0; i < deck_types.Length - 1; ++i) {
+            deck_types[i].count = randomizer.Next(0, weight);
+            weight -= deck_types[i].count;
+        }
+        deck_types[deck_types.Length - 1].count = weight;
+    }
+
+    CardType GetRandomType()
+    {
+        int randomNum = randomizer.Next(0, total_card_count);
+        CardType type = CardType.None;
+        for (int i = 0; i < deck_types.Length; ++i)
+        {
+            if (randomNum < deck_types[i].count)
+            {
+                type = deck_types[i].type;
+                break;
+            }
+            randomNum = randomNum - deck_types[i].count;
+        }
+        return type;
+    }
+
+    public int CardCount()
+    {
+        if (deck_types == null)
+            return -1;
+        int total_count = 0;
+        for (int i = 0; i < (int)CardType.CardType_Count; ++i)
+        {
+            total_count += deck_types[i].count;
+        }
+        return total_count;
+    }
+    public void UpdateCardCount()
+    {
+        int dif = cards_to_play_count - total_card_count;
+        total_card_count = CardCount();
+        cards_to_play_count = total_card_count + dif;
     }
 }

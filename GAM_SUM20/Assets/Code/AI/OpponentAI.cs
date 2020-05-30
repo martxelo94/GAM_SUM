@@ -13,7 +13,7 @@ public class OpponentAI : MonoBehaviour
     public float reaction_time = 0.5f;
     private float reaction_time_counter = 0.0f;
 
-    CardType[] hand_types;
+    public CardType[] hand_types { get; private set; }
     int hand_size = 5;
     int card_to_play = -1;
 

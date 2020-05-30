@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Assertions;
 
 public class DealPlayerDamage : MonoBehaviour
 {
+    public BattlefieldMenu menu;
+    public DealPlayerDamage opponent;
     public TeamType team;
     public int hit_points = 20;
     public Text hit_point_text;
     // Start is called before the first frame update
     void Start()
     {
+        Assert.IsTrue(menu != null);
+        Assert.IsTrue(opponent != null);
         hit_point_text.text = hit_points.ToString();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -29,9 +28,32 @@ public class DealPlayerDamage : MonoBehaviour
             troop.Kill();
             //Destroy(troop.gameObject);
 
-            if (hit_points <= 0) {
+            // TOTAL VICTORY
+            if (hit_points <= 0)
+            {
                 BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();
                 menu.ShowEndGamePanel(team == TeamType.Opponent);
+            }
+            else {
+                // CHECK PARTIAL VICTORY
+                if (menu.decks[0].cards_to_play_count == 0 && menu.decks[1].cards_to_play_count == 0)
+                {
+                    // check result
+                    if (team == TeamType.Player)
+                    {
+                        if (hit_points > opponent.hit_points)
+                            menu.ShowEndGamePanel(true);
+                        else
+                            menu.ShowEndGamePanel(false);
+                    }
+                    else {
+                        Assert.IsTrue(team == TeamType.Opponent);
+                        if (hit_points > opponent.hit_points)
+                            menu.ShowEndGamePanel(false);
+                        else
+                            menu.ShowEndGamePanel(true);
+                    }
+                }
             }
             Debug.Log("Toop Attacked");
         }
