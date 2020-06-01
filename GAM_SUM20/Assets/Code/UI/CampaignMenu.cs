@@ -88,7 +88,6 @@ public class CampaignMenu : MonoBehaviour
     }
     public void LockBattlePanel(bool show)
     {
-        battlePanel.SetActive(show);
         // toggle buttons
         Button[] buttons = selectedArmyPanel.GetComponentsInChildren<Button>();
         foreach (Button b in buttons)

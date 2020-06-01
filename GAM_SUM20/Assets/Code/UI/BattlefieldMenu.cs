@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
 using System.Text;
+using TMPro;
 
 public class BattlefieldMenu : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class BattlefieldMenu : MonoBehaviour
 
     public int nextLevel = 2;
     private bool game_ended = false;
+
+    public GameObject endGameTimerPanel;
+    public TextMeshProUGUI timerText;
+    public float endGameCheckTime = 5f;
+    private float endGameCheckCurrentTime = 0f;
 
     private void Awake()
     {
@@ -56,12 +62,29 @@ public class BattlefieldMenu : MonoBehaviour
             fps_update_counter = 0.0f;
         }
 
-        if ((decks[0].cards_to_play_count == 0)
-                    && DealPlayerDamage.totalTroopCount == 0)
+        if (DealPlayerDamage.totalTroopCount == 0)
         {
-            // check result
-            playerHitPoints[0].EndGamePanelByHitPoints();
+            endGameCheckCurrentTime += Time.deltaTime;
+            if (endGameCheckCurrentTime > endGameCheckTime)
+            {
+                endGameTimerPanel.SetActive(false);
+                playerHitPoints[0].EndGamePanelByHitPoints();
+            }
+            else if (endGameCheckCurrentTime > 1f)
+            {
+                endGameTimerPanel.SetActive(true);
+                timerText.text = (endGameCheckTime - endGameCheckCurrentTime).ToString("00.00");    
+            }
         }
+        else {
+            endGameCheckCurrentTime = 0f;
+            endGameTimerPanel.SetActive(false);
+        }
+    }
+    
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(300, 10, 200, 80), "Troops alive = " + DealPlayerDamage.totalTroopCount.ToString());
     }
 
     public void ResetLevel()

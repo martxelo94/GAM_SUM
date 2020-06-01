@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 388abc5fbd6891b4681efd5856949088, type: 3}
-  m_Name: Cavalry Unit Common Stats
+  m_Name: Rifleman Unit Common Stats
   m_EditorClassIdentifier: 
-  maxHitPoints: 25
+  unitType: 0
+  maxHitPoints: 10
   pierceArmor: 0
-  slashArmor: 70
+  slashArmor: 20
+  preferedTargetUnit: 11
   rangedAttack: 0
-  sensorRange: 5
-  attackRange: 2
-  attackTime: 0.5
-  maxSpeed: 2
-  capture_radius: 2
-  player_damage: 2
+  sensorRange: 6
+  attackRange: 5
+  attackTime: 1
+  maxSpeed: 1
+  capture_radius: 1
+  player_damage: 1
   attackPrefabs:
-  - {fileID: 763354543988571733, guid: 880054380659fb445aff53e78a1958b1, type: 3}
+  - {fileID: 1522591111564954434, guid: 5e3d0c594a450014ab4569d66c64e80d, type: 3}

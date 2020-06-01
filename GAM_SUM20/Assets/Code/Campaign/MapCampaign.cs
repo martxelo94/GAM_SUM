@@ -18,7 +18,7 @@ public class MapCampaign : MonoBehaviour
     [HideInInspector]
     public MapNode selected_node;
     [HideInInspector]
-    public bool is_attaking { get; private set; } = false;
+    public bool is_attacking { get; private set; } = false;
     [HideInInspector]
     public bool is_moving { get; private set; } = false;
     MapNode target_node;
@@ -213,34 +213,114 @@ public class MapCampaign : MonoBehaviour
             selected_node.Unselect();
         menu.ShowArmyPanel(false);
         menu.ShowNodePanel(false);
-        menu.LockBattlePanel(false);
-        is_attaking = false;
-
+        menu.ShowBattlePanel(false);
     }
     public void SelectNode(MapNode node)
     {
+        if (is_attacking)
+        {
+            Assert.IsTrue(selected_node != null);
+            // select target node
+            if (node.army != null)
+            {
+                if (node.army.team == TeamType.Player)
+                {
+                    // check that selected is in children
+                    for (int i = 0; i < node.nextNodes.Length; ++i)
+                    {
+                        if (node.nextNodes[i] == selected_node)
+                        {
+                            target_node = node;
+                            ShowBattlePanel(true);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
         UnselectNode();
         selected_node = node;
         selected_node.Select();
-        if (selected_node.army != null && selected_node.team == TeamType.Player)
+
+        menu.ShowNodePanel(true);
+
+        if (selected_node.army != null)
         {
-            menu.ShowArmyPanel(true);
-            if (selected_node.army.cards_to_play_count == 0)
+            
+            if(selected_node.team == TeamType.Player)
             {
-                menu.ShowMoveButton(false);
+                //if (selected_node.army.cards_to_play_count == 0)
+                {
+                    menu.ShowArmyPanel(true);
+                    menu.ShowMoveButton(false);
+
+                    menu.ShowBattlePanel(false);
+                    menu.ShowNodePanel(false);
+                }
+                
             }
             else
-                menu.ShowMoveButton(true);
-            //selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
+            {
+                foreach (MapNode n in selected_node.parentNodes)
+                {
+                    if (n.army != null && n.army.team == TeamType.Player)
+                    {
+                        // show move button
+                        menu.ShowArmyPanel(true);
+                        menu.ShowMoveButton(true);
+                        menu.ShowNodePanel(false);
+                        break;
+                    }
+                }
+            }
+
         }
+            // if node has enemy army adyacent to player army
         else
         {
-            menu.ShowNodePanel(true);
-            //selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
+            foreach (MapNode n in selected_node.parentNodes)
+            {
+                if (n.army != null && n.army.team == TeamType.Player)
+                {
+                    // show move button
+                    menu.ShowArmyPanel(true);
+                    menu.ShowMoveButton(true);
+                    menu.ShowNodePanel(false);
+                    break;
+                }
+            }
         }
+
     }
 
     #region ATTACK PHASE
+    public void CheckAttack()
+    {
+        Assert.IsTrue(selected_node != null);
+        // check if only one army to attack
+        int army_count = 0;
+        MapNode armyNode = null;
+        foreach (MapNode n in selected_node.parentNodes)
+        {
+            if (n.army != null && n.army.team == TeamType.Player) {
+                army_count++;
+                armyNode = n;
+            }
+        }
+        // show directly confirm button or start attaking phase (choose army)
+        Assert.IsTrue(army_count > 0);
+        if (army_count > 1)
+        {
+            is_attacking = true;
+        }
+        else {
+            // show confirm panel
+            target_node = armyNode;
+            menu.ShowBattlePanel(true);
+            menu.ShowArmyPanel(false);
+        }
+    }
+
     public void BegineBattle(MapNode attacker, MapNode target)
     {
         GameSettings.INSTANCE.SetBattle(attacker, target);
@@ -250,43 +330,26 @@ public class MapCampaign : MonoBehaviour
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
     }
-    public void ToggleAttack() { is_attaking = !is_attaking; }
-    public bool ShowBattlePanel(MapNode target)
+    public bool ShowBattlePanel(bool show)
     {
         // check if adyacent
-        bool found = false;
         Assert.IsTrue(selected_node != null);
 
-        foreach (MapNode n in selected_node.nextNodes)
-            if (n == target)
-            {
-                found = true;
-                break;
-            }
-        if (found == false)
-        {
-            UnselectNode();
-            SelectNode(target);
-            is_attaking = false;
-            return false;
-        }
-
-        target_node = target;
-        menu.LockBattlePanel(true);
+        menu.battlePanel.SetActive(show);
 
         return true;
     }
 
     public void MoveArmy()
     {
-        Assert.IsTrue(selected_node.army != null);
+        Assert.IsTrue(selected_node != null);
+        Assert.IsTrue(target_node != null);
 
         // move army
         StartCoroutine(MoveArmyAnimaton(movement_duration));
 
         menu.ShowBattlePanel(false);
         menu.ShowArmyPanel(false);
-        is_attaking = false;
     }
 
     IEnumerator MoveArmyAnimaton(float duration)
@@ -294,21 +357,21 @@ public class MapCampaign : MonoBehaviour
         is_moving = true;
         // calculate frame duration
         int frames = (int)(duration * (1.0f / Time.deltaTime));
-        Vector3 step = (target_node.transform.position - selected_node.transform.position) / frames;
+        Vector3 step = (selected_node.transform.position - target_node.transform.position) / frames;
         for (int i = 0; i < frames; ++i)
         {
-            selected_node.army.transform.position += step;
+            target_node.army.transform.position += step;
             yield return null;
         }
 
-        if (target_node.army != null)
+        if (selected_node.army != null)
         {
-            BegineBattle(selected_node, target_node);
+            BegineBattle(target_node, selected_node);
         }
         else
         {
             // capture node
-            CaptureNode(selected_node, target_node);
+            CaptureNode(target_node, selected_node);
         }
         is_moving = false;
     }

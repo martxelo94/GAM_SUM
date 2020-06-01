@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 388abc5fbd6891b4681efd5856949088, type: 3}
-  m_Name: Rifleman Unit Common Stats
+  m_Name: Sniper Unit Common Stats
   m_EditorClassIdentifier: 
+  unitType: 3
   maxHitPoints: 10
-  pierceArmor: 0
-  slashArmor: 20
+  pierceArmor: 10
+  slashArmor: 10
+  preferedTargetUnit: 15
   rangedAttack: 0
-  sensorRange: 6
-  attackRange: 5
-  attackTime: 1
-  maxSpeed: 1
+  sensorRange: 15
+  attackRange: 14
+  attackTime: 3
+  maxSpeed: 0.8
   capture_radius: 1
   player_damage: 1
   attackPrefabs:
-  - {fileID: 1522591111564954434, guid: 5e3d0c594a450014ab4569d66c64e80d, type: 3}
+  - {fileID: 2523152992420655505, guid: 770e533c61eb15c4d8f33159b2b5f8e0, type: 3}

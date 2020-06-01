@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8673655554432611209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8289347234356020080}
+  - component: {fileID: 4797664178522008056}
+  m_Layer: 0
+  m_Name: Dog Squad
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8289347234356020080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8673655554432611209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -5.090525, y: -3.7771697, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8919133364529919912}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4797664178522008056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8673655554432611209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db6b17ff172d58f468e8f77060eb44f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  team: 0
+  update_time: 0.5
+  battlefield: {fileID: 11400000, guid: 11c871481e4ce2248bd610816d7a9760, type: 2}
+  troops:
+  - {fileID: 5468427919968830170}
+--- !u!1001 &7708263327277096158
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8289347234356020080}
+    m_Modifications:
+    - target: {fileID: 376281193499719563, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2577255377145181885, guid: 8bca90b02e534bd4480fee51319d9b75,
+        type: 3}
+      propertyPath: m_Name
+      value: Dog
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8bca90b02e534bd4480fee51319d9b75, type: 3}
+--- !u!4 &8919133364529919912 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1242536297493850998, guid: 8bca90b02e534bd4480fee51319d9b75,
+    type: 3}
+  m_PrefabInstance: {fileID: 7708263327277096158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5468427919968830170 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2385362574474976772, guid: 8bca90b02e534bd4480fee51319d9b75,
+    type: 3}
+  m_PrefabInstance: {fileID: 7708263327277096158}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -37,3 +37,9 @@ MonoBehaviour:
       type: 3}
     blueprintPrefab: {fileID: 5480219247358311083, guid: 113cc302dfecc9143b9596c6876265e0,
       type: 3}
+  - spawnTime: 1
+    cost: {x: 1, y: 2}
+    spawnedPrefab: {fileID: 8673655554432611209, guid: 1f661220a0c71eb45a209e65f520bcd9,
+      type: 3}
+    blueprintPrefab: {fileID: 9115487563753963023, guid: f47ff82877d470f4386bcf596c5fd47b,
+      type: 3}

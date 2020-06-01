@@ -9,6 +9,7 @@ public class Sensor : MonoBehaviour
 {
     public Unit unit;
     public CircleCollider2D circle;
+    //public float pushRadius;
 
     private List<Unit> potentialTargets;
 
@@ -52,7 +53,18 @@ public class Sensor : MonoBehaviour
         // target shouldn't be in potentials already
         Assert.IsTrue(potentialTargets.Contains(unitTarget) == false);
 
-        potentialTargets.Add(unitTarget);
+        // mask check
+        ulong mask = unit.common.preferedTargetUnit;
+        bool is_target = 0 != ((ulong)1 << (int)unitTarget.common.unitType & mask);
+        if(is_target)
+            potentialTargets.Add(unitTarget);
+
+        // push
+        //const float pushForce = 1f;
+        //Vector2 dif = collision.transform.position - transform.position;
+        //if (dif.sqrMagnitude < pushRadius * pushRadius) {
+        //
+        //}
     }
     public void SetRange(float range)
     {

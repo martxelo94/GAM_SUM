@@ -58,6 +58,8 @@ public class Unit : MonoBehaviour
 
         ProyectilAttack attack = GameObject.Instantiate(common.attackPrefabs[0]);
         attack.SetAttack(target, this);
+
+        Debug.Log(name + " attaked " + target.name);
     }
 
     public bool ReceiveDamage(int _damage)
@@ -84,13 +86,13 @@ public class Unit : MonoBehaviour
         return target != null && target.gameObject.activeSelf;
     }
 
-    public void Kill()
+    public bool Kill()
     {
+        if (gameObject.activeSelf == false)
+            return false;
         DealPlayerDamage.totalTroopCount--;
-        //Debug.Log("Unit Killed");
-        //Destroy(healthBarInstance);
-        //Destroy(gameObject);
         gameObject.SetActive(false);
+        return true;
     }
     IEnumerator ShowHealthBar()
     {
@@ -101,6 +103,7 @@ public class Unit : MonoBehaviour
         healthBarInstance.gameObject.SetActive(false);
     }
 
+    public Vector3 GetTargetPosition() { Assert.IsTrue(target != null); return target.transform.position; }
     public void SetTarget(Unit t) { target = t; }
     //public Unit GetTarget() { return target; }
 

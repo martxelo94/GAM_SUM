@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 388abc5fbd6891b4681efd5856949088, type: 3}
-  m_Name: Sniper Unit Common Stats
+  m_Name: Tank Unit Common Stats
   m_EditorClassIdentifier: 
-  maxHitPoints: 10
+  unitType: 2
+  maxHitPoints: 300
   pierceArmor: 10
-  slashArmor: 10
+  slashArmor: 70
+  preferedTargetUnit: 13
   rangedAttack: 0
-  sensorRange: 15
-  attackRange: 14
+  sensorRange: 10
+  attackRange: 12
   attackTime: 3
-  maxSpeed: 0.8
-  capture_radius: 1
-  player_damage: 1
+  maxSpeed: 1.3
+  capture_radius: 3
+  player_damage: 4
   attackPrefabs:
-  - {fileID: 2523152992420655505, guid: 770e533c61eb15c4d8f33159b2b5f8e0, type: 3}
+  - {fileID: 5825198618305167284, guid: 07dcfcf2b4bb04f469446ac5d3886ada, type: 3}

@@ -8,6 +8,7 @@ public class MapNode : MonoBehaviour
 {
     public TeamType team;
     public MapNode[] nextNodes;
+    public List<MapNode> parentNodes;
     //[HideInInspector]
     public int node_idx = -1;  //set by MapCampaign to proper game progresion
     private LineRenderer[] linksInstantiated;
@@ -22,6 +23,7 @@ public class MapNode : MonoBehaviour
     private void Awake()
     {
         map = FindObjectOfType<MapCampaign>();
+        parentNodes = new List<MapNode>();
     }
 
     // Start is called before the first frame update
@@ -31,7 +33,9 @@ public class MapNode : MonoBehaviour
         UpdateLinks();
         SetTeamColor();
         // opponent armies face parent node
-        foreach (MapNode n in nextNodes) {
+        for(int i = 0; i < nextNodes.Length; ++i) {
+            MapNode n = nextNodes[i];
+            n.parentNodes.Add(this);
             if (n.army != null && n.army.team == TeamType.Opponent) {
                 Vector3 dir = n.army.transform.position - transform.position;
                 n.army.transform.up = -dir.normalized;
@@ -47,41 +51,39 @@ public class MapNode : MonoBehaviour
             transform.localScale = initScale;
             return;
         }
-        if (is_selected && map.is_attaking)
+        //if (is_selected && map.is_attaking)
+        //{
+        //    // highlight adyacents
+        //    for (int i = 0; i < nextNodes.Length; ++i)
+        //    {
+        //        nextNodes[i].Pulse();
+        //    }
+        //}
+        //else 
+        if (team == TeamType.Player)
         {
-            // highlight adyacents
-            for (int i = 0; i < nextNodes.Length; ++i)
+            if (army != null)
             {
-                nextNodes[i].Pulse();
+                if(army.cards_to_play_count == 0 || map.is_attacking)
+                    Pulse();
+                else {
+                    // make children pulse
+                    for (int i = 0; i < nextNodes.Length; ++i)
+                    {
+                        nextNodes[i].Pulse();
+                    }
+                }
             }
+
         }
-        else if (army != null && team == TeamType.Player)
-            Pulse();
     }
 
-    private void OnMouseEnter()
+    private void OnMouseDown()
     {
         if (map.is_moving)
             return;
-        if (map.is_attaking)
-        {
-            // check not the same
-            if (map.selected_node != this)
-            {
-                if (!map.ShowBattlePanel(this))
-                    map.menu.LockBattlePanel(true);
-                else {
-                    Vector3 dir = map.selected_node.army.transform.position - transform.position;
-                    map.selected_node.army.transform.up = -dir.normalized;
-                }
-            }
-        }
-        else {
-            map.menu.LockBattlePanel(false);
-            if (!is_selected)
-                map.SelectNode(this);
-        }
 
+        map.SelectNode(this);
     }
 
     public void Pulse()

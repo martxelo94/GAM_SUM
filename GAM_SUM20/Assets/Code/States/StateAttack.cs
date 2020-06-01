@@ -10,6 +10,7 @@ public class StateAttack : State
     {
         // stop movement
         ai.rig.velocity = Vector3.zero;
+        ai.unit.currentAttackTime = 0;
     //Debug.Log("Enter " + typeof(StateAttack).ToString());
     }
     public override void Update(float dt)
@@ -17,6 +18,13 @@ public class StateAttack : State
         if (ai.unit.IsTargetAlive() == false)
         {
             ai.SetNextState(new StateAdvance(ai));
+            return;
+        }
+        // chase if out of range
+        float range = ai.unit.common.attackRange;
+        if ((ai.transform.position - ai.unit.GetTargetPosition()).sqrMagnitude > range * range)
+        {
+            ai.SetNextState(new StateChase(ai));
             return;
         }
         ai.unit.currentAttackTime += dt;

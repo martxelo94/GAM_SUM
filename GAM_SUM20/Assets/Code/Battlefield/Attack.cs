@@ -13,11 +13,12 @@ public class Attack : ScriptableObject
 
     public bool damage_falloff = true;
     public bool areaDamage; // does damage by circle check or instant to target?
+    public bool suicide_attack;
 
     public GameObject effectPrefab;
 
     // Start is called before the first frame update
-    public void SpawnAttack(Vector3 attackPosition, Vector3 sourcePosition, TeamType sourceTeam, Unit target)
+    public void SpawnAttack(Vector3 attackPosition, Vector3 sourcePosition, TeamType sourceTeam, Unit target, Unit source)
     {
         if (areaDamage)
         {
@@ -52,6 +53,9 @@ public class Attack : ScriptableObject
             inst.transform.up = (attackPosition - sourcePosition).normalized;
             inst.transform.localScale *= attackRange * 2;
         }
+
+        if (suicide_attack && source != null)
+            source.Kill();
     }
 
 

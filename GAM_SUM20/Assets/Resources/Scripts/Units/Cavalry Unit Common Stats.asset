@@ -10,17 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 388abc5fbd6891b4681efd5856949088, type: 3}
-  m_Name: Tank Unit Common Stats
+  m_Name: Cavalry Unit Common Stats
   m_EditorClassIdentifier: 
-  maxHitPoints: 300
-  pierceArmor: 40
-  slashArmor: 0
+  unitType: 1
+  maxHitPoints: 25
+  pierceArmor: 0
+  slashArmor: 70
+  preferedTargetUnit: 12
   rangedAttack: 0
-  sensorRange: 10
-  attackRange: 12
-  attackTime: 3
-  maxSpeed: 1.3
-  capture_radius: 3
-  player_damage: 4
+  sensorRange: 5
+  attackRange: 2
+  attackTime: 0.5
+  maxSpeed: 2
+  capture_radius: 2
+  player_damage: 2
   attackPrefabs:
-  - {fileID: 5825198618305167284, guid: 07dcfcf2b4bb04f469446ac5d3886ada, type: 3}
+  - {fileID: 763354543988571733, guid: 880054380659fb445aff53e78a1958b1, type: 3}

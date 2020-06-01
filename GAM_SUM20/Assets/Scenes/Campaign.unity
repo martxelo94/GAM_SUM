@@ -1110,7 +1110,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -1909,6 +1909,8 @@ MonoBehaviour:
     count: 1
   - type: 3
     count: 0
+  - type: 4
+    count: 0
 --- !u!1 &359346942
 GameObject:
   m_ObjectHideFlags: 0
@@ -2411,22 +2413,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 755710187}
-        m_MethodName: ToggleAttack
+        m_MethodName: CheckAttack
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 755710185}
-        m_MethodName: ToggleButton
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 460064450}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2522,6 +2513,8 @@ MonoBehaviour:
   - type: 2
     count: 0
   - type: 3
+    count: 0
+  - type: 4
     count: 0
 --- !u!4 &481002543 stripped
 Transform:
@@ -2850,6 +2843,8 @@ MonoBehaviour:
   - type: 2
     count: 1
   - type: 3
+    count: 0
+  - type: 4
     count: 0
 --- !u!1 &565054117
 GameObject:
@@ -3490,7 +3485,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -5437,17 +5432,6 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 5
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 755710185}
-        m_MethodName: ShowMoveButton
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
@@ -7843,7 +7827,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -9628,7 +9612,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -9839,7 +9823,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}
@@ -10180,6 +10164,8 @@ MonoBehaviour:
   - type: 2
     count: 1
   - type: 3
+    count: 0
+  - type: 4
     count: 0
 --- !u!1 &1801901144
 GameObject:
@@ -11116,9 +11102,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 755710187}
-        m_MethodName: HideBattlePanel
-        m_Mode: 1
+      - m_Target: {fileID: 755710185}
+        m_MethodName: ShowBattlePanel
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11217,6 +11203,8 @@ MonoBehaviour:
   - type: 2
     count: 0
   - type: 3
+    count: 0
+  - type: 4
     count: 0
 --- !u!1 &2097131720
 GameObject:
@@ -11424,7 +11412,7 @@ PrefabInstance:
     - target: {fileID: 3546247979921357597, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e84b5810a248b734d8e0602a0ec9dc7f, type: 3}

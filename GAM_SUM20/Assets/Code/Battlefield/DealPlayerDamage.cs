@@ -40,9 +40,10 @@ public class DealPlayerDamage : MonoBehaviour
             {
                 menu.ShowEndGamePanel(team == TeamType.Opponent);
             }
+#if false
             else {
                 // CHECK PARTIAL VICTORY
-                if ((menu.decks[0].cards_to_play_count == 0 || menu.decks[1].cards_to_play_count == 0)
+                if ((menu.decks[0].cards_to_play_count == 0 && menu.decks[1].cards_to_play_count == 0)
                     && totalTroopCount == 0)
                 {
                     // check result
@@ -50,25 +51,13 @@ public class DealPlayerDamage : MonoBehaviour
                 }
             }
             //Debug.Log("Toop Attacked");
+#endif
         }
     }
 
     public void EndGamePanelByHitPoints()
     {
-        if (team == TeamType.Player)
-        {
-            if (hit_points > opponent.hit_points)
-                menu.ShowEndGamePanel(true);
-            else
-                menu.ShowEndGamePanel(false);
-        }
-        else
-        {
-            Assert.IsTrue(team == TeamType.Opponent);
-            if (hit_points > opponent.hit_points)
-                menu.ShowEndGamePanel(false);
-            else
-                menu.ShowEndGamePanel(true);
-        }
+        menu.ShowEndGamePanel(team == TeamType.Player && hit_points > opponent.hit_points);
+
     }
 }

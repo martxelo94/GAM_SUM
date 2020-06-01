@@ -40,7 +40,7 @@ public class ProyectilAttack : MonoBehaviour
     {
         curTime += Time.deltaTime;
         if (curTime >= maxTime) {
-            attack.SpawnAttack(endShoot, startShoot, unitTeam, target);
+            attack.SpawnAttack(endShoot, startShoot, unitTeam, target, unit);
             Destroy(gameObject);
             return;
         }
