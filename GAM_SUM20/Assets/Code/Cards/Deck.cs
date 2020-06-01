@@ -156,8 +156,12 @@ public class Deck : MonoBehaviour
         Assert.IsTrue(deck_types.Length == other_deck.Length);
         for (int i = 0; i < (int)CardType.CardType_Count; ++i)
         {
-            deck_types[i].count += other_deck[i].count;
+            int count = other_deck[i].count;
+            deck_types[i].count += count;
+            total_card_count += count;
+            cards_to_play_count += count;
         }
+        UpdateText();
     }
 
     public CardType DrawCard()

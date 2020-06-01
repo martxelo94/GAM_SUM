@@ -3407,6 +3407,31 @@ PrefabInstance:
       propertyPath: army
       value: 
       objectReference: {fileID: 522837430}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[2].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[1].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[0].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[3].count
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[4].count
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7749,6 +7774,11 @@ PrefabInstance:
       propertyPath: army
       value: 
       objectReference: {fileID: 478785972}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[4].count
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9534,6 +9564,21 @@ PrefabInstance:
       propertyPath: army
       value: 
       objectReference: {fileID: 2092921258}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[4].count
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[0].count
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[3].count
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9743,6 +9788,11 @@ PrefabInstance:
     - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[3].count
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
@@ -10158,11 +10208,11 @@ MonoBehaviour:
   deckCountText: {fileID: 405816505}
   deck_types:
   - type: 0
-    count: 0
+    count: 1
   - type: 1
     count: 0
   - type: 2
-    count: 1
+    count: 0
   - type: 3
     count: 0
   - type: 4

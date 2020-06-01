@@ -20,10 +20,14 @@ public class MapNode : MonoBehaviour
     [Range(0, 2)]
     public int army_model_idx = 0;
 
+    // reward for capturing
+    public CardTypeCount[] deck_reward;
+
     private void Awake()
     {
         map = FindObjectOfType<MapCampaign>();
         parentNodes = new List<MapNode>();
+        Assert.IsTrue(deck_reward != null && deck_reward.Length == (int)CardType.CardType_Count);
     }
 
     // Start is called before the first frame update

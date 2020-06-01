@@ -4548,15 +4548,15 @@ MonoBehaviour:
   deckCountText: {fileID: 1439529480}
   deck_types:
   - type: 0
-    count: 0
+    count: 200
   - type: 1
-    count: 0
+    count: 200
   - type: 2
-    count: 5
+    count: 200
   - type: 3
-    count: 0
+    count: 200
   - type: 4
-    count: 0
+    count: 200
 --- !u!114 &1006059829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4940,15 +4940,15 @@ MonoBehaviour:
   deckCountText: {fileID: 646242309}
   deck_types:
   - type: 0
-    count: 0
+    count: 200
   - type: 1
-    count: 0
+    count: 200
   - type: 2
-    count: 0
+    count: 200
   - type: 3
-    count: 0
+    count: 200
   - type: 4
-    count: 10
+    count: 200
 --- !u!4 &1099055929
 Transform:
   m_ObjectHideFlags: 0

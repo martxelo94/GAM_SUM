@@ -113,6 +113,18 @@ MonoBehaviour:
   nextNodes:
   - {fileID: 0}
   - {fileID: 0}
+  parentNodes: []
   node_idx: -1
   army: {fileID: 0}
   army_model_idx: 0
+  deck_reward:
+  - type: 0
+    count: 0
+  - type: 1
+    count: 0
+  - type: 2
+    count: 0
+  - type: 3
+    count: 0
+  - type: 4
+    count: 0

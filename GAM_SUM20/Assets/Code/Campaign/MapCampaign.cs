@@ -78,10 +78,16 @@ public class MapCampaign : MonoBehaviour
             {
                 // capture node
                 CaptureNode(nodes[GameSettings.INSTANCE.attack_idx], nodes[GameSettings.INSTANCE.target_idx]);
+
             }
             else
             {
                 // update nodes
+
+                // get reward for opponent
+                MapNode targetNode = nodes[GameSettings.INSTANCE.target_idx];
+                Assert.IsTrue(targetNode.army != null);
+                targetNode.army.CombineCards(targetNode.deck_reward);
 
             }
         }
@@ -191,6 +197,7 @@ public class MapCampaign : MonoBehaviour
             target.army_model_idx = attaker.army_model_idx;
             attaker.army_model_idx = -1;
         }
+
         // set team
         target.team = attaker.team;
         // update links if need
@@ -204,6 +211,11 @@ public class MapCampaign : MonoBehaviour
         if (target.nextNodes.Length == 0) {
             menu.ShowEndPanel(true);
         }
+
+        // get reward
+        Assert.IsTrue(target.army != null);
+        target.army.CombineCards(target.deck_reward);
+
     }
 
     public void UnselectNode()
@@ -263,7 +275,7 @@ public class MapCampaign : MonoBehaviour
             {
                 foreach (MapNode n in selected_node.parentNodes)
                 {
-                    if (n.army != null && n.army.team == TeamType.Player)
+                    if (n.army != null && n.army.team == TeamType.Player && n.army.cards_to_play_count > 0)
                     {
                         // show move button
                         menu.ShowArmyPanel(true);
