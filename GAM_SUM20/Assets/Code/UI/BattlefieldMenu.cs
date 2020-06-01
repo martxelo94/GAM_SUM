@@ -16,6 +16,7 @@ public class BattlefieldMenu : MonoBehaviour
     public GameObject endGamePanel;
     public GameObject victoryPanel;
     public GameObject defeatPanel;
+    public GameObject tiePanel;
 
     public Deck[] decks;
     public DealPlayerDamage[] playerHitPoints;
@@ -62,13 +63,13 @@ public class BattlefieldMenu : MonoBehaviour
             fps_update_counter = 0.0f;
         }
 
-        if (DealPlayerDamage.totalTroopCount == 0)
+        if (game_ended == false && DealPlayerDamage.totalTroopCount == 0)
         {
             endGameCheckCurrentTime += Time.deltaTime;
             if (endGameCheckCurrentTime > endGameCheckTime)
             {
                 endGameTimerPanel.SetActive(false);
-                playerHitPoints[0].EndGamePanelByHitPoints();
+                ShowEndGamePanel();
             }
             else if (endGameCheckCurrentTime > 1f)
             {
@@ -118,7 +119,7 @@ public class BattlefieldMenu : MonoBehaviour
         text.text = t.ToString();
     }
 
-    public void ShowEndGamePanel(bool is_victory)
+    public void ShowEndGamePanel()
     {
         if (game_ended)
             return;
@@ -126,23 +127,51 @@ public class BattlefieldMenu : MonoBehaviour
         // stop time
         Time.timeScale = 0.3f;
 
+        // get hitPoints dif
+        int pointsDif = playerHitPoints[0].hit_points - playerHitPoints[1].hit_points;
+
         DisablePlayers();
 
         endGamePanel.SetActive(true);
-        if (is_victory)
+        if (pointsDif > 0)
         {
-            defeatPanel.SetActive(false);
             victoryPanel.SetActive(true);
             GameSettings.INSTANCE.last_battle_won = true;
             Debug.Log("VICTORY!");
         }
-        else {
-            victoryPanel.SetActive(false);
+        else if (pointsDif < 0)
+        {
             defeatPanel.SetActive(true);
             GameSettings.INSTANCE.last_battle_won = false;
             Debug.Log("DEFEAT!");
         }
+        else {
+            tiePanel.SetActive(true);
+            GameSettings.INSTANCE.last_battle_won = false;
+            Debug.Log("DRAW...");
+        }
     }
+
+    public void ShowWinGamePanel()
+    {
+        game_ended = true;
+        DisablePlayers();
+        endGamePanel.SetActive(true);
+        victoryPanel.SetActive(true);
+        defeatPanel.SetActive(false);
+        GameSettings.INSTANCE.last_battle_won = true;
+    }
+    public void ShowDefeatGamePanel()
+    {
+        game_ended = true;
+        DisablePlayers();
+        endGamePanel.SetActive(true);
+        victoryPanel.SetActive(false);
+        defeatPanel.SetActive(true);
+        GameSettings.INSTANCE.last_battle_won = false;
+    }
+
+
 
     public void LoadNextLevel()
     {
@@ -218,14 +247,12 @@ public class BattlefieldMenu : MonoBehaviour
 
     public void CheatWin()
     {
-        BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();
-        menu.ShowEndGamePanel(true);
+        ShowWinGamePanel();
     }
 
     public void CheatLose()
     {
-        BattlefieldMenu menu = FindObjectOfType<BattlefieldMenu>();
-        menu.ShowEndGamePanel(false);
+        ShowDefeatGamePanel();
     }
 
     void DisablePlayers()

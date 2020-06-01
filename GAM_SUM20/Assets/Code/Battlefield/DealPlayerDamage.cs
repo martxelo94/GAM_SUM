@@ -38,7 +38,7 @@ public class DealPlayerDamage : MonoBehaviour
             // TOTAL VICTORY
             if (hit_points <= 0)
             {
-                menu.ShowEndGamePanel(team == TeamType.Opponent);
+                menu.ShowEndGamePanel();
             }
 #if false
             else {
@@ -55,9 +55,4 @@ public class DealPlayerDamage : MonoBehaviour
         }
     }
 
-    public void EndGamePanelByHitPoints()
-    {
-        menu.ShowEndGamePanel(team == TeamType.Player && hit_points > opponent.hit_points);
-
-    }
 }
