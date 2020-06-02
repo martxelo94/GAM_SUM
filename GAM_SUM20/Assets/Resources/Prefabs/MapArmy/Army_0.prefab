@@ -332,9 +332,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 1
-  cm: {fileID: 0}
+  cm: {fileID: 11400000, guid: 6ae97c698b56eec4dae808df14c26c3b, type: 2}
   deckCountText: {fileID: 6205890785540789825}
-  _deck_types: 
+  deck_types:
+  - type: 0
+    count: 0
+  - type: 1
+    count: 0
+  - type: 2
+    count: 0
+  - type: 3
+    count: 0
+  - type: 4
+    count: 0
 --- !u!1 &3961001247396710189
 GameObject:
   m_ObjectHideFlags: 0

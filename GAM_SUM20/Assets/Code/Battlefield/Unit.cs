@@ -70,6 +70,7 @@ public class Unit : MonoBehaviour
             Kill();
             return true;
         }
+        Assert.IsTrue(IsAlive() == true);
         Assert.IsTrue(healthBarInstance != null);
         if (!healthBarInstance.gameObject.activeSelf)
             StartCoroutine(ShowHealthBar());

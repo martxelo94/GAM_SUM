@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [CreateAssetMenu]
 public class Attack : ScriptableObject
@@ -27,7 +28,9 @@ public class Attack : ScriptableObject
             for (int i = 0; i < hits.Length; ++i)
             {
                 Unit unit = hits[i].transform.GetComponent<Unit>();
-                if (unit != null)
+                Assert.IsTrue(unit != null);
+                Assert.IsTrue(unit.IsAlive() == true);
+                //if (unit != null)
                 {
                     if (unit.ReceiveDamage((int)CalculateDamage(unit, attackPosition)))
                     {
@@ -40,7 +43,7 @@ public class Attack : ScriptableObject
             }
         }
         // target still alive, do instant damage
-        else if(target != null){
+        else if(target != null && target.IsAlive()){
             if (target.ReceiveDamage((int)CalculateDamage(target, attackPosition)))
             {
                 // source unit might be already killed

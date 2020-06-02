@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Dog Unit Common Stats
   m_EditorClassIdentifier: 
   unitType: 4
+  maxSpeed: 1.8
+  capture_radius: 1
   maxHitPoints: 7
   pierceArmor: 0
   slashArmor: 0
-  preferedTargetUnit: 4
   rangedAttack: 0
   sensorRange: 5
   attackRange: 2
   attackTime: 0.5
-  maxSpeed: 1.8
-  capture_radius: 1
   player_damage: 1
   attackPrefabs:
   - {fileID: 279759416262901976, guid: a05c54cbb2508dd4fbe20a0e9bac08f3, type: 3}
+  preferedTargetUnit: 20

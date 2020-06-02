@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+[RequireComponent(typeof(PlayerResources))]
 [RequireComponent(typeof(Deck))]
 public class PlayerHand : MonoBehaviour
 {
@@ -10,21 +11,30 @@ public class PlayerHand : MonoBehaviour
     public Vector3 cardSelectedPivot;
 
     public RectTransform deckIcon;
+
     Deck deck;
+    PlayerResources resources;
+    public Battlefield battlefield;
 
     public CardPlayable[] cards;      // played card (troop, building, spell)
 
-    //Battlefield battlefield;
+
+    private void Awake()
+    {
+        deck = GetComponent<Deck>();
+        resources = GetComponent<PlayerResources>();
+        Assert.IsTrue(cards != null);
+        Assert.IsTrue(battlefield != null);
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        deck = GetComponent<Deck>();
-        Assert.IsTrue(deck != null);
-        Assert.IsTrue(cards != null);
-
-        for (int i = 0; i < cards.Length; ++i)
+        deck.UpdateCardCount();
+        for (int i = 0; i < cards.Length; ++i) {
+            cards[i].hand = this;
             DrawCardAnimation(cards[i]);
+        }
 
     }
 
@@ -73,6 +83,9 @@ public class PlayerHand : MonoBehaviour
             cards[i].Unselect();
         }
     }
+
+    public Deck GetDeck() { return deck; }
+    public PlayerResources GetResources() { return resources; }
 
 #if false
     private void OnDrawGizmos()

@@ -303,7 +303,7 @@ MonoBehaviour:
   team: 1
   cm: {fileID: 11400000, guid: 6ae97c698b56eec4dae808df14c26c3b, type: 2}
   deckCountText: {fileID: 8124093919048127808}
-  _deck_types: 
+  deck_types: []
 --- !u!1 &5987146422511760709
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,12 +40,6 @@ public class Squad : MonoBehaviour
         Assert.IsTrue(team != TeamType.None);
         gameObject.layer = (int)team + 8;
         
-        //Material mat = Resources.Load<Material>(team == TeamType.Opponent ? "Materials/M_Opponent" : "Materials/M_Player");
-        var renderables = GetComponentsInChildren<MeshRenderer>();
-        foreach (var r in renderables)
-            //r.material = mat;
-            r.material.color = battlefield.team_color[(int)team + 1];
-
         // set team
         Assert.IsTrue(troops != null);
 
@@ -61,6 +55,13 @@ public class Squad : MonoBehaviour
             // set healthbar team color
             Assert.IsTrue(t.healthBarInstance != null);
             t.healthBarInstance.SetTeamColor(battlefield.team_color[(int)team + 1]);
+
+            // get MeshRenderers and set color
+            var renderable = t.GetComponentInChildren<MeshRenderer>();
+            Assert.IsTrue(renderable != null);
+            renderable.material.color = battlefield.team_color[(int)team + 1];
+            // rotate towards camera by a fixed angle
+            renderable.transform.eulerAngles = new Vector3(team == TeamType.Player ? 30 : -30, 0, 0);
         }
 
         // troops can capture terrain and sense

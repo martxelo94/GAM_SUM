@@ -55,7 +55,7 @@ public class Sensor : MonoBehaviour
 
         // mask check
         ulong mask = unit.common.preferedTargetUnit;
-        bool is_target = 0 != ((ulong)1 << (int)unitTarget.common.unitType & mask);
+        bool is_target = 0 != (((ulong)1 << (int)unitTarget.common.unitType) & mask);
         if(is_target)
             potentialTargets.Add(unitTarget);
 

@@ -9,22 +9,26 @@ using TMPro;
 
 public class BattlefieldMenu : MonoBehaviour
 {
+    [Header("Debug")]
     public Text fps_text;
     // update every second
     float fps_update_counter = 0;
 
+    [Header("GUI Panels")]
     public GameObject endGamePanel;
     public GameObject victoryPanel;
     public GameObject defeatPanel;
     public GameObject tiePanel;
+    public GameObject endGameTimerPanel;
 
+    [Header("Players")]
     public Deck[] decks;
     public DealPlayerDamage[] playerHitPoints;
 
+    [Header("End Game")]
     public int nextLevel = 2;
     private bool game_ended = false;
 
-    public GameObject endGameTimerPanel;
     public TextMeshProUGUI timerText;
     public float endGameCheckTime = 5f;
     private float endGameCheckCurrentTime = 0f;
@@ -222,11 +226,11 @@ public class BattlefieldMenu : MonoBehaviour
             Deck d = decks[i];
             if (d.team == TeamType.Player)
             {
-                GameSettings.INSTANCE.SetAttackDeck(d.deck_types);
+                GameSettings.INSTANCE.SetAttackDeck(d.GetDeck());
             }
             else
             {
-                GameSettings.INSTANCE.SetTargetDeck(d.deck_types);
+                GameSettings.INSTANCE.SetTargetDeck(d.GetDeck());
             }
         }
         MapCampaign.UpdateFile();
@@ -258,22 +262,28 @@ public class BattlefieldMenu : MonoBehaviour
     void DisablePlayers()
     {
         OpponentAI ai = FindObjectOfType<OpponentAI>();
-        // add cards not played
-        for (int i = 0; i < ai.hand_types.Length; ++i)
+        if (ai != null)
         {
-            if(ai.hand_types[i] != CardType.None)
-                ai.deck.AddToDeck(ai.hand_types[i], 1);
-        }
-        ai.enabled = false;
-        PlayerHand hand = FindObjectOfType<PlayerHand>();
-        CardPlayable[] cards = hand.cards;
-        for (int i = 0; i < cards.Length; ++i) {
-            // add card to deck for saving
-            if (cards[i].card.type != CardType.None)
+            // add cards not played
+            for (int i = 0; i < ai.hand_types.Length; ++i)
             {
-                cards[i].deck.AddToDeck(cards[i].card.type, 1);
+                if(ai.hand_types[i] != CardType.None)
+                    ai.deck.AddToDeck(ai.hand_types[i], 1);
             }
-            cards[i].enabled = false;
+            ai.enabled = false;
+        }
+        PlayerHand[] hands = FindObjectsOfType<PlayerHand>();
+        foreach (PlayerHand hand in hands)
+        {
+            CardPlayable[] cards = hand.cards;
+            for (int i = 0; i < cards.Length; ++i) {
+                // add card to deck for saving
+                if (cards[i].card.type != CardType.None)
+                {
+                    cards[i].hand.GetDeck().AddToDeck(cards[i].card.type, 1);
+                }
+                cards[i].enabled = false;
+            }
         }
     }
 }

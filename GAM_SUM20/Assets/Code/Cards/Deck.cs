@@ -29,7 +29,8 @@ public class Deck : MonoBehaviour
             return selected_card.transform;
         }
     }
-    public CardTypeCount[] deck_types;
+    [SerializeField]
+    private CardTypeCount[] deck_types;
     private int total_card_count = -1;
     public int cards_to_play_count { get; private set; } = -1;
     // card types in deck
@@ -40,8 +41,9 @@ public class Deck : MonoBehaviour
     private void Awake()
     {
         //battlefield = FindObjectOfType<Battlefield>();
-        if (cm == null)
-            cm = Resources.Load("Scripts/CardManager") as CardManager;
+        
+        //if (cm == null)
+        //    cm = Resources.Load("Scripts/CardManager") as CardManager;
         Assert.IsTrue(cm != null);
 
 
@@ -51,11 +53,8 @@ public class Deck : MonoBehaviour
     void Start()
     {
 
-        if (deck_types == null || deck_types.Length != (int)CardType.CardType_Count)
-        {
-            InitCardTypes();
-        }
-        else UpdateCardCount();
+        Assert.IsTrue(deck_types != null);
+        UpdateCardCount();
         Assert.IsTrue(total_card_count > -1);
         if (deckCountText != null)
         {
@@ -63,6 +62,7 @@ public class Deck : MonoBehaviour
         }
     }
 
+    public CardTypeCount[] GetDeck() { return deck_types; }
     public void SetDeck(CardTypeCount[] deck)
     {
         deck_types = deck;
@@ -233,6 +233,7 @@ public class Deck : MonoBehaviour
 
     CardType GetRandomType()
     {
+        Assert.IsTrue(total_card_count > -1);
         int randomNum = GameSettings.INSTANCE.randomizer.Next(0, total_card_count);
         CardType type = CardType.None;
         for (int i = 0; i < deck_types.Length; ++i)

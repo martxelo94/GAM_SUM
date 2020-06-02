@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(MapCampaign))]
 public class CampaignMenu : MonoBehaviour
 {
     public GameObject campaignEndPanel;
@@ -57,6 +58,8 @@ public class CampaignMenu : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        MapCampaign map = GetComponent<MapCampaign>();
+        map.SaveFile();
         // erase attack data from GameSettings
         GameSettings.INSTANCE.ResetBattle();
         Time.timeScale = 1.0f;

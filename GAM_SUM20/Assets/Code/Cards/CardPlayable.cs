@@ -6,14 +6,11 @@ using UnityEngine.UI;
 public class CardPlayable : MonoBehaviour
 {
     public CardImage card;
-    private PlayerHand playerHand;
+    public PlayerHand hand; // set from hand
 
     public Text HR_text;
     public Text MR_text;
 
-    public Deck deck;
-    public Battlefield battlefield;
-    PlayerResources player_resources;
 
     public Vector3 initPos { get; private set; }
     public Vector3 initScale { get; private set; }
@@ -22,13 +19,14 @@ public class CardPlayable : MonoBehaviour
     private bool can_spawn = false;
     private bool has_selected = false;
 
+//#if UNITY_EDITOR
+    private Camera mainCamera;
+    private int touchIndex = 0;
+
     private void Awake()
     {
-        Assert.IsTrue(battlefield != null);
+        mainCamera = Camera.main;
         Assert.IsTrue(card != null);
-        playerHand = FindObjectOfType<PlayerHand>();
-        Assert.IsTrue(deck != null);
-        player_resources = deck.gameObject.GetComponent<PlayerResources>();
 
         initPos = transform.position;
         initPos = transform.InverseTransformPoint(initPos);
@@ -36,7 +34,6 @@ public class CardPlayable : MonoBehaviour
         initPos = transform.TransformPoint(initPos);
 
         initScale = transform.localScale;
-
     }
 
     // Start is called before the first frame update
@@ -48,7 +45,7 @@ public class CardPlayable : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (deck.cards_to_play_count > 0)
+        if (hand.GetDeck().cards_to_play_count > 0)
         {
             if (card.type != CardType.None)
             {
@@ -58,25 +55,26 @@ public class CardPlayable : MonoBehaviour
             {
                 return;
             }
-            if (has_selected)
+            if (has_selected && touchIndex > -1)
             {
                 if (IsTouchDown() || IsTouchDrag())
                 {                    
-                    Vector2Int coord = battlefield.GetCellCoordAtTouch();
+                    Vector2Int coord = hand.battlefield.GetCellCoordAtTouch();
                     // show unit on battlefield
-                    if (battlefield.IsInsideGrid(coord))
+                    if (hand.battlefield.IsInsideGrid(coord))
                     {
                         // spawn unit
-                        if (deck.HasSelected() == false)
+                        if (hand.GetDeck().HasSelected() == false)
                         {
-                            deck.SelectType(card.type);
+                            hand.GetDeck().SelectType(card.type);
                             // set scale
-                            deck.selected_transform.localScale = new Vector3(battlefield.cell_size, battlefield.cell_size, battlefield.cell_size);
+                            hand.GetDeck().selected_transform.localScale = 
+                                new Vector3(hand.battlefield.cell_size, hand.battlefield.cell_size, hand.battlefield.cell_size);
                             ShowCard(false);
                         }
-                        can_spawn = battlefield.SnapToCaptured(ref coord, TeamType.Player) ? true : false;
+                        can_spawn = hand.battlefield.SnapToCaptured(ref coord, hand.GetDeck().team) ? true : false;
                         // move unit
-                        deck.selected_transform.position = battlefield.GetCellPos(coord);
+                        hand.GetDeck().selected_transform.position = hand.battlefield.GetCellPos(coord);
 
                         //Debug.Log(name + " inside grid.");
 
@@ -86,9 +84,9 @@ public class CardPlayable : MonoBehaviour
                     {
                         can_spawn = false;
                         // remove spawned unit
-                        if (deck.HasSelected())
+                        if (hand.GetDeck().HasSelected())
                         {
-                            deck.Unselect();
+                            hand.GetDeck().Unselect();
                             ShowCard(true);
                         }
                         // move card
@@ -96,25 +94,26 @@ public class CardPlayable : MonoBehaviour
                         SetCardPos(pos);
                         // set selected transform card
                         //SetCardPos(initPos);
-                        transform.localScale = initScale * playerHand.cardSelectedScale;
+                        transform.localScale = initScale * hand.cardSelectedScale;
 
                         //Debug.Log(name + " outside grid.");
                     }
                 }
                 else if (IsTouchUp())
                 {
+                    //touchIndex = -1;
                     SetCardPos(initPos);
                     if (can_spawn)
                     {
                         transform.localScale = initScale;
 
-                        if (deck.HasSelected() == false)
+                        if (hand.GetDeck().HasSelected() == false)
                             return;
                         if (!has_resources)
                         {
                             // delete blueprint
-                            if(deck.HasSelected())
-                                deck.Unselect();
+                            if(hand.GetDeck().HasSelected())
+                                hand.GetDeck().Unselect();
                             ShowCard(true);
                             return;
                         }
@@ -125,16 +124,19 @@ public class CardPlayable : MonoBehaviour
                         //if (battlefield.IsInsideGrid(coord))
                         {
                             // consume resources
-                            player_resources.ConsumeResources(deck.cm.cards[(int)card.type].cost);
+                            hand.GetResources().ConsumeResources(hand.GetDeck().cm.cards[(int)card.type].cost);
 
                             // make visible again
                             ShowCard(true);
 
                             // randomize next type
-                            playerHand.DrawCardAnimation(this);
+                            hand.DrawCardAnimation(this);
 
                             // confirm spawn
-                            deck.PlaySelected();
+                            GameObject squadObj = hand.GetDeck().PlaySelected();
+                            Squad squad = squadObj.GetComponent<Squad>();
+                            // squad stuff
+                            squad.team = hand.GetDeck().team;
 
                             // reset the selection
                             ToggleSelect(); // unselect
@@ -146,8 +148,10 @@ public class CardPlayable : MonoBehaviour
         }
 
     }
+    
     private void OnMouseDown()
     {
+        touchIndex = GetTouchIndex();
         if(card.type != CardType.None)
             ToggleSelect();
     }
@@ -161,7 +165,7 @@ public class CardPlayable : MonoBehaviour
     {
         if (has_selected == false)
         {
-            playerHand.UnselectCards();
+            hand.UnselectCards();
             Select();
             //Debug.Log(name + " selected.");
         }
@@ -186,7 +190,7 @@ public class CardPlayable : MonoBehaviour
         if (_type != CardType.None)
         {
             HasResources();
-            Vector2Int cost = deck.cm.cards[(int)_type].cost;
+            Vector2Int cost = hand.GetDeck().cm.cards[(int)_type].cost;
             ShowCard(true);
             HR_text.text = cost.x.ToString();
             MR_text.text = cost.y.ToString();
@@ -199,13 +203,13 @@ public class CardPlayable : MonoBehaviour
     void SetCardPos(Vector3 pos)
     {
         transform.position = pos;
-        transform.position += playerHand.cardSelectedPivot;
+        transform.position += hand.cardSelectedPivot;
     }
 
     public void Select()
     {
         has_selected = true;
-        transform.localScale = initScale * playerHand.cardSelectedScale;
+        transform.localScale = initScale * hand.cardSelectedScale;
     }
     public void Unselect()
     {
@@ -216,8 +220,8 @@ public class CardPlayable : MonoBehaviour
 
     bool HasResources()
     {
-        Vector2Int cost = deck.cm.cards[(int)card.type].cost;
-        if (cost.x < player_resources.HR_curr && cost.y < player_resources.MR_curr)
+        Vector2Int cost = hand.GetDeck().cm.cards[(int)card.type].cost;
+        if (cost.x < hand.GetResources().HR_curr && cost.y < hand.GetResources().MR_curr)
         {
             has_resources = true;
             card.image.color = Color.white;
@@ -232,13 +236,35 @@ public class CardPlayable : MonoBehaviour
         }
     }
 
+    int GetTouchIndex()
+    {
+#if UNITY_EDITOR
+
+        return 0;
+#else
+        Touch[] touches = Input.touches;
+        int closest = -1;
+        float bestDist = Mathf.Infinity;
+        for (int i = 0; i < touches.Length; ++i)
+        {
+            Vector2 screenPos = mainCamera.WorldToScreenPoint(transform.position);
+            float dist2 = (screenPos - touches[i].position).sqrMagnitude;
+            if (dist2 < bestDist)
+            {
+                bestDist = dist2;
+                closest = i;
+            }
+        }
+        return closest;
+#endif
+    }
 
     bool IsTouchDown()
     {
 #if UNITY_EDITOR
         return Input.GetMouseButtonDown(0);
 #else
-        return Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began;
+        return Input.touchCount > 0 && Input.GetTouch(touchIndex).phase == TouchPhase.Began;
 #endif
     }
 
@@ -247,7 +273,7 @@ public class CardPlayable : MonoBehaviour
 #if UNITY_EDITOR
         return Input.GetMouseButton(0);
 #else
-        return Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved;
+        return Input.touchCount > 0 && Input.GetTouch(touchIndex).phase == TouchPhase.Moved;
 #endif
     }
 
@@ -256,7 +282,7 @@ public class CardPlayable : MonoBehaviour
 #if UNITY_EDITOR
         return Input.GetMouseButtonUp(0);
 #else
-        return Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended;
+        return Input.touchCount > 0 && Input.GetTouch(touchIndex).phase == TouchPhase.Ended;
 #endif
     }
 }

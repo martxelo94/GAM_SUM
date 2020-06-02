@@ -25,6 +25,8 @@ public class MapCampaign : MonoBehaviour
     public float movement_duration = 2.0f;
     private MapNode[] nodes;
 
+    public GameObject[] armyPrefabs;
+
     public CampaignMenu menu;
 
     private void Awake()
@@ -34,8 +36,10 @@ public class MapCampaign : MonoBehaviour
         nodes = FindObjectsOfType<MapNode>();
         System.Comparison<MapNode> comp = (a, b) => a.name.CompareTo(b.name);
         System.Array.Sort(nodes, comp);
-        for (int i = 0; i < nodes.Length; ++i)
+        for (int i = 0; i < nodes.Length; ++i) {
+            nodes[i].map = this;
             nodes[i].node_idx = i;
+        }
         LoadFile();
         ConfirmBattleResult();
     }
@@ -46,10 +50,7 @@ public class MapCampaign : MonoBehaviour
         SaveFile();
     }
 
-    private void OnDestroy()
-    {
-        //SaveFile();
-    }
+
 
     // Update is called once per frame
     void Update()
@@ -66,12 +67,12 @@ public class MapCampaign : MonoBehaviour
             // update decks
             Deck attack_army = nodes[GameSettings.INSTANCE.attack_idx].army;
             Assert.IsTrue(attack_army != null);
-            attack_army.deck_types = GameSettings.INSTANCE.attack_deck;
+            attack_army.SetDeck(GameSettings.INSTANCE.attack_deck);
 
             Assert.IsTrue(GameSettings.INSTANCE.target_idx > -1);
             Deck target_army = nodes[GameSettings.INSTANCE.target_idx].army;
             Assert.IsTrue(GameSettings.INSTANCE.target_deck != null);
-            target_army.deck_types = GameSettings.INSTANCE.target_deck;
+            target_army.SetDeck(GameSettings.INSTANCE.target_deck);
 
             // win reward
             if (GameSettings.INSTANCE.last_battle_won)
@@ -182,10 +183,13 @@ public class MapCampaign : MonoBehaviour
 
     void CaptureNode(MapNode attaker, MapNode target)
     {
-        if (attaker.army != null) {
-            if (target.army != null) {
+        Assert.IsTrue(attaker.army_model_idx != -1);
+        if (attaker.army != null)
+        {
+            if (target.army != null)
+            {
                 // combine decks
-                attaker.army.CombineCards(target.army.deck_types);
+                attaker.army.CombineCards(target.army.GetDeck());
                 Destroy(target.army.gameObject);
             }
             // replace
@@ -197,7 +201,7 @@ public class MapCampaign : MonoBehaviour
             target.army_model_idx = attaker.army_model_idx;
             attaker.army_model_idx = -1;
         }
-
+        
         // set team
         target.team = attaker.team;
         // update links if need
@@ -384,6 +388,7 @@ public class MapCampaign : MonoBehaviour
         {
             // capture node
             CaptureNode(target_node, selected_node);
+            SaveFile();
         }
         is_moving = false;
     }

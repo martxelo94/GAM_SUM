@@ -6,6 +6,9 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(MeshFilter))]
 public class TerrainUpdater : MonoBehaviour
 {
+    public Vector2Int grid_size;
+    public Vector3 grid_center;
+
     public Battlefield battlefield;
     private MeshFilter mesh_filter;
     bool terrain_updated = true;
@@ -13,11 +16,14 @@ public class TerrainUpdater : MonoBehaviour
 
     private void Awake()
     {
+        battlefield.grid_size = grid_size;
+        battlefield.grid_center = grid_center;
+
         mesh_filter = GetComponent<MeshFilter>();
-        if (mesh_filter.mesh == null)
-            CreateMesh();
-        else
-            battlefield.ResetGrid();
+        if (mesh_filter.mesh != null)
+            mesh_filter.mesh = null;
+        battlefield.CreateGrid();
+        CreateMesh();
     }
 
     // Update is called once per frame
@@ -35,6 +41,9 @@ public class TerrainUpdater : MonoBehaviour
     }
     public void EditorCreateMesh()
     {
+        battlefield.grid_size = grid_size;
+        battlefield.grid_center = grid_center;
+
         if (mesh_filter == null)
             mesh_filter = GetComponent<MeshFilter>();
         battlefield.CreateGrid();

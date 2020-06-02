@@ -23,7 +23,7 @@ public struct NodeSaveData
         name = node.gameObject.name;
         model_idx = node.army_model_idx;
         if (node.army != null)
-            deck = node.army.deck_types;
+            deck = node.army.GetDeck();
         else deck = null;
         team = node.team;
     }

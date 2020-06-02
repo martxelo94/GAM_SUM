@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public int quickGameSceneIndex = 2;
-    public int campaignSceneIndex = 3;
+    public int aiGameSceneIndex = 2;
+    public int playerGameSceneIndex = 3;
+    public int campaignSceneIndex = 4;
 
     // Start is called before the first frame update
     void Start()
@@ -27,9 +28,13 @@ public class MainMenu : MonoBehaviour
 
     }
 
-    public void StartQuickGame()
+    public void StartAIGame()
     {
-        LoadLevelScene(quickGameSceneIndex);
+        LoadLevelScene(aiGameSceneIndex);
+    }
+    public void StartPlayerGame()
+    {
+        LoadLevelScene(playerGameSceneIndex);
     }
     public void StartCampaign()
     {

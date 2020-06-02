@@ -12,8 +12,7 @@ public class MapNode : MonoBehaviour
     //[HideInInspector]
     public int node_idx = -1;  //set by MapCampaign to proper game progresion
     private LineRenderer[] linksInstantiated;
-    MapCampaign map;
-    bool is_selected = false;
+    public MapCampaign map;
     Vector3 initScale;
     // army stuff
     public Deck army;
@@ -25,7 +24,7 @@ public class MapNode : MonoBehaviour
 
     private void Awake()
     {
-        map = FindObjectOfType<MapCampaign>();
+        //map = FindObjectOfType<MapCampaign>();
         parentNodes = new List<MapNode>();
         Assert.IsTrue(deck_reward != null && deck_reward.Length == (int)CardType.CardType_Count);
     }
@@ -33,6 +32,7 @@ public class MapNode : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Assert.IsTrue(map != null); // set by MapCampaign
         Assert.IsTrue(node_idx != -1);
         UpdateLinks();
         SetTeamColor();
@@ -133,7 +133,7 @@ public class MapNode : MonoBehaviour
     public void SpawnArmy()
     {
         Assert.IsTrue(army == null);
-        GameObject army_obj = Instantiate(Resources.Load("Prefabs/MapArmy/Army_" + army_model_idx.ToString()), transform) as GameObject;
+        GameObject army_obj = Instantiate(map.armyPrefabs[army_model_idx], transform);
         Assert.IsTrue(army_obj != null);
         army_obj.transform.position = transform.position;
         army_obj.name = "Army";
@@ -167,7 +167,6 @@ public class MapNode : MonoBehaviour
 
     public void Select()
     {
-        is_selected = true;
         transform.localScale = initScale * 1.5f;
         //for (int i = 0; i < nextNodes.Length; ++i)
         //{
@@ -177,7 +176,6 @@ public class MapNode : MonoBehaviour
 
     public void Unselect()
     {
-        is_selected = false;
         transform.localScale = initScale;
         for (int i = 0; i < nextNodes.Length; ++i) {
             nextNodes[i].transform.localScale = nextNodes[i].initScale;
@@ -229,13 +227,14 @@ public class MapNode : MonoBehaviour
         army_model_idx = data.model_idx;
         if(army != null)
             DestroyArmy();
-        if (data.deck != null)
+        //Assert.IsTrue(army_model_idx > -1);
+        if(data.deck != null)
         {
             //if (army == null)
             {
                 SpawnArmy();
             }
-            army.deck_types = data.deck;
+            army.SetDeck(data.deck);
         }
         //SetTeamColor();   // done at Start once
     }

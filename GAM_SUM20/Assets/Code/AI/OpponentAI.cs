@@ -83,7 +83,8 @@ public class OpponentAI : MonoBehaviour
                 deck.SelectType(card_type);
                 // randomize position
                 int randX = Random.Range(0, battlefield.grid_size.x);
-                Vector2Int coord = new Vector2Int(randX, 2);
+                int randY = Random.Range(0, battlefield.grid_size.y);
+                Vector2Int coord = new Vector2Int(randX, randY);
                 battlefield.SnapToCaptured(ref coord, deck.team); // TeamType.Opponent);
                 deck.selected_transform.position = battlefield.GetCellPos(coord);
                 //rotate towards down

@@ -155,7 +155,8 @@ public class Battlefield : ScriptableObject
         //for (int i = 0; i < mesh_colors.Length / 2; ++i)
         //     mesh_colors[i] = Color.yellow;
         // update extreme rows
-        for (int i = 0; i < (size.x + 2) * 2; ++i)
+        int bot_idx = (size.x + 2) * 2;
+        for (int i = 0; i < bot_idx; ++i)
         {
             Color c = team_color[(int)TeamType.Player + 1] * 1.2f;
             mesh_colors[i] = c;
@@ -164,6 +165,11 @@ public class Battlefield : ScriptableObject
         for (int i = top_idx; i < mesh_colors.Length; ++i)
         {
             Color c = team_color[(int)TeamType.Opponent + 1] * 1.2f;
+            mesh_colors[i] = c;
+        }
+        for (int i = bot_idx; i < top_idx; ++i)
+        {
+            Color c = team_color[(int)TeamType.None + 1];
             mesh_colors[i] = c;
         }
         return mesh_colors;
@@ -365,15 +371,19 @@ public class Battlefield : ScriptableObject
         if (team == TeamType.Player)
         {
             int idx = coord.x + coord.y * grid_size.x;
-            for (int i = idx; i >= 0; i -= grid_size.x) {
-                if (GetTeam(m_team_grid[i]) == team && terrain_captured_times[i] >= time_to_secure_terrain) {
+            for (int i = idx; i >= 0; i -= grid_size.x)
+            {
+                if (GetTeam(m_team_grid[i]) == team && terrain_captured_times[i] >= time_to_secure_terrain)
+                {
                     coord = new Vector2Int(coord.x, i / grid_size.x);
                     return true;
                 }
             }
         }
-        else if (team == TeamType.Opponent) {
-           int idx = grid_size.x + coord.x; // NINJA BUG?
+        else
+        {
+           Assert.IsTrue(team == TeamType.Opponent);
+           int idx = coord.x + coord.y * grid_size.x; // NINJA BUG?
             for (int i = idx; i < m_team_grid.Length; i += grid_size.x)
             {
                 if (GetTeam(m_team_grid[i]) == team && terrain_captured_times[i] >= time_to_secure_terrain)

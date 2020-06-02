@@ -42,10 +42,10 @@ public class GameSettings : MonoBehaviour
     public void SetBattle(MapNode attaker, MapNode target)
     {
         Assert.IsTrue(attaker.army != null && target.army != null);
-        attack_deck = attaker.army.deck_types;
+        attack_deck = attaker.army.GetDeck();
         attack_idx = attaker.node_idx;
 
-        target_deck = target.army.deck_types;
+        target_deck = target.army.GetDeck();
         target_idx = target.node_idx;
 
         campaign_battle_name = SceneManager.GetActiveScene().name;

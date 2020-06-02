@@ -1898,7 +1898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 1
-  cm: {fileID: 0}
+  cm: {fileID: 11400000, guid: 6ae97c698b56eec4dae808df14c26c3b, type: 2}
   deckCountText: {fileID: 817373509}
   deck_types:
   - type: 0
@@ -4541,6 +4541,10 @@ MonoBehaviour:
   battleLevelBuildIdx: 2
   selected_node: {fileID: 0}
   movement_duration: 2
+  armyPrefabs:
+  - {fileID: 2765066322664949102, guid: b13d854c04ed2a44f9627564ece45641, type: 3}
+  - {fileID: 3199184357092984008, guid: 59fdf6c104bfb0244afc249ce6327f94, type: 3}
+  - {fileID: 5945248831658859638, guid: 29c2a7f0346808144bdc6f79bd45c7f1, type: 3}
   menu: {fileID: 755710185}
 --- !u!1 &756135833
 GameObject:
@@ -10204,7 +10208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  cm: {fileID: 0}
+  cm: {fileID: 11400000, guid: 6ae97c698b56eec4dae808df14c26c3b, type: 2}
   deckCountText: {fileID: 405816505}
   deck_types:
   - type: 0
@@ -11243,7 +11247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 1
-  cm: {fileID: 0}
+  cm: {fileID: 11400000, guid: 6ae97c698b56eec4dae808df14c26c3b, type: 2}
   deckCountText: {fileID: 819896327}
   deck_types:
   - type: 0
