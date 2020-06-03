@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;   // text
 using System.Text;
 
-public class ResourceManager : MonoBehaviour
+public class ResourceGUI : MonoBehaviour
 {
     public PlayerResources m_resources;
     public GameObject HR_bar;
