@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Linq;
 
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
@@ -48,6 +49,16 @@ public class MapCampaign : MonoBehaviour
     void Start()
     {
         SaveFile();
+
+        // select node
+        foreach (MapNode n in nodes)
+        {
+            if (n.army != null && n.army.team == TeamType.Player)
+            {
+                SelectNode(n);
+                break;
+            }
+        }
     }
 
 
@@ -57,6 +68,18 @@ public class MapCampaign : MonoBehaviour
     {
         //if (selected_node != null)
         //    FollowGUI();
+        // if target node is dead end, then campaign finished
+
+    }
+
+    public List<Deck> GetArmiesOfTeam(TeamType team)
+    {
+        List<Deck> armies = new List<Deck>();
+        foreach (MapNode n in nodes) {
+            if (n.army != null && n.army.team == team)
+                armies.Add(n.army);
+        }
+        return armies;
     }
 
     void ConfirmBattleResult()
@@ -258,6 +281,14 @@ public class MapCampaign : MonoBehaviour
         selected_node = node;
         selected_node.Select();
 
+
+        if (selected_node != null && selected_node.nextNodes.Length == 0 && selected_node.team == TeamType.Player)
+        {
+            menu.ShowEndPanel(true);
+        }
+        else
+            menu.ShowEndPanel(false);
+
         menu.ShowNodePanel(true);
 
         if (selected_node.army != null)
@@ -285,6 +316,7 @@ public class MapCampaign : MonoBehaviour
                         menu.ShowArmyPanel(true);
                         menu.ShowMoveButton(true);
                         menu.ShowNodePanel(false);
+
                         break;
                     }
                 }
@@ -411,5 +443,11 @@ public class MapCampaign : MonoBehaviour
             deck.AddToDeck((CardType)GameSettings.INSTANCE.randomizer.Next(0, (int)CardType.CardType_Count), 1);
         }
         deck.UpdateText();
+    }
+
+    public void SetActiveNodes(bool active)
+    {
+        for (int i = 0; i < nodes.Length; ++i)
+            nodes[i].enabled = active;
     }
 }

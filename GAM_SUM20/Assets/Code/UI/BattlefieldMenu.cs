@@ -19,7 +19,7 @@ public class BattlefieldMenu : MonoBehaviour
     public GameObject victoryPanel;
     public GameObject defeatPanel;
     public GameObject tiePanel;
-    public GameObject endGameTimerPanel;
+    public RawImage endGameTimerPanel;
 
     [Header("Players")]
     public Deck[] decks;
@@ -32,6 +32,7 @@ public class BattlefieldMenu : MonoBehaviour
     public TextMeshProUGUI timerText;
     public float endGameCheckTime = 5f;
     private float endGameCheckCurrentTime = 0f;
+    private bool showing_timer = false; // used for coroutine start
 
     private void Awake()
     {
@@ -59,40 +60,111 @@ public class BattlefieldMenu : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         fps_update_counter += Time.deltaTime;
         if (fps_update_counter > 1.0f) {
             DrawFPS(fps_text);
             fps_update_counter = 0.0f;
         }
-
-        if (game_ended == false && DealPlayerDamage.totalTroopCount == 0)
+        // game time end condition
+        if (game_ended == false)
         {
+            // no troops alive
+            if (IsBattleEnd())
+            {
+                ShowEndGamePanel();
+                return;
+
+            }
+
+#if false // CHECK LAST MAN STAND!!!
+            if (decks[0].cards_to_play_count == 0 && decks[1].cards_to_play_count == 0)
+            {
+                if (DealPlayerDamage.totalTroopCount == 0)
+                {
+                }
+                // need to store player troop count somewhere...
+                if (DealPlayerDamage.totalTroopCount == 1) {
+                    // find that bitch
+                    Unit[] last_man = FindObjectsOfType<Unit>();  // may not be deleted yet
+                    foreach (Unit u in last_man)
+                    {
+                        if (u.IsAlive()) {
+                            int hit_dif = playerHitPoints[0].hit_points - playerHitPoints[1].hit_points;
+                            if (hit_dif == 0) {
+
+                            }
+
+
+                            return;
+                        }
+                    }
+
+                }
+            }
+#endif
             endGameCheckCurrentTime += Time.deltaTime;
+            // end game
             if (endGameCheckCurrentTime > endGameCheckTime)
             {
-                endGameTimerPanel.SetActive(false);
+                endGameTimerPanel.gameObject.SetActive(false);
                 ShowEndGamePanel();
             }
-            else if (endGameCheckCurrentTime > 1f)
+            // show time
+            else if ((int)endGameCheckCurrentTime % 60 == 0) {
+                if (showing_timer == false)
+                    StartCoroutine(FadeTimerPanel());
+            }
+            else if (endGameCheckCurrentTime < 3.1f)
             {
-                endGameTimerPanel.SetActive(true);
-                timerText.text = (endGameCheckTime - endGameCheckCurrentTime).ToString("00.00");    
+                if (showing_timer == false)
+                    StartCoroutine(FadeTimerPanel());
             }
         }
         else {
-            endGameCheckCurrentTime = 0f;
-            endGameTimerPanel.SetActive(false);
+            //endGameCheckCurrentTime = 0f;
+            endGameTimerPanel.gameObject.SetActive(false);
         }
     }
-    
+#if false
     private void OnGUI()
     {
         GUI.Label(new Rect(300, 10, 200, 80), "Troops alive = " + DealPlayerDamage.totalTroopCount.ToString());
     }
+#endif
+    IEnumerator FadeTimerPanel()
+    {
+        showing_timer = true;
+        endGameTimerPanel.gameObject.SetActive(true);
+        int fade_frames = (int)(1.0f / Time.deltaTime);  // one sec
+        Color opaque = endGameTimerPanel.color;
+        Color alpha = opaque; alpha.a = 0f;
+        for (int i = 0; i < fade_frames; ++i) {
+            endGameTimerPanel.color = Color.Lerp(alpha, opaque, (float)i / fade_frames);
+            timerText.text = (endGameCheckTime - endGameCheckCurrentTime).ToString("00.00");
+            yield return null;
+        }
+        for (int i = 0; i < fade_frames; ++i)
+        {
+            endGameTimerPanel.color = Color.Lerp(opaque, alpha, (float)i / fade_frames);
+            timerText.text = (endGameCheckTime - endGameCheckCurrentTime).ToString("00.00");
+            yield return null;
+        }
+        endGameTimerPanel.gameObject.SetActive(false);
+        showing_timer = false;
+    }
 
-    public void ResetLevel()
+    public bool IsBattleEnd()
+    {
+        if (decks[0].cards_to_play_count == 0 && decks[1].cards_to_play_count == 0)
+            if (DealPlayerDamage.totalTroopCount == 0)
+                return true;
+        return false;
+
+    }
+
+        public void ResetLevel()
     {
 
         Time.timeScale = 1.0f;

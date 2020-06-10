@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class GameSettings : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class GameSettings : MonoBehaviour
     public int target_idx { get; private set; } = -1;
     public bool last_battle_won = false;
     public string campaign_battle_name;
+    public string tuto_campaign_savename = "CampaignTip";
+    public string tuto_battle_savename = "BattleTip";
 
     public void SetAttackDeck(CardTypeCount[] deck)
     {
@@ -83,7 +86,22 @@ public class GameSettings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // HACK - DELETE SAVED GAMES
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            PlayerPrefs.DeleteKey(tuto_battle_savename);
+            PlayerPrefs.DeleteKey(tuto_campaign_savename);
+
+            Debug.Log("Tutorial savedata deleted.");
+
+            const int CAMPAIGN_COUNT = 2;
+            string path = Application.persistentDataPath + "/Campaign_";
+            for (int i = 0; i < CAMPAIGN_COUNT; ++i) {
+                string tmp = path + i.ToString();
+                File.Delete(tmp);
+                Debug.Log(tmp + " file deleted.");
+            }
+        }
     }
 }
 

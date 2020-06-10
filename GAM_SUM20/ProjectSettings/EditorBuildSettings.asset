@@ -18,6 +18,12 @@ EditorBuildSettings:
     path: Assets/Scenes/BattlefieldPlayerVsPlayer.unity
     guid: 38edea25337f91d488b4b66910af05bf
   - enabled: 1
-    path: Assets/Scenes/Campaign.unity
+    path: Assets/Scenes/BattlefieldTutorial.unity
+    guid: 26a2e3fb5075593439080b27c297eede
+  - enabled: 1
+    path: Assets/Scenes/Campaign_0.unity
+    guid: aa2b3433922d24b48b03819507b3c224
+  - enabled: 1
+    path: Assets/Scenes/Campaign_1.unity
     guid: 1e1767e5a15b7184ca0b7d818402f801
   m_configObjects: {}

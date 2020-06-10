@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     public int aiGameSceneIndex = 2;
     public int playerGameSceneIndex = 3;
-    public int campaignSceneIndex = 4;
+    public int campaignSceneIndex = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +36,8 @@ public class MainMenu : MonoBehaviour
     {
         LoadLevelScene(playerGameSceneIndex);
     }
-    public void StartCampaign()
+    public void StartCampaign(int idx)
     {
-        LoadLevelScene(campaignSceneIndex);
+        LoadLevelScene(campaignSceneIndex + idx);
     }
 }

@@ -15,22 +15,14 @@ public class CampaignMenu : MonoBehaviour
     public GameObject moveButton;
     public GameObject addCardsButton;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void ToggleActive(GameObject obj)
     {
         obj.SetActive(!obj.activeSelf);
     }
+
+    public void EnableButton(Button button) => button.interactable = true;
+    public void DisableButton(Button button) => button.interactable = false;
 
     public void ToggleButton(Button button)
     {
@@ -52,8 +44,8 @@ public class CampaignMenu : MonoBehaviour
 
     public void EndCampaign()
     {
-        MapCampaign.DeleteFile();
         LoadMainMenu();
+        MapCampaign.DeleteFile();
     }
 
     public void LoadMainMenu()

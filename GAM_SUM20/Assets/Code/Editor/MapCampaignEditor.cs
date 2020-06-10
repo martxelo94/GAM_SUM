@@ -19,11 +19,5 @@ public class MapCampaignEditor : Editor
         {
             _target.SaveFile();
         }
-        // this is RISKY, could overwritte the original level
-        //if (GUILayout.Button("Load"))
-        //{
-        //    _target.LoadFile();
-        //}
     }
-
 }

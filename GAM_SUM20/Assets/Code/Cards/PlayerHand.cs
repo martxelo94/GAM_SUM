@@ -45,6 +45,7 @@ public class PlayerHand : MonoBehaviour
 
     IEnumerator DrawCard(CardPlayable card)
     {
+        yield return null;  // wait one frame for the initialization
         CardType drawed_card = deck.DrawCard();
         if (drawed_card == CardType.None)
         {
@@ -56,7 +57,7 @@ public class PlayerHand : MonoBehaviour
         Vector3 finalScale = card.initScale;
         Vector3 initScale = finalScale / 3f;
         Vector3 finalPos = card.initPos;
-        Vector3 initPos = deckIcon.TransformPoint(deckIcon.anchoredPosition + deckIcon.sizeDelta / 2);
+        Vector3 initPos = deckIcon.position;
 
         for (int i = 0; i < frames; ++i)
         {

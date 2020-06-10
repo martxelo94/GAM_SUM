@@ -1032,6 +1032,11 @@ PrefabInstance:
       propertyPath: army
       value: 
       objectReference: {fileID: 354970906}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 755710187}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3432,6 +3437,11 @@ PrefabInstance:
       propertyPath: deck_reward.Array.data[4].count
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 755710187}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7783,6 +7793,11 @@ PrefabInstance:
       propertyPath: deck_reward.Array.data[4].count
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 755710187}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9583,6 +9598,11 @@ PrefabInstance:
       propertyPath: deck_reward.Array.data[3].count
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 755710187}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9799,6 +9819,11 @@ PrefabInstance:
       propertyPath: deck_reward.Array.data[3].count
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 755710187}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -11388,6 +11413,11 @@ PrefabInstance:
       propertyPath: team
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 755710187}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
       propertyPath: m_LocalPosition.x

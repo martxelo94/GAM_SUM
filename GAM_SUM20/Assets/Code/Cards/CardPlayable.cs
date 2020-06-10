@@ -28,17 +28,17 @@ public class CardPlayable : MonoBehaviour
         mainCamera = Camera.main;
         Assert.IsTrue(card != null);
 
-        initPos = transform.position;
-        initPos = transform.InverseTransformPoint(initPos);
-        initPos = new Vector3(initPos.z, initPos.y, 0f);
-        initPos = transform.TransformPoint(initPos);
-
-        initScale = transform.localScale;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        initPos = transform.position;
+        //initPos = transform.InverseTransformPoint(initPos);
+        //initPos = new Vector3(initPos.z, initPos.y, 0f);
+        //initPos = transform.TransformPoint(initPos);
+
+        initScale = transform.localScale;
 
     }
 
