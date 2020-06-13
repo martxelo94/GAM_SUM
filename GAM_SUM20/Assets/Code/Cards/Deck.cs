@@ -86,11 +86,12 @@ public class Deck : MonoBehaviour
         return selected_type != CardType.None;
     }
 
-    public void Unselect()
+    public void Unselect(bool destroy_card = true)
     {
         selected_type = CardType.None;
         Assert.IsTrue(selected_card != null);
-        Destroy(selected_card);
+        if(destroy_card)
+            Destroy(selected_card);
         selected_card = null;
     }
 
@@ -102,32 +103,46 @@ public class Deck : MonoBehaviour
         //selected_card.transform.localScale *= battlefield.cell_size;
     }
 
-    public GameObject PlaySelected()
+    public void PlaySelected()
     {
-        Assert.IsTrue(selected_card != null);
-        //selected_card.transform.localScale *= battlefield.cell_size;
-        // activate logic components
-        //var components = selected_card.GetComponentsInChildren<MonoBehaviour>();
-        //foreach (var c in components)
-        //{
-        //    c.enabled = true;
-        //}
-        GameObject squadObj = cm.PlayType(selected_type);
-        squadObj.transform.position = selected_card.transform.position;
-        squadObj.transform.localScale = selected_card.transform.localScale;
+        Assert.IsTrue(selected_card != null && selected_type > CardType.None && selected_type < CardType.CardType_Count);
+        StartCoroutine(SpawnWithDelay());
+    }
 
-        //Squad squad = squadObj.GetComponent<Squad>();
-        //Assert.IsTrue(squad != null);
+    IEnumerator SpawnWithDelay()
+    {
+        CardType tmp_type = selected_type; // remember becouse can be set to None during Coroutine
+        GameObject tmp_card = selected_card;
+        // unselect first to allow multiple coroutines at the same time
+        Unselect(false);    // dont destroy instance, yet
 
+        float seconds = cm.cards[(int)tmp_type].spawnTime;
+        GameObject timerObj = Instantiate(Resources.Load("Prefabs/UI/WatchTimer") as GameObject);
+        WatchTimer timer = timerObj.GetComponent<WatchTimer>();
+        Assert.IsTrue(timer != null);
+        timer.seconds_per_revolution = seconds;
+        timer.transform.position = tmp_card.transform.position + Vector3.back * 3;
+
+        yield return new WaitForSeconds(seconds);
+
+        Destroy(timerObj);
+
+        Assert.IsTrue(tmp_card != null);
+
+        GameObject squadObj = cm.PlayType(tmp_type);
+        squadObj.transform.position = tmp_card.transform.position;
+        squadObj.transform.localScale = tmp_card.transform.localScale;
+
+        Squad squad = squadObj.GetComponent<Squad>();
+        Assert.IsTrue(squad != null);
+        // squad stuff
+        squad.team = team;
         // remove from deck
-        Assert.IsTrue(selected_type != CardType.None);
         cards_to_play_count--;
-
         UpdateText();
 
-        Unselect();
-
-        return squadObj;
+        // destroy card instance
+        Destroy(tmp_card);
     }
 
     public void InitCardTypes()

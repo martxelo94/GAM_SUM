@@ -2428,6 +2428,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 755710187}
+        m_MethodName: MoveArmy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &460064451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4522,6 +4533,7 @@ MonoBehaviour:
   selectedArmyPanel: {fileID: 719771166}
   moveButton: {fileID: 460064448}
   addCardsButton: {fileID: 860567067}
+  infoPanel: {fileID: 0}
 --- !u!4 &755710186
 Transform:
   m_ObjectHideFlags: 0
@@ -8836,6 +8848,8 @@ MonoBehaviour:
   nextSceneIdx: -1
   last_battle_won: 0
   campaign_battle_name: 
+  tuto_campaign_savename: CampaignTip
+  tuto_battle_savename: BattleTip
 --- !u!4 &1546939483
 Transform:
   m_ObjectHideFlags: 0

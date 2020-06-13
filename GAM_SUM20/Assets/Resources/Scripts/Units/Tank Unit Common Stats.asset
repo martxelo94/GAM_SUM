@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Tank Unit Common Stats
   m_EditorClassIdentifier: 
   unitType: 2
+  maxSpeed: 1.3
+  capture_radius: 3
   maxHitPoints: 300
   pierceArmor: 10
   slashArmor: 70
-  preferedTargetUnit: 13
   rangedAttack: 0
   sensorRange: 10
   attackRange: 12
   attackTime: 3
-  maxSpeed: 1.3
-  capture_radius: 3
   player_damage: 4
   attackPrefabs:
   - {fileID: 5825198618305167284, guid: 07dcfcf2b4bb04f469446ac5d3886ada, type: 3}
+  preferedTargetUnit: 13

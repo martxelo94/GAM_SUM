@@ -68,8 +68,8 @@ public class CompleteBattlefieldTutorial : TutorialTips
         PlayerPrefs.SetInt(save_filepath, current_tip);
 
         // update campaign tip
-        int tip = PlayerPrefs.GetInt(tuto_campaign_filepath, -2);
-        Assert.IsTrue(tip != -2);
-        PlayerPrefs.SetInt(tuto_campaign_filepath, tip + 1);
+        //int tip = PlayerPrefs.GetInt(tuto_campaign_filepath, -2);
+        //Assert.IsTrue(tip != -2);
+        //PlayerPrefs.SetInt(tuto_campaign_filepath, tip + 1);
     }
 }

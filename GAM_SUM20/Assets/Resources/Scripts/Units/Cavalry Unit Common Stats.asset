@@ -22,7 +22,7 @@ MonoBehaviour:
   sensorRange: 5
   attackRange: 2
   attackTime: 0.5
-  player_damage: 2
+  player_damage: 1
   attackPrefabs:
   - {fileID: 763354543988571733, guid: 880054380659fb445aff53e78a1958b1, type: 3}
   preferedTargetUnit: 27

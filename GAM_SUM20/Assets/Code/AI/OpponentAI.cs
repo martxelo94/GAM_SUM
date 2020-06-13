@@ -63,11 +63,8 @@ public class OpponentAI : MonoBehaviour
             if (deck.HasSelected())
             {
                 // confirm type
-                GameObject squadObj = deck.PlaySelected();
-                //squadObj.transform.Rotate(new Vector3(0, 0, 180));
-                Squad squad = squadObj.GetComponent<Squad>();
-                // squad stuff
-                squad.team = deck.team; // TeamType.Opponent;
+                deck.PlaySelected();
+
                 // consume resources
                 m_resources.ConsumeResources(deck.cm.cards[(int)card_type].cost);
 

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b23235dd820dc346ba9810205263037, type: 3}
   m_Name: CardManager
   m_EditorClassIdentifier: 
+  cardReverseTexture: {fileID: 2800000, guid: a2df9b0c4daee6444b68bc24a4386466, type: 3}
   cards:
   - spawnTime: 1
     cost: {x: 5, y: 1}
@@ -19,27 +20,32 @@ MonoBehaviour:
       type: 3}
     blueprintPrefab: {fileID: 6944943668602125739, guid: 3e4208d47683dfa42bc49cd40d1e48f7,
       type: 3}
+    cardTexture: {fileID: 2800000, guid: bac4b8fda4c7a7144b33da497564a175, type: 3}
   - spawnTime: 1
     cost: {x: 3, y: 3}
     spawnedPrefab: {fileID: 1714436191365348779, guid: 63b23ac58c12e0240921976dfcc4fa20,
       type: 3}
     blueprintPrefab: {fileID: 1699046032691168874, guid: b17125a75b13d224f9e593c8d8cb83e5,
       type: 3}
+    cardTexture: {fileID: 2800000, guid: 2bbe8cf777aa9ff4094dab22da02a0e7, type: 3}
   - spawnTime: 3
     cost: {x: 3, y: 7}
     spawnedPrefab: {fileID: 5041951708728181703, guid: f5483d1ec87a9d144acaa41ca494e62b,
       type: 3}
     blueprintPrefab: {fileID: 2650879046645598742, guid: 14fa5e6bc81192a4789d20f027ad83b0,
       type: 3}
+    cardTexture: {fileID: 2800000, guid: aa4ce4e176ea6194eabd4a8bd488e446, type: 3}
   - spawnTime: 2
     cost: {x: 2, y: 1}
     spawnedPrefab: {fileID: 714671629763451612, guid: babc756131f8b9c42bde1cc3d68cf1d4,
       type: 3}
     blueprintPrefab: {fileID: 5480219247358311083, guid: 113cc302dfecc9143b9596c6876265e0,
       type: 3}
+    cardTexture: {fileID: 2800000, guid: c5ecb7114cfc58747968dcc581964a8c, type: 3}
   - spawnTime: 1
     cost: {x: 1, y: 2}
     spawnedPrefab: {fileID: 8673655554432611209, guid: 1f661220a0c71eb45a209e65f520bcd9,
       type: 3}
     blueprintPrefab: {fileID: 9115487563753963023, guid: f47ff82877d470f4386bcf596c5fd47b,
       type: 3}
+    cardTexture: {fileID: 2800000, guid: 9a551f78e8c6ad74fbe329e6a999d93b, type: 3}

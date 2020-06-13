@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Assertions;
+using TMPro;
 
 public class DealPlayerDamage : MonoBehaviour
 {
@@ -14,7 +14,7 @@ public class DealPlayerDamage : MonoBehaviour
     public DealPlayerDamage opponent;
     public TeamType team;
     public int hit_points = 20;
-    public Text hit_point_text;
+    public TextMeshPro hit_point_text;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +29,7 @@ public class DealPlayerDamage : MonoBehaviour
         Unit troop = collision.gameObject.GetComponentInParent<Unit>();
         if (troop != null) {
             hit_points -= troop.common.player_damage;
+            hit_points = Mathf.Clamp(hit_points, 0, hit_points);
             hit_point_text.text = hit_points.ToString();
 
             troop.Kill();

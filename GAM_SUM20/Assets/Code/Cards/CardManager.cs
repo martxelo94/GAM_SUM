@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 [CreateAssetMenu]
 public class CardManager : ScriptableObject
 {
-    
+    public Texture cardReverseTexture;
     public CardData[] cards;
 
     private void OnEnable()

@@ -9,5 +9,6 @@ public struct CardData
     public Vector2Int cost;
     public GameObject spawnedPrefab;
     public GameObject blueprintPrefab;
+    public Texture cardTexture;
 }
 

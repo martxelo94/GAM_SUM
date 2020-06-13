@@ -4,35 +4,45 @@ using UnityEngine;
 using UnityEngine.UI;   // Text
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(Image))]
+[RequireComponent(typeof(RawImage))]
 public class CardImage : MonoBehaviour
 {
     [HideInInspector]
-    public Image image;
+    public RawImage image;
 
     [SerializeField]
     private CardType m_type;
     public CardType type
     {
         get { return m_type; }
-        set { m_type = value; SetCardName(value); SetImage(value); }
+        set { m_type = value; SetCardName(); SetImage(); }
     }
+
+    public CardManager cardManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        image = GetComponent<Image>();
+        Assert.IsTrue(cardManager != null);
+        image = GetComponent<RawImage>();
+
+        // update image
+        type = m_type;
     }
 
-    public void SetCardName(CardType _type)
+    void SetCardName()
     {
         Text text = gameObject.GetComponentInChildren<Text>();
-        text.text = _type.ToString();
+        text.text = m_type.ToString();
     }
 
-    public void SetImage(CardType _type)
+    void SetImage()
     {
         // TODO: change image
+        if (m_type == CardType.None)
+            image.texture = cardManager.cardReverseTexture;
+        else
+            image.texture = cardManager.cards[(int)m_type].cardTexture;
     }
     
 }

@@ -115,6 +115,7 @@ MonoBehaviour:
   - {fileID: 0}
   parentNodes: []
   node_idx: -1
+  map: {fileID: 0}
   army: {fileID: 0}
   army_model_idx: 0
   deck_reward:

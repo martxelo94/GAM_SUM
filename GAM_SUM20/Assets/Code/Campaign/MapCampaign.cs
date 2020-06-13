@@ -42,7 +42,8 @@ public class MapCampaign : MonoBehaviour
             nodes[i].node_idx = i;
         }
         LoadFile();
-        ConfirmBattleResult();
+        if (GameSettings.INSTANCE.IsBattle())
+            ConfirmBattleResult();
     }
 
     // Start is called before the first frame update
@@ -85,36 +86,34 @@ public class MapCampaign : MonoBehaviour
     void ConfirmBattleResult()
     {
         // load scene
-        if (GameSettings.INSTANCE.IsBattle())
+        // update decks
+        Deck attack_army = nodes[GameSettings.INSTANCE.attack_idx].army;
+        Assert.IsTrue(attack_army != null);
+        attack_army.SetDeck(GameSettings.INSTANCE.attack_deck);
+
+        Assert.IsTrue(GameSettings.INSTANCE.target_idx > -1);
+        Deck target_army = nodes[GameSettings.INSTANCE.target_idx].army;
+        Assert.IsTrue(GameSettings.INSTANCE.target_deck != null);
+        target_army.SetDeck(GameSettings.INSTANCE.target_deck);
+
+        // win reward
+        if (GameSettings.INSTANCE.last_battle_won)
         {
-            // update decks
-            Deck attack_army = nodes[GameSettings.INSTANCE.attack_idx].army;
-            Assert.IsTrue(attack_army != null);
-            attack_army.SetDeck(GameSettings.INSTANCE.attack_deck);
+            // capture node
+            CaptureNode(nodes[GameSettings.INSTANCE.attack_idx], nodes[GameSettings.INSTANCE.target_idx]);
 
-            Assert.IsTrue(GameSettings.INSTANCE.target_idx > -1);
-            Deck target_army = nodes[GameSettings.INSTANCE.target_idx].army;
-            Assert.IsTrue(GameSettings.INSTANCE.target_deck != null);
-            target_army.SetDeck(GameSettings.INSTANCE.target_deck);
-
-            // win reward
-            if (GameSettings.INSTANCE.last_battle_won)
-            {
-                // capture node
-                CaptureNode(nodes[GameSettings.INSTANCE.attack_idx], nodes[GameSettings.INSTANCE.target_idx]);
-
-            }
-            else
-            {
-                // update nodes
-
-                // get reward for opponent
-                MapNode targetNode = nodes[GameSettings.INSTANCE.target_idx];
-                Assert.IsTrue(targetNode.army != null);
-                targetNode.army.CombineCards(targetNode.deck_reward);
-
-            }
         }
+        else
+        {
+            // update nodes
+
+            // get reward for opponent
+            MapNode targetNode = nodes[GameSettings.INSTANCE.target_idx];
+            Assert.IsTrue(targetNode.army != null);
+            targetNode.army.CombineCards(targetNode.deck_reward);
+
+        }
+        
     }
 
     // update with battle result
@@ -203,6 +202,13 @@ public class MapCampaign : MonoBehaviour
         }
     }
 
+    public MapNode GetDeadEndNodeOfTeam(TeamType t)
+    {
+        foreach (MapNode n in nodes)
+            if (n.nextNodes.Length == 0 && n.team == t)
+                return n;
+        return null;
+    }
 
     void CaptureNode(MapNode attaker, MapNode target)
     {
@@ -250,6 +256,7 @@ public class MapCampaign : MonoBehaviour
         target_node = null;
         if(selected_node != null)
             selected_node.Unselect();
+        target_node = null;
         menu.ShowArmyPanel(false);
         menu.ShowNodePanel(false);
         menu.ShowBattlePanel(false);
@@ -281,7 +288,7 @@ public class MapCampaign : MonoBehaviour
         selected_node = node;
         selected_node.Select();
 
-
+        // CAMPAIGN  END CONDITION
         if (selected_node != null && selected_node.nextNodes.Length == 0 && selected_node.team == TeamType.Player)
         {
             menu.ShowEndPanel(true);
@@ -289,8 +296,10 @@ public class MapCampaign : MonoBehaviour
         else
             menu.ShowEndPanel(false);
 
+        // SHOW INFO PANEL
         menu.ShowNodePanel(true);
 
+        // SHOW ACTION PANEL
         if (selected_node.army != null)
         {
             
@@ -317,6 +326,9 @@ public class MapCampaign : MonoBehaviour
                         menu.ShowMoveButton(true);
                         menu.ShowNodePanel(false);
 
+                        // army look at selected node
+                        Vector2 direction = selected_node.transform.position - n.army.transform.position;
+                        n.army.transform.up = direction;
                         break;
                     }
                 }
@@ -334,6 +346,11 @@ public class MapCampaign : MonoBehaviour
                     menu.ShowArmyPanel(true);
                     menu.ShowMoveButton(true);
                     menu.ShowNodePanel(false);
+
+                    // army look at selected node
+                    Vector2 direction = selected_node.transform.position - n.army.transform.position;
+                    n.army.transform.up = direction;
+
                     break;
                 }
             }

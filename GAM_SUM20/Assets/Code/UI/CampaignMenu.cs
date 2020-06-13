@@ -15,6 +15,8 @@ public class CampaignMenu : MonoBehaviour
     public GameObject moveButton;
     public GameObject addCardsButton;
 
+    public GameObject infoPanel;
+
 
     public void ToggleActive(GameObject obj)
     {

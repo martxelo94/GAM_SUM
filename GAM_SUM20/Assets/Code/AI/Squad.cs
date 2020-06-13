@@ -60,8 +60,9 @@ public class Squad : MonoBehaviour
             var renderable = t.GetComponentInChildren<MeshRenderer>();
             Assert.IsTrue(renderable != null);
             renderable.material.color = battlefield.team_color[(int)team + 1];
-            // rotate towards camera by a fixed angle
-            renderable.transform.eulerAngles = new Vector3(team == TeamType.Player ? 30 : -30, 0, 0);
+
+            // rotate towards camera by a fixed angle... Nah
+            //renderable.transform.eulerAngles = new Vector3(team == TeamType.Player ? 30 : -30, 0, 0);
         }
 
         // troops can capture terrain and sense

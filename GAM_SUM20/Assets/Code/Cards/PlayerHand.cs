@@ -52,12 +52,19 @@ public class PlayerHand : MonoBehaviour
             card.SetType(drawed_card);
             yield break;
         }
+        // make visible
+        card.ShowCard(true);
+
         int frames = (int)(1f / Time.deltaTime); // 1 sec animation
 
         Vector3 finalScale = card.initScale;
         Vector3 initScale = finalScale / 3f;
         Vector3 finalPos = card.initPos;
         Vector3 initPos = deckIcon.position;
+        //Vector3 initRot = deckIcon.eulerAngles;
+        //card.transform.eulerAngles = new Vector3(initRot.x, initRot.y - Mathf.PI, initRot.z);
+        Vector3 angles = new Vector3(30f, 180f, 30f);
+        card.transform.localEulerAngles = -angles;
 
         for (int i = 0; i < frames; ++i)
         {
@@ -67,6 +74,13 @@ public class PlayerHand : MonoBehaviour
 
             card.transform.position = pos;
             card.transform.localScale = sc;
+            //card.transform.Rotate(angles / frames);
+            card.transform.localEulerAngles += angles / frames;
+
+            // reveal card at the middle of rotation
+            if (i == frames / 2) {
+                card.SetType(drawed_card);
+            }
 
             yield return null;  // on frame step
         }
@@ -74,7 +88,7 @@ public class PlayerHand : MonoBehaviour
         card.transform.localScale = finalScale;
 
         // draw the card
-        card.SetType(drawed_card);
+        //card.SetType(drawed_card);
     }
 
     public void UnselectCards()

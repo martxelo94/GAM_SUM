@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
+using UnityEngine.EventSystems;
+
 
 public class MapNode : MonoBehaviour
 {
@@ -87,9 +89,31 @@ public class MapNode : MonoBehaviour
         if (map.is_moving)
             return;
 
+        // ignore if under GUI
+        //if (IsPointerOverUIObject())
+        //    return;
+
         map.SelectNode(this);
     }
 
+    bool IsPointerOverUIObject()
+    {
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = RawTouchPos();
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
+        
+        return results.Count > 0;
+    }
+    // screen space
+    Vector2 RawTouchPos()
+    {
+#if UNITY_EDITOR
+    return Input.mousePosition;
+#else
+    return Input.touches[0].position;  
+#endif
+    }
     public void Pulse()
     {
         float t = Mathf.PingPong(Time.time, 0.5f);
@@ -168,6 +192,7 @@ public class MapNode : MonoBehaviour
     public void Select()
     {
         transform.localScale = initScale * 1.5f;
+
         //for (int i = 0; i < nextNodes.Length; ++i)
         //{
         //    nextNodes[i].transform.localScale *= 1.5f;
@@ -238,4 +263,6 @@ public class MapNode : MonoBehaviour
         }
         //SetTeamColor();   // done at Start once
     }
+
+
 }

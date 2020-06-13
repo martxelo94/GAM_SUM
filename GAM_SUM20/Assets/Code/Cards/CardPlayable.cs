@@ -90,7 +90,8 @@ public class CardPlayable : MonoBehaviour
                             ShowCard(true);
                         }
                         // move card
-                        Vector3 pos = Input.mousePosition - new Vector3(Screen.width, Screen.height, 0) / 2;
+                        Vector3 pos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                        pos.z = transform.position.z;
                         SetCardPos(pos);
                         // set selected transform card
                         //SetCardPos(initPos);
@@ -126,20 +127,21 @@ public class CardPlayable : MonoBehaviour
                             // consume resources
                             hand.GetResources().ConsumeResources(hand.GetDeck().cm.cards[(int)card.type].cost);
 
-                            // make visible again
-                            ShowCard(true);
+                            // make invisible
+                            ShowCard(false);
+
+                            // confirm spawn
+                            hand.GetDeck().PlaySelected();
+
+                            // reset the selection
+                            ToggleSelect(); // unselect
+
+                            // set type to none
+                            card.type = CardType.None;
 
                             // randomize next type
                             hand.DrawCardAnimation(this);
 
-                            // confirm spawn
-                            GameObject squadObj = hand.GetDeck().PlaySelected();
-                            Squad squad = squadObj.GetComponent<Squad>();
-                            // squad stuff
-                            squad.team = hand.GetDeck().team;
-
-                            // reset the selection
-                            ToggleSelect(); // unselect
                         }
                     }
 
@@ -176,7 +178,7 @@ public class CardPlayable : MonoBehaviour
 
     }
 
-    void ShowCard(bool show)
+    public void ShowCard(bool show)
     {
         card.image.enabled = show;
         HR_text.gameObject.SetActive(show);
