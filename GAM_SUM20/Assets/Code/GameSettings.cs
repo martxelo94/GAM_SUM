@@ -23,7 +23,10 @@ public class GameSettings : MonoBehaviour
 
     public System.Random randomizer = new System.Random();   // to shuffle deck
 
-    public int nextSceneIdx = -1;
+    public int prevSceneIdx { get; private set; } = -1;
+    public int nextSceneIdx { get; private set; } = -1;
+
+    public bool is_campaign_battle;
 
     public CardTypeCount[] attack_deck { get; private set; } = null;
     public int attack_idx { get; private set; } = -1;
@@ -34,6 +37,13 @@ public class GameSettings : MonoBehaviour
     public string tuto_campaign_savename = "CampaignTip";
     public string tuto_battle_savename = "BattleTip";
 
+
+    public void SetNextSceneIdx(int idx)
+    {
+        prevSceneIdx = nextSceneIdx;
+        nextSceneIdx = idx;
+    }
+
     public void SetAttackDeck(CardTypeCount[] deck)
     {
         attack_deck = deck;
@@ -42,15 +52,23 @@ public class GameSettings : MonoBehaviour
     {
         target_deck = deck;
     }
+    public void SetAttackDeck(CardTypeCount[] deck, int node_idx)
+    {
+        attack_deck = deck;
+        attack_idx = node_idx;
+    }
+    public void SetTargetDeck(CardTypeCount[] deck, int node_idx)
+    {
+        target_deck = deck;
+        target_idx = node_idx;
+    }
     public void SetBattle(MapNode attaker, MapNode target)
     {
         Assert.IsTrue(attaker.army != null && target.army != null);
-        attack_deck = attaker.army.GetDeck();
-        attack_idx = attaker.node_idx;
+        SetAttackDeck(attaker.army.GetDeck(), attaker.node_idx);
+        SetTargetDeck(target.army.GetDeck(), target.node_idx);
 
-        target_deck = target.army.GetDeck();
-        target_idx = target.node_idx;
-
+        is_campaign_battle = true;
         campaign_battle_name = SceneManager.GetActiveScene().name;
     }
 
@@ -63,7 +81,7 @@ public class GameSettings : MonoBehaviour
 
     public bool IsBattle()
     {
-        return attack_idx > -1;
+        return is_campaign_battle && attack_idx > -1;
     }
 
     private void Awake()

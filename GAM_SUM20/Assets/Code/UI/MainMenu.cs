@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadLevelScene(int nextLevel)
     {
-        GameSettings.INSTANCE.nextSceneIdx = nextLevel;
+        GameSettings.INSTANCE.SetNextSceneIdx(nextLevel);
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
 
@@ -30,14 +30,17 @@ public class MainMenu : MonoBehaviour
 
     public void StartAIGame()
     {
+        GameSettings.INSTANCE.is_campaign_battle = false;
         LoadLevelScene(aiGameSceneIndex);
     }
     public void StartPlayerGame()
     {
+        GameSettings.INSTANCE.is_campaign_battle = false;
         LoadLevelScene(playerGameSceneIndex);
     }
     public void StartCampaign(int idx)
     {
+        GameSettings.INSTANCE.is_campaign_battle = true;
         LoadLevelScene(campaignSceneIndex + idx);
     }
 }

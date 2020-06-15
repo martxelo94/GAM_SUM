@@ -249,7 +249,7 @@ public class BattlefieldMenu : MonoBehaviour
 
 
 
-    public void LoadNextLevel()
+    void LoadNextLevel()
     {
         if (GameSettings.INSTANCE.IsBattle() == false)
         {
@@ -262,50 +262,59 @@ public class BattlefieldMenu : MonoBehaviour
 
         // previously set
         Time.timeScale = 1.0f;
-        GameSettings.INSTANCE.nextSceneIdx = nextLevel;
+        GameSettings.INSTANCE.SetNextSceneIdx(nextLevel);
 
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
     }
 
-    public void ReplayLevel()
+    void ReplayLevel()
     {
         Time.timeScale = 1.0f;
-        GameSettings.INSTANCE.nextSceneIdx = SceneManager.GetActiveScene().buildIndex;
-
+        GameSettings.INSTANCE.SetNextSceneIdx(nextLevel);
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
     }
 
-    public void LoadMainMenu()
+    void LoadMainMenu()
     {
         if (GameSettings.INSTANCE.IsBattle()) {
             UpdateCampaignFile();
         }
+        else
+            GameSettings.INSTANCE.ResetBattle();
         Time.timeScale = 1.0f;
-        GameSettings.INSTANCE.nextSceneIdx = 0;
+
+
+        GameSettings.INSTANCE.SetNextSceneIdx(nextLevel);
 
         SceneManager.LoadScene("Scenes/MainMenu");
     }
 
     void UpdateCampaignFile()
     {
+        Assert.IsTrue(GameSettings.INSTANCE.prevSceneIdx != -1);
+        nextLevel = GameSettings.INSTANCE.prevSceneIdx;
+
         // update decks
         Deck[] decks = FindObjectsOfType<Deck>();
+        CardTypeCount[] attacker_deck = null;
+        CardTypeCount[] defender_deck = null;
+
         Assert.IsTrue(decks.Length == 2);
         for(int i = 0; i < decks.Length; ++i)
         {
             Deck d = decks[i];
             if (d.team == TeamType.Player)
             {
-                GameSettings.INSTANCE.SetAttackDeck(d.GetDeck());
+                attacker_deck = d.GetDeck();
             }
             else
             {
-                GameSettings.INSTANCE.SetTargetDeck(d.GetDeck());
+                defender_deck = d.GetDeck();
             }
         }
-        MapCampaign.UpdateFile();
+        MapCampaign.UpdateDecksInFile(attacker_deck, defender_deck);
     }
 
     public void LevelWin()
@@ -319,6 +328,17 @@ public class BattlefieldMenu : MonoBehaviour
         GameSettings.INSTANCE.last_battle_won = false;
 
         LoadNextLevel();
+    }
+
+    public void LevelWinExit()
+    {
+        GameSettings.INSTANCE.last_battle_won = true;
+        LoadMainMenu();
+    }
+    public void LevelLoseExit()
+    {
+        GameSettings.INSTANCE.last_battle_won = false;
+        LoadMainMenu();
     }
 
     public void CheatWin()
@@ -358,5 +378,7 @@ public class BattlefieldMenu : MonoBehaviour
             }
         }
     }
+
+
 }
 

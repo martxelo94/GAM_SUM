@@ -117,7 +117,7 @@ public class MapCampaign : MonoBehaviour
     }
 
     // update with battle result
-    public static bool UpdateFile()
+    public static bool UpdateDecksInFile(CardTypeCount[] attaker, CardTypeCount[] defender)
     {
         string path = Application.persistentDataPath + "/" + GameSettings.INSTANCE.campaign_battle_name;
         if (File.Exists(path))
@@ -128,17 +128,9 @@ public class MapCampaign : MonoBehaviour
             MapSaveData data = formatter.Deserialize(stream) as MapSaveData;
 
             Assert.IsTrue(GameSettings.INSTANCE.IsBattle());
-            // update with battle result
-            //if (GameSettings.INSTANCE.IsBattle())
-            {
-                data.nodes[GameSettings.INSTANCE.attack_idx].deck = GameSettings.INSTANCE.attack_deck;
-                data.nodes[GameSettings.INSTANCE.target_idx].deck = GameSettings.INSTANCE.target_deck;
-
-                formatter.Serialize(stream, data);
-
-                return true;
-            }
-
+            data.UpdateBattleDecks(attaker, defender);
+            formatter.Serialize(stream, data);
+            return true;
         }
 
         return false;
@@ -164,8 +156,20 @@ public class MapCampaign : MonoBehaviour
             for (int i = 0; i < nodes.Length; ++i)
                 nodes[i].node_idx = i;
         }
+        int attaker_idx = -1;
+        int defender_idx = -1;
+        if (target_node != null && selected_node != null)
+        {
+            for (int i = 0; i < nodes.Length; ++i)
+            {
+                if (nodes[i] == selected_node)
+                    defender_idx = i;
+                if (nodes[i] == target_node)
+                    attaker_idx = i;
+            }
+        }
 
-        MapSaveData data = new MapSaveData(nodes);
+        MapSaveData data = new MapSaveData(nodes, attaker_idx, defender_idx);
 
         formatter.Serialize(stream, data);
         stream.Close();
@@ -391,7 +395,7 @@ public class MapCampaign : MonoBehaviour
         GameSettings.INSTANCE.SetBattle(attacker, target);
         SaveFile();
         // load battle map
-        GameSettings.INSTANCE.nextSceneIdx = battleLevelBuildIdx;
+        GameSettings.INSTANCE.SetNextSceneIdx(battleLevelBuildIdx);
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
     }
