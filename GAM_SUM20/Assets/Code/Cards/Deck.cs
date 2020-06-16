@@ -133,10 +133,10 @@ public class Deck : MonoBehaviour
         squadObj.transform.position = tmp_card.transform.position;
         squadObj.transform.localScale = tmp_card.transform.localScale;
 
-        Squad squad = squadObj.GetComponent<Squad>();
-        Assert.IsTrue(squad != null);
+        PlayerTeam player = squadObj.GetComponent<PlayerTeam>();
+        Assert.IsTrue(player != null);
         // squad stuff
-        squad.team = team;
+        player.team = team;
         // remove from deck
         cards_to_play_count--;
         UpdateText();

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Unit : MonoBehaviour
+public class Unit : PlayerTeam
 {
     public UnitStats common;
     //[HideInInspector]
-    public TeamType team; // set by squad
     public int currentHitPoints { get; private set; }
     [HideInInspector]
     public float currentAttackTime;

@@ -351,6 +351,14 @@ public class BattlefieldMenu : MonoBehaviour
         ShowDefeatGamePanel();
     }
 
+    public void CheatAddResources(PlayerResources resources)
+    {
+        resources.MR_curr += 100;
+        resources.MR_max += 100;
+        resources.HR_curr += 100;
+        resources.HR_max += 100;
+    }
+
     void DisablePlayers()
     {
         OpponentAI ai = FindObjectOfType<OpponentAI>();

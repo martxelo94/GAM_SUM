@@ -2,9 +2,9 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Squad : MonoBehaviour
+
+public class Squad : PlayerTeam
 {
-    public TeamType team;
     public float update_time = 1f;
     public Battlefield battlefield;
     public Unit[] troops;
