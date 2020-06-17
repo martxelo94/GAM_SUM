@@ -154,9 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: WARTORN_ SDF_TMP
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: -1803563589
   material: {fileID: -6274796135312129417}
-  materialHashCode: 0
+  materialHashCode: 950383056
   m_Version: 1.1.0
   m_SourceFontFileGUID: 3b32ddf363cea4140a61f5fa4919bdaf
   m_SourceFontFile_EditorRef: {fileID: 0}

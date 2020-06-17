@@ -33,6 +33,7 @@ public class BattlefieldMenu : MonoBehaviour
     public float endGameCheckTime = 5f;
     private float endGameCheckCurrentTime = 0f;
     private bool showing_timer = false; // used for coroutine start
+    public bool fade_timer = true;
 
     private void Awake()
     {
@@ -111,20 +112,22 @@ public class BattlefieldMenu : MonoBehaviour
                 endGameTimerPanel.gameObject.SetActive(false);
                 ShowEndGamePanel();
             }
-            // show time
-            else if ((int)endGameCheckCurrentTime % 60 == 0) {
-                if (showing_timer == false)
-                    StartCoroutine(FadeTimerPanel());
-            }
-            else if (endGameCheckCurrentTime < 3.1f)
+            else if (fade_timer)
             {
-                if (showing_timer == false)
-                    StartCoroutine(FadeTimerPanel());
+                // show time
+                if ((int)endGameCheckCurrentTime % 60 == 0)
+                {
+                    if (showing_timer == false)
+                        StartCoroutine(FadeTimerPanel());
+                }
+                else if (endGameCheckCurrentTime < 3.1f)
+                {
+                    if (showing_timer == false)
+                        StartCoroutine(FadeTimerPanel());
+                }
             }
-        }
-        else {
-            //endGameCheckCurrentTime = 0f;
-            endGameTimerPanel.gameObject.SetActive(false);
+            else
+                UpdateTimerText();
         }
     }
 #if false
@@ -132,7 +135,14 @@ public class BattlefieldMenu : MonoBehaviour
     {
         GUI.Label(new Rect(300, 10, 200, 80), "Troops alive = " + DealPlayerDamage.totalTroopCount.ToString());
     }
+
 #endif
+
+    void UpdateTimerText()
+    {
+        timerText.text = (endGameCheckTime - endGameCheckCurrentTime).ToString("00.0");
+    }
+
     IEnumerator FadeTimerPanel()
     {
         showing_timer = true;
@@ -142,13 +152,13 @@ public class BattlefieldMenu : MonoBehaviour
         Color alpha = opaque; alpha.a = 0f;
         for (int i = 0; i < fade_frames; ++i) {
             endGameTimerPanel.color = Color.Lerp(alpha, opaque, (float)i / fade_frames);
-            timerText.text = (endGameCheckTime - endGameCheckCurrentTime).ToString("00.00");
+            UpdateTimerText();
             yield return null;
         }
         for (int i = 0; i < fade_frames; ++i)
         {
             endGameTimerPanel.color = Color.Lerp(opaque, alpha, (float)i / fade_frames);
-            timerText.text = (endGameCheckTime - endGameCheckCurrentTime).ToString("00.00");
+            UpdateTimerText();
             yield return null;
         }
         endGameTimerPanel.gameObject.SetActive(false);

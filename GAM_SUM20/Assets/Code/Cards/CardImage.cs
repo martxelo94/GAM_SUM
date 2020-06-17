@@ -15,7 +15,11 @@ public class CardImage : MonoBehaviour
     public CardType type
     {
         get { return m_type; }
-        set { m_type = value; SetCardName(); SetImage(); }
+        set {
+            m_type = value;
+            //SetCardName();
+            SetImage();
+        }
     }
 
     public CardManager cardManager;

@@ -24,11 +24,11 @@ public class UnitStats : ScriptableObject
     [Range(0, 100)]
     public float slashArmor;
 
+    [Header("Attak")]
     // damage types (on Attack)
     // public float pierceDamage;
     // public float slashDamage;
     // public float blastDamage;
-    [Header("Attak")]
 
     // attack and reaction
     public bool rangedAttack;

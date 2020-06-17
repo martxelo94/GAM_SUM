@@ -84,6 +84,23 @@ public class GameSettings : MonoBehaviour
         return is_campaign_battle && attack_idx > -1;
     }
 
+    public void DeleteAllSavedData()
+    {
+        PlayerPrefs.DeleteKey(tuto_battle_savename);
+        PlayerPrefs.DeleteKey(tuto_campaign_savename);
+
+        Debug.Log("Tutorial savedata deleted.");
+
+        const int CAMPAIGN_COUNT = 2;
+        string path = Application.persistentDataPath + "/Campaign_";
+        for (int i = 0; i < CAMPAIGN_COUNT; ++i)
+        {
+            string tmp = path + i.ToString();
+            File.Delete(tmp);
+            Debug.Log(tmp + " file deleted.");
+        }
+    }
+
     private void Awake()
     {
         if (_instance != null && _instance != this)
@@ -107,18 +124,7 @@ public class GameSettings : MonoBehaviour
         // HACK - DELETE SAVED GAMES
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            PlayerPrefs.DeleteKey(tuto_battle_savename);
-            PlayerPrefs.DeleteKey(tuto_campaign_savename);
-
-            Debug.Log("Tutorial savedata deleted.");
-
-            const int CAMPAIGN_COUNT = 2;
-            string path = Application.persistentDataPath + "/Campaign_";
-            for (int i = 0; i < CAMPAIGN_COUNT; ++i) {
-                string tmp = path + i.ToString();
-                File.Delete(tmp);
-                Debug.Log(tmp + " file deleted.");
-            }
+            DeleteAllSavedData();
         }
     }
 }
