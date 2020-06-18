@@ -83,7 +83,7 @@ public class Unit : PlayerTeam
 
     public bool IsTargetAlive()
     {
-        return target != null && target.gameObject.activeSelf;
+        return target != null && target.IsAlive();
     }
 
     public bool Kill()

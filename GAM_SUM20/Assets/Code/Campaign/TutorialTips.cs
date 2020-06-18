@@ -10,9 +10,11 @@ public class TutorialTips : MonoBehaviour
     public struct TipElements
     {
         public GameObject panel;
-        public Renderer[] highlighted_objects;
+        public Transform[] highlighted_objects;
         public List<Vector3> original_highlighted_scales;
     }
+    public GameObject highlighterPrefab;
+    private GameObject[] highlighterInstances;
     public int current_tip = -1;
     public TipElements[] tips;
 
@@ -33,14 +35,14 @@ public class TutorialTips : MonoBehaviour
         for (int i = 0; i < tips.Length; ++i)
         {
             tips[i].original_highlighted_scales = new List<Vector3>();
-            Renderer[] renderers = tips[i].highlighted_objects;
-            if (renderers != null) {
-                foreach (var r in renderers) {
+            Transform[] transforms = tips[i].highlighted_objects;
+            if (transforms != null) {
+                foreach (var t in transforms) {
                     // hack fix when size 0
-                    if (r.transform.localScale.sqrMagnitude == 0)
-                        r.transform.localScale = Vector3.one;
-                    Assert.IsTrue(r.transform.localScale.sqrMagnitude != 0);
-                    tips[i].original_highlighted_scales.Add(r.transform.localScale);
+                    if (t.localScale.sqrMagnitude == 0)
+                        t.localScale = Vector3.one;
+                    Assert.IsTrue(t.localScale.sqrMagnitude != 0);
+                    tips[i].original_highlighted_scales.Add(t.localScale);
                 }
             }
         }
@@ -57,16 +59,18 @@ public class TutorialTips : MonoBehaviour
         // make pulse
         if (IsValidTip() && tips[current_tip].panel.activeSelf == true)
         {
-            Renderer[] renderers = tips[current_tip].highlighted_objects;
-            if (renderers != null)
+            Transform[] transforms = tips[current_tip].highlighted_objects;
+            if (transforms != null)
             {
+                Assert.IsTrue(transforms.Length == highlighterInstances.Length);
+
                 List<Vector3> scales = tips[current_tip].original_highlighted_scales;
-                Assert.IsTrue(scales.Count == renderers.Length);
+                Assert.IsTrue(scales.Count == transforms.Length);
                 for(int i = 0; i < scales.Count; ++i)
                 {
-                    float t = Mathf.PingPong(Time.time, 1f / cakeslice.OutlineAnimation.animationSpeed);
+                    float t = Mathf.PingPong(Time.time, 1f / 1.5f);
                     Vector3 initScale = scales[i];
-                    renderers[i].transform.localScale = initScale + initScale * t;
+                    highlighterInstances[i].transform.localScale = initScale + initScale * t;
 
                     // without remembering original scale
                     //renderers[i].transform.localScale +=
@@ -99,31 +103,30 @@ public class TutorialTips : MonoBehaviour
 
     void HighlightTip(bool show)
     {
-        Renderer[] highlights = tips[current_tip].highlighted_objects;
+        Transform[] highlights = tips[current_tip].highlighted_objects;
         if (highlights != null)
         {
             // add or destroy Outliners
             if (show)
             {
+                Assert.IsTrue(highlighterInstances == null);
+                highlighterInstances = new GameObject[highlights.Length];
                 // add
                 for (int i = 0; i < highlights.Length; ++i)
                 {
-                    cakeslice.Outline null_outline = highlights[i].GetComponent<cakeslice.Outline>();
-                    Assert.IsTrue(null_outline == null);
-                    highlights[i].gameObject.AddComponent<cakeslice.Outline>();
+                    highlighterInstances[i] = Instantiate(highlighterPrefab, highlights[i]);
                 }
             }
             else
             {
+                Assert.IsTrue(highlighterInstances.Length == highlights.Length);
                 // destroy
                 for (int i = 0; i < highlights.Length; ++i)
                 {
+                    Destroy(highlighterInstances[i]);
                     highlights[i].transform.localScale = tips[current_tip].original_highlighted_scales[i];
-                    cakeslice.Outline outline = highlights[i].GetComponent<cakeslice.Outline>();
-                    Assert.IsTrue(outline != null);
-                    outline.enabled = false;
-                    Destroy(outline);
                 }
+                highlighterInstances = null;
                
             }
         }

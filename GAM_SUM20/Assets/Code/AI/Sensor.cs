@@ -46,6 +46,7 @@ public class Sensor : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+
         // get unit colliding and set as target
         Unit unitTarget = collision.GetComponent<Unit>();
         // if layers set correctly, this should success

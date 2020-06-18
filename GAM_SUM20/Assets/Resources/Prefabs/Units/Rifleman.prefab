@@ -49,8 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8349d51c45b5cf148b5b76250a835528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  common: {fileID: 11400000, guid: f237a4532f9c4a447a39ce98ead006e8, type: 2}
   team: 0
+  common: {fileID: 11400000, guid: f237a4532f9c4a447a39ce98ead006e8, type: 2}
   currentAttackTime: 0
   sensor: {fileID: 3486910463750491476}
   healthBarInstance: {fileID: 4880605793900594471}

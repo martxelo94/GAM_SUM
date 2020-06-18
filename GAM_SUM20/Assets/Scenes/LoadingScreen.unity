@@ -807,7 +807,8 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 86000ee37ecfc3444947302cbb946f1a, type: 3}
   - {fileID: 2800000, guid: 06b8af962c1e3034aae97fb7485082e7, type: 3}
   - {fileID: 2800000, guid: f78e37a3989d0fe4badfc9a85549a54b, type: 3}
-  - {fileID: 2800000, guid: a7b3f00b714d59446a8c1a341a3b7d43, type: 3}
+  - {fileID: 2800000, guid: 2f7a78183752f0f41ac103a540be9bc2, type: 3}
+  - {fileID: 2800000, guid: 78da23da6ac46b9418fc9aaae92e39f2, type: 3}
 --- !u!4 &2047369795
 Transform:
   m_ObjectHideFlags: 0

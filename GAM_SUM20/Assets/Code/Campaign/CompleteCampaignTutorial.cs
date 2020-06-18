@@ -24,9 +24,9 @@ public class CompleteCampaignTutorial : TutorialTips
         // set army as target of tip 5
         Assert.IsTrue(tips.Length > 5);
         Assert.IsTrue(tips[5].highlighted_objects != null);
-        Renderer nodeRenderer = player_deck.transform.parent.GetComponent<Renderer>();
-        Assert.IsTrue(nodeRenderer != null);
-        tips[5].highlighted_objects[0] = nodeRenderer;
+        Transform nodeTransform = player_deck.transform.parent;
+        Assert.IsTrue(nodeTransform != null);
+        tips[5].highlighted_objects[0] = nodeTransform;
 
         init_card_count = player_deck.cards_to_play_count;
 

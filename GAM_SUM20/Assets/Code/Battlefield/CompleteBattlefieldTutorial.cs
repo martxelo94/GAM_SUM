@@ -49,11 +49,11 @@ public class CompleteBattlefieldTutorial : TutorialTips
         {
             if (player_init_hitpoints > menu.playerHitPoints[0].hit_points)
             {
-                ShowTip(4);
+                ShowTip(4);  // player damage
             }
             else if (opponent_init_hitpoints > menu.playerHitPoints[1].hit_points)
             {
-                ShowTip(5);
+                ShowTip(5); // opponent damage
             }
         }
         else if (current_tip == 4 || current_tip == 5) {
