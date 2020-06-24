@@ -28,4 +28,15 @@ public class ScrollbarClamper : MonoBehaviour
     {
         //Debug.Log("MouseUp on" + typeof(ScrollbarClamper).ToString());
     }
+
+    public void MoveLeft()
+    {
+        float step = 1f / (panelCount - 1);
+        scrollbar.value = Mathf.Clamp01(scrollbar.value - step);
+    }
+    public void MoveRight()
+    {
+        float step = 1f / (panelCount - 1);
+        scrollbar.value = Mathf.Clamp01(scrollbar.value + step);
+    }
 }

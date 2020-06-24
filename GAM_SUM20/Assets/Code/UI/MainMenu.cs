@@ -20,6 +20,11 @@ public class MainMenu : MonoBehaviour
     {
     }
 
+    public void DeleteAllSavedData()
+    {
+        GameSettings.INSTANCE.DeleteAllSavedData();
+    }
+
     public void LoadLevelScene(int nextLevel)
     {
         GameSettings.INSTANCE.SetNextSceneIdx(nextLevel);

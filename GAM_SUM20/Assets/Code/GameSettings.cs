@@ -86,8 +86,9 @@ public class GameSettings : MonoBehaviour
 
     public void DeleteAllSavedData()
     {
-        PlayerPrefs.DeleteKey(tuto_battle_savename);
-        PlayerPrefs.DeleteKey(tuto_campaign_savename);
+        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteKey(tuto_battle_savename);
+        //PlayerPrefs.DeleteKey(tuto_campaign_savename);
 
         Debug.Log("Tutorial savedata deleted.");
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+
 [RequireComponent(typeof(MeshFilter))]
 public class TerrainUpdater : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class TerrainUpdater : MonoBehaviour
     public Battlefield battlefield;
     private MeshFilter mesh_filter;
     bool terrain_updated = true;
+
+    private Dictionary<Vector2Int, GameObject> borders;
 
 
     private void Awake()

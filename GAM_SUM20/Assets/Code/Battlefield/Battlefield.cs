@@ -150,6 +150,7 @@ public class Battlefield : ScriptableObject
 
     public Color[] CreateMeshColors(Vector2Int size)
     {
+        const float ALPHA = 0.5f;
         int vertexCount = size.x * size.y + 2 * (size.y + size.x + 2);
         Color[] mesh_colors = new Color[vertexCount];
         //for (int i = 0; i < mesh_colors.Length / 2; ++i)
@@ -159,17 +160,20 @@ public class Battlefield : ScriptableObject
         for (int i = 0; i < bot_idx; ++i)
         {
             Color c = team_color[(int)TeamType.Player + 1] * 1.2f;
+            c.a = ALPHA;
             mesh_colors[i] = c;
         }
         int top_idx = (size.x + 2) * (size.y);
         for (int i = top_idx; i < mesh_colors.Length; ++i)
         {
             Color c = team_color[(int)TeamType.Opponent + 1] * 1.2f;
+            c.a = ALPHA;
             mesh_colors[i] = c;
         }
         for (int i = bot_idx; i < top_idx; ++i)
         {
             Color c = team_color[(int)TeamType.None + 1];
+            c.a = 0f;
             mesh_colors[i] = c;
         }
         return mesh_colors;
@@ -191,7 +195,7 @@ public class Battlefield : ScriptableObject
                 vertices[idx] = pos;
             }
         }
-        const float BORDER_EXTENSION = 2.0f;
+        const float BORDER_EXTENSION = 1f;
         // extend borders
         for (int i = 0; i < size.x + 2; ++i)
         {
@@ -423,5 +427,16 @@ public class Battlefield : ScriptableObject
             end.x -= cell_size;
         }
 
+    }
+
+    // which adjacent tiles mismatch team
+    public uint GetBorderFlag(Vector2Int coord)
+    {
+        Assert.IsTrue(IsInsideGrid(coord) == true);
+        uint flag = 0;
+        int idx = coord.x + coord.y * grid_size.x;
+        TeamType team = GetTeam(m_team_grid[idx]);
+
+        return flag;
     }
 }

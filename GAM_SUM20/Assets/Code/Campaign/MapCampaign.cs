@@ -51,6 +51,7 @@ public class MapCampaign : MonoBehaviour
     {
         SaveFile();
 
+#if false
         // select node
         foreach (MapNode n in nodes)
         {
@@ -60,6 +61,7 @@ public class MapCampaign : MonoBehaviour
                 break;
             }
         }
+#endif
     }
 
 
@@ -362,7 +364,7 @@ public class MapCampaign : MonoBehaviour
 
     }
 
-    #region ATTACK PHASE
+#region ATTACK PHASE
     public void CheckAttack()
     {
         Assert.IsTrue(selected_node != null);
@@ -451,7 +453,7 @@ public class MapCampaign : MonoBehaviour
         menu.selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
         menu.selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
     }
-    #endregion
+#endregion
 
     public void AddRandomCardsToSelectedDeck(int count)
     {
