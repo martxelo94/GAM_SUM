@@ -26,6 +26,7 @@ public class Battlefield : ScriptableObject
     public int[] team_terrain_influence;
     public float time_to_secure_terrain = 5.0f;
 
+    public float TERRAIN_ALPHA = 0.5f;
     // per cell
     [HideInInspector]
     public int[] m_team_grid;   // how much influenced by team
@@ -58,8 +59,8 @@ public class Battlefield : ScriptableObject
             if (terrain_captured_times[idx] < time_to_secure_terrain)
             {
                 c = c / (0.1f + terrain_captured_times[idx]);
-
             }
+            c.a = TERRAIN_ALPHA;
             terrain_mesh_colors[meshIdx] = c;
         }
         return terrain_mesh_colors;
@@ -150,7 +151,6 @@ public class Battlefield : ScriptableObject
 
     public Color[] CreateMeshColors(Vector2Int size)
     {
-        const float ALPHA = 0.5f;
         int vertexCount = size.x * size.y + 2 * (size.y + size.x + 2);
         Color[] mesh_colors = new Color[vertexCount];
         //for (int i = 0; i < mesh_colors.Length / 2; ++i)
@@ -160,14 +160,14 @@ public class Battlefield : ScriptableObject
         for (int i = 0; i < bot_idx; ++i)
         {
             Color c = team_color[(int)TeamType.Player + 1] * 1.2f;
-            c.a = ALPHA;
+            c.a = TERRAIN_ALPHA;
             mesh_colors[i] = c;
         }
         int top_idx = (size.x + 2) * (size.y);
         for (int i = top_idx; i < mesh_colors.Length; ++i)
         {
             Color c = team_color[(int)TeamType.Opponent + 1] * 1.2f;
-            c.a = ALPHA;
+            c.a = TERRAIN_ALPHA;
             mesh_colors[i] = c;
         }
         for (int i = bot_idx; i < top_idx; ++i)
