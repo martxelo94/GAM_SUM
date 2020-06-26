@@ -40,23 +40,27 @@ public class BattlefieldMenu : MonoBehaviour
         game_ended = false;
         Assert.IsTrue(decks.Length == 2);
         Assert.IsTrue(playerHitPoints != null);
-            // set decks from campaign
-        if (GameSettings.INSTANCE.IsBattle())
+        
+    }
+
+    private void Start()
+    {
+        //if (GameSettings.INSTANCE.IsBattle())
         {
-            Assert.IsTrue(decks.Length == 2);
+            // set decks from campaign or quickgame
             for (int i = 0; i < decks.Length; ++i)
             {
                 Deck d = decks[i];
                 if (d.team == TeamType.Player)
                 {
-                    d.SetDeck(GameSettings.INSTANCE.attack_deck);
+                    d.SetDeck(GameSettings.INSTANCE.CopyAttackDeck());
                 }
                 else
                 {
-                    d.SetDeck(GameSettings.INSTANCE.target_deck);
+                    d.SetDeck(GameSettings.INSTANCE.CopyTargetDeck());
                 }
             }
-            Debug.Log("Decks set from Campaign");
+            Debug.Log("Decks set from GameSettings");
         }
     }
 
@@ -115,7 +119,7 @@ public class BattlefieldMenu : MonoBehaviour
             else if (fade_timer)
             {
                 // show time
-                if ((int)endGameCheckCurrentTime % 60 == 0)
+                if (((int)endGameCheckCurrentTime % 60) == 0)
                 {
                     if (showing_timer == false)
                         StartCoroutine(FadeTimerPanel());
@@ -145,19 +149,27 @@ public class BattlefieldMenu : MonoBehaviour
 
     IEnumerator FadeTimerPanel()
     {
+        Debug.Log("FadeTimerPanel Coroutine started.");
         showing_timer = true;
         endGameTimerPanel.gameObject.SetActive(true);
-        int fade_frames = (int)(1.0f / Time.deltaTime);  // one sec
-        Color opaque = endGameTimerPanel.color;
-        Color alpha = opaque; alpha.a = 0f;
+        CanvasRenderer[] renderers = endGameTimerPanel.GetComponentsInChildren<CanvasRenderer>();
+
+        int fade_frames = (int)(2f / Time.deltaTime);  // two sec
         for (int i = 0; i < fade_frames; ++i) {
-            endGameTimerPanel.color = Color.Lerp(alpha, opaque, (float)i / fade_frames);
+            float a = Mathf.Lerp(0f, 1f, (float)i / fade_frames);
+            for (int r = 0; r < renderers.Length; ++r) {
+                renderers[r].SetAlpha(a);
+            }
             UpdateTimerText();
             yield return null;
         }
         for (int i = 0; i < fade_frames; ++i)
         {
-            endGameTimerPanel.color = Color.Lerp(opaque, alpha, (float)i / fade_frames);
+            float a = Mathf.Lerp(1f, 0f, (float)i / fade_frames);
+            for (int r = 0; r < renderers.Length; ++r)
+            {
+                renderers[r].SetAlpha(a);
+            }
             UpdateTimerText();
             yield return null;
         }
@@ -174,12 +186,6 @@ public class BattlefieldMenu : MonoBehaviour
 
     }
 
-        public void ResetLevel()
-    {
-
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 
     public void ChangeTimeScale(float time_scale)
     {
@@ -278,7 +284,7 @@ public class BattlefieldMenu : MonoBehaviour
         SceneManager.LoadScene("Scenes/LoadingScreen");
     }
 
-    void ReplayLevel()
+    public void ReplayLevel()
     {
         Time.timeScale = 1.0f;
         GameSettings.INSTANCE.SetNextSceneIdx(nextLevel);

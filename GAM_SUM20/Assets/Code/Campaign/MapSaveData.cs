@@ -8,6 +8,16 @@ public struct CardTypeCount
 {
     public CardType type;
     public int count;
+
+    public static CardTypeCount[] Initialize()
+    {
+        CardTypeCount[] deck = new CardTypeCount[(int)CardType.CardType_Count];
+        for (int i = 0; i < (int)CardType.CardType_Count; ++i) {
+            deck[i].type = (CardType)i;
+            deck[i].count = 0;
+        }
+        return deck;
+    }
 }
 
 [System.Serializable]

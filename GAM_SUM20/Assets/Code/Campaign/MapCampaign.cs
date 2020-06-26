@@ -91,12 +91,11 @@ public class MapCampaign : MonoBehaviour
         // update decks
         Deck attack_army = nodes[GameSettings.INSTANCE.attack_idx].army;
         Assert.IsTrue(attack_army != null);
-        attack_army.SetDeck(GameSettings.INSTANCE.attack_deck);
+        attack_army.SetDeck(GameSettings.INSTANCE.CopyAttackDeck());
 
         Assert.IsTrue(GameSettings.INSTANCE.target_idx > -1);
         Deck target_army = nodes[GameSettings.INSTANCE.target_idx].army;
-        Assert.IsTrue(GameSettings.INSTANCE.target_deck != null);
-        target_army.SetDeck(GameSettings.INSTANCE.target_deck);
+        target_army.SetDeck(GameSettings.INSTANCE.CopyTargetDeck());
 
         // win reward
         if (GameSettings.INSTANCE.last_battle_won)
@@ -188,8 +187,10 @@ public class MapCampaign : MonoBehaviour
             MapSaveData data = formatter.Deserialize(stream) as MapSaveData;
 
             // set saved data
-            if (nodes.Length != data.nodes.Length)
+            if (nodes.Length != data.nodes.Length) {
+                stream.Close();
                 return false;
+            }
             Assert.IsTrue(nodes.Length == data.nodes.Length);   // redundant
 
             // shorted at Awake
@@ -200,6 +201,8 @@ public class MapCampaign : MonoBehaviour
             for (int i = 0; i < nodes.Length; ++i) {
                 nodes[i].Set(data.nodes[i]);
             }
+
+            stream.Close();
 
             return true;
         }

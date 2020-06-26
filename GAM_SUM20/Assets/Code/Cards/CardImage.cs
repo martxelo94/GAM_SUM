@@ -24,12 +24,15 @@ public class CardImage : MonoBehaviour
 
     public CardManager cardManager;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         Assert.IsTrue(cardManager != null);
         image = GetComponent<RawImage>();
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         // update image
         type = m_type;
     }

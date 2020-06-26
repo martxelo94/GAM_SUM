@@ -147,13 +147,9 @@ public class Deck : MonoBehaviour
 
     public void InitCardTypes()
     {
-        deck_types = new CardTypeCount[(int)CardType.CardType_Count];
         // set types to show in the inspector and reset the count
-        for (int i = 0; i < (int)CardType.CardType_Count; ++i)
-        {
-            deck_types[i].type = (CardType)i;
-            deck_types[i].count = 0;
-        }
+        deck_types = CardTypeCount.Initialize();
+
         total_card_count = 0;
     }
 

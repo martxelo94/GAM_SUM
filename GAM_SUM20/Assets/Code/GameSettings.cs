@@ -28,9 +28,9 @@ public class GameSettings : MonoBehaviour
 
     public bool is_campaign_battle;
 
-    public CardTypeCount[] attack_deck { get; private set; } = null;
+    private CardTypeCount[] attack_deck = null;    // player deck
     public int attack_idx { get; private set; } = -1;
-    public CardTypeCount[] target_deck { get; private set; } = null;
+    private CardTypeCount[] target_deck = null;    // opponent deck
     public int target_idx { get; private set; } = -1;
     public bool last_battle_won = false;
     public string campaign_battle_name;
@@ -38,6 +38,18 @@ public class GameSettings : MonoBehaviour
     public string tuto_battle_savename = "BattleTip";
 
 
+    public CardTypeCount[] CopyAttackDeck()
+    {
+        CardTypeCount[] copy = new CardTypeCount[attack_deck.Length];
+        attack_deck.CopyTo(copy, 0);
+        return copy;
+    }
+    public CardTypeCount[] CopyTargetDeck()
+    {
+        CardTypeCount[] copy = new CardTypeCount[target_deck.Length];
+        target_deck.CopyTo(copy, 0);
+        return copy;
+    }
     public void SetNextSceneIdx(int idx)
     {
         prevSceneIdx = nextSceneIdx;
