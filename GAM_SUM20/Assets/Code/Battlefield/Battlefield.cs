@@ -29,6 +29,8 @@ public class Battlefield : ScriptableObject
     public float TERRAIN_ALPHA = 0.5f;
     // per cell
     [HideInInspector]
+    public int[] team_adjacency_flags;
+    [HideInInspector]
     public int[] m_team_grid;   // how much influenced by team
     [HideInInspector]
     public float[] terrain_captured_times;
@@ -82,6 +84,9 @@ public class Battlefield : ScriptableObject
     public void ResetGrid()
     {
         int size = grid_size.x * grid_size.y;
+        Assert.IsTrue(team_adjacency_flags != null && team_adjacency_flags.Length == size);
+        for (int i = 0; i < team_adjacency_flags.Length; ++i)
+            team_adjacency_flags[i] = 0;
         Assert.IsTrue(m_team_grid != null && m_team_grid.Length == size);
         for (int i = 0; i < m_team_grid.Length; ++i)
         {
@@ -131,6 +136,9 @@ public class Battlefield : ScriptableObject
     public void ResizeGrid(Vector2Int size)
     {
         grid_size = size;
+        team_adjacency_flags = new int[size.x * size.y];
+        for (int i = 0; i < team_adjacency_flags.Length; ++i)
+            team_adjacency_flags[i] = 0;
         m_team_grid = new int[size.x * size.y];
         for (int i = 0; i < m_team_grid.Length; ++i) {
             m_team_grid[i] = 0;
@@ -275,6 +283,7 @@ public class Battlefield : ScriptableObject
         {
             m_team_grid[idx] += team_terrain_influence[(int)team];
             terrain_captured_times[idx] = 0.0f;
+            UpdateTeamAdjacencyFlag(idx, team);
         }
         return true;
     }
@@ -430,13 +439,48 @@ public class Battlefield : ScriptableObject
     }
 
     // which adjacent tiles mismatch team
-    public uint GetBorderFlag(Vector2Int coord)
+    public int GetBorderFlag(Vector2Int coord)
     {
         Assert.IsTrue(IsInsideGrid(coord) == true);
-        uint flag = 0;
+        int flag = 0;
         int idx = coord.x + coord.y * grid_size.x;
         TeamType team = GetTeam(m_team_grid[idx]);
+        // check mismatches with adjacents
+
+        // north
+
+        // west
+
+        // south
+
+        // east
 
         return flag;
+    }
+
+    void UpdateTeamAdjacencyFlag(int idx, TeamType team)
+    {
+        int neighbor_idx = -1;
+        int x_coord = idx - (idx / grid_size.x) * grid_size.x;
+        // north
+        neighbor_idx = idx - grid_size.x;
+        if (neighbor_idx >= 0) {
+
+        }
+        // west
+        if (x_coord - 1 >= 0) {
+            neighbor_idx = idx - 1;
+
+        }
+        // south
+        neighbor_idx = idx + grid_size.x;
+        if (neighbor_idx < grid_size.x * grid_size.y) {
+
+        }
+        // east
+        if(x_coord + 1 < grid_size.x) {
+            neighbor_idx = idx + 1;
+
+        }
     }
 }

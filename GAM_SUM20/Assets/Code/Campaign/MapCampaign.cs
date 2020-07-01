@@ -15,7 +15,7 @@ public class MapCampaign : MonoBehaviour
 {
 
     public int battleLevelBuildIdx = 2;
-
+    private bool saved_campaign = false;
     [HideInInspector]
     public MapNode selected_node;
     [HideInInspector]
@@ -29,6 +29,7 @@ public class MapCampaign : MonoBehaviour
     public GameObject[] armyPrefabs;
 
     public CampaignMenu menu;
+    public CardImage rewardCardPrefab;
 
     private void Awake()
     {
@@ -50,6 +51,7 @@ public class MapCampaign : MonoBehaviour
     void Start()
     {
         SaveFile();
+        saved_campaign = false;
 
 #if false
         // select node
@@ -75,6 +77,22 @@ public class MapCampaign : MonoBehaviour
 
     }
 
+
+    private void OnApplicationQuit()
+    {
+        if (saved_campaign == false)
+            SaveFile();
+        //Debug.Log(this.ToString() + " has been disabled.");
+    }
+
+    public void SetActiveNodeTriggers(bool active)
+    {
+        for (int i = 0; i < nodes.Length; ++i)
+        {
+            nodes[i].circleCollider2D.enabled = active;
+        }
+    }
+
     public List<Deck> GetArmiesOfTeam(TeamType team)
     {
         List<Deck> armies = new List<Deck>();
@@ -97,24 +115,32 @@ public class MapCampaign : MonoBehaviour
         Deck target_army = nodes[GameSettings.INSTANCE.target_idx].army;
         target_army.SetDeck(GameSettings.INSTANCE.CopyTargetDeck());
 
-        // win reward
+        // update editor
+        menu.deckManager.SetUpDeck(target_army);
+        menu.deckManager.SaveDeck();
+
+        MapNode targetNode = nodes[GameSettings.INSTANCE.target_idx];
+
         if (GameSettings.INSTANCE.last_battle_won)
         {
             // capture node
-            CaptureNode(nodes[GameSettings.INSTANCE.attack_idx], nodes[GameSettings.INSTANCE.target_idx]);
-
+            CaptureNode(nodes[GameSettings.INSTANCE.attack_idx], targetNode);
         }
-        else
-        {
-            // update nodes
 
-            // get reward for opponent
-            MapNode targetNode = nodes[GameSettings.INSTANCE.target_idx];
-            Assert.IsTrue(targetNode.army != null);
-            targetNode.army.CombineCards(targetNode.deck_reward);
+        // give reward to target node
 
-        }
+        Assert.IsTrue(targetNode.army != null);
+        targetNode.army.CombineCards(targetNode.deck_reward);
+
         
+        
+    }
+
+    IEnumerator RewardAnimation(MapNode targetNode)
+    {
+        CardTypeCount[] reward = targetNode.deck_reward;
+        yield return null;
+
     }
 
     // update with battle result
@@ -174,6 +200,8 @@ public class MapCampaign : MonoBehaviour
 
         formatter.Serialize(stream, data);
         stream.Close();
+
+        saved_campaign = true;
     }
 
     public bool LoadFile()
@@ -253,11 +281,6 @@ public class MapCampaign : MonoBehaviour
         if (target.nextNodes.Length == 0) {
             menu.ShowEndPanel(true);
         }
-
-        // get reward
-        Assert.IsTrue(target.army != null);
-        target.army.CombineCards(target.deck_reward);
-
     }
 
     public void UnselectNode()
@@ -268,12 +291,14 @@ public class MapCampaign : MonoBehaviour
         target_node = null;
         menu.ShowArmyPanel(false);
         menu.ShowNodePanel(false);
-        menu.ShowBattlePanel(false);
+        //menu.ShowBattlePanel(false);
     }
     public void SelectNode(MapNode node)
     {
         if (is_attacking)
         {
+            Assert.IsTrue(false); // this phase never happends!
+
             Assert.IsTrue(selected_node != null);
             // select target node
             if (node.army != null)
@@ -286,7 +311,7 @@ public class MapCampaign : MonoBehaviour
                         if (node.nextNodes[i] == selected_node)
                         {
                             target_node = node;
-                            ShowBattlePanel(true);
+                            //ShowBattlePanel(true);
                             return;
                         }
                     }
@@ -319,7 +344,7 @@ public class MapCampaign : MonoBehaviour
                     menu.ShowArmyPanel(true);
                     menu.ShowMoveButton(false);
 
-                    menu.ShowBattlePanel(false);
+                    //menu.ShowBattlePanel(false);
                     menu.ShowNodePanel(false);
                 }
                 
@@ -386,12 +411,23 @@ public class MapCampaign : MonoBehaviour
         if (army_count > 1)
         {
             is_attacking = true;
+            Assert.IsTrue(false); // Allow only one army
         }
         else {
             // show confirm panel
             target_node = armyNode;
-            menu.ShowBattlePanel(true);
+            //menu.ShowBattlePanel(true);
             menu.ShowArmyPanel(false);
+
+            if (selected_node.army == null)
+            {
+                MoveArmy();
+            }
+            else {
+                menu.ToggleActive(menu.deckManager.gameObject);
+                menu.ShowConfirmPanel(true);
+                SetActiveNodeTriggers(false);
+            }
         }
     }
 
@@ -404,15 +440,6 @@ public class MapCampaign : MonoBehaviour
         // load loading scene
         SceneManager.LoadScene("Scenes/LoadingScreen");
     }
-    public bool ShowBattlePanel(bool show)
-    {
-        // check if adyacent
-        Assert.IsTrue(selected_node != null);
-
-        menu.battlePanel.SetActive(show);
-
-        return true;
-    }
 
     public void MoveArmy()
     {
@@ -422,7 +449,7 @@ public class MapCampaign : MonoBehaviour
         // move army
         StartCoroutine(MoveArmyAnimaton(movement_duration));
 
-        menu.ShowBattlePanel(false);
+        //menu.ShowBattlePanel(false);
         menu.ShowArmyPanel(false);
     }
 
@@ -438,7 +465,7 @@ public class MapCampaign : MonoBehaviour
             yield return null;
         }
 
-        if (selected_node.army != null)
+        if (selected_node.army != null && selected_node.army.cards_to_play_count > 0)
         {
             BegineBattle(target_node, selected_node);
         }
@@ -475,5 +502,11 @@ public class MapCampaign : MonoBehaviour
     {
         for (int i = 0; i < nodes.Length; ++i)
             nodes[i].enabled = active;
+    }
+
+    public void SetAttackerFromDeckEditor(DeckManager deckManager)
+    {
+        target_node.army.SetDeck(deckManager.CollapseDeck(deckManager.GetDeckUncollapsed()));
+        target_node.army.UpdateText();
     }
 }

@@ -71,6 +71,7 @@ public class Deck : MonoBehaviour
 
     public void UpdateText()
     {
+        Assert.IsTrue(deckCountText != null);
 
         int count = cards_to_play_count;
         bool overflow = count > 999;

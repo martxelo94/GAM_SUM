@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 
-
+[RequireComponent(typeof(CircleCollider2D))]
 public class MapNode : MonoBehaviour
 {
     public TeamType team;
@@ -24,9 +24,13 @@ public class MapNode : MonoBehaviour
     // reward for capturing
     public CardTypeCount[] deck_reward;
 
+    public CircleCollider2D circleCollider2D { get; private set; }
+
+
     private void Awake()
     {
         //map = FindObjectOfType<MapCampaign>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
         parentNodes = new List<MapNode>();
         Assert.IsTrue(deck_reward != null && deck_reward.Length == (int)CardType.CardType_Count);
     }

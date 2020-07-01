@@ -3,6 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
+public class TileBorder
+{
+    // 1 north, 2 west, 3 south, 4 east
+    public int flag = 0; // which sides are different
+    Transform[] sides = null;
+
+    public void Set(int _flag, Vector2Int coord, Battlefield battlefield, GameObject border_prefab, Transform border_parent)
+    {
+        flag = _flag;
+
+        // clear if no mismatches
+        if (flag == 0)
+        {
+            if (sides != null)
+            {
+                Assert.IsTrue(sides.Length == 4);
+                for (int i = 0; i < 4; ++i)
+                {
+                    GameObject.Destroy(sides[i].gameObject);
+                }
+                sides = null;
+            }
+        }
+        else {
+            if (sides == null) {
+                sides = new Transform[4];
+                Vector3 center = battlefield.GetCellPos(coord);
+                for (int i = 0; i < 4; ++i) {
+                    GameObject border = GameObject.Instantiate(border_prefab, border_parent);
+                    border.transform.position = center + battlefield.cell_size * Vector3.up;
+                    border.transform.RotateAround(center, Vector3.forward, i * 90f);
+                    sides[i] = border.transform;
+                    border.SetActive(false);
+                }
+            }
+            // activate from flag
+            sides[0].gameObject.SetActive((flag & 1) != 0);
+            sides[1].gameObject.SetActive((flag & 2) != 0);
+            sides[2].gameObject.SetActive((flag & 4) != 0);
+            sides[3].gameObject.SetActive((flag & 8) != 0);
+        }
+
+    }
+}
 
 [RequireComponent(typeof(MeshFilter))]
 public class TerrainUpdater : MonoBehaviour
@@ -14,11 +58,13 @@ public class TerrainUpdater : MonoBehaviour
     private MeshFilter mesh_filter;
     bool terrain_updated = true;
 
-    private Dictionary<Vector2Int, GameObject> borders;
+    private Dictionary<Vector2Int, TileBorder> borders;
 
 
     private void Awake()
     {
+        borders = new Dictionary<Vector2Int, TileBorder>();
+
         battlefield.grid_size = grid_size;
         battlefield.grid_center = grid_center;
 

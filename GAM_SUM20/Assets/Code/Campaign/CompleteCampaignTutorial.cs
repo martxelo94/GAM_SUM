@@ -21,12 +21,12 @@ public class CompleteCampaignTutorial : TutorialTips
         List<Deck> player_armies = map.GetArmiesOfTeam(TeamType.Player);
         Assert.IsTrue(player_armies.Count > 0);
         player_deck = player_armies[0];
-        // set army as target of tip 5
-        Assert.IsTrue(tips.Length > 5);
-        Assert.IsTrue(tips[5].highlighted_objects != null);
+        // set army as target of tip 8
+        Assert.IsTrue(tips.Length > 8);
+        Assert.IsTrue(tips[8].highlighted_objects != null);
         Transform nodeTransform = player_deck.transform.parent;
         Assert.IsTrue(nodeTransform != null);
-        tips[5].highlighted_objects[0] = nodeTransform;
+        tips[8].highlighted_objects[0] = nodeTransform;
 
         init_card_count = player_deck.cards_to_play_count;
 
@@ -34,8 +34,8 @@ public class CompleteCampaignTutorial : TutorialTips
 
         base.Start();
 
-        // check battle won after Tip_confirm_move (3)
-        if (current_tip == 3 && GameSettings.INSTANCE.IsBattle()) {
+        // check battle won after Tip_deck_editor_confirm (6)
+        if (current_tip == 6 && GameSettings.INSTANCE.IsBattle()) {
             NextTip();
         }
         // check if campaign end
@@ -57,17 +57,22 @@ public class CompleteCampaignTutorial : TutorialTips
         }
         if (current_tip == 3) // MOVE ARMY TO BATTLE
         {
-            if (map.is_moving && tips[current_tip].panel.activeSelf == true)
-                HideTip();
+            // Obsolete with deck editor
+
+            //if (map.is_moving && tips[current_tip].panel.activeSelf == true)
+            //    HideTip();
+
+            if (map.menu.deckManager.gameObject.activeSelf == true)
+                NextTip();
         }
-        if (current_tip == 6)  // open AID PACKET
+        if (current_tip == 9)  // open AID PACKET
         {
             if (init_card_count < player_deck.cards_to_play_count) {
                 // cards has been added
                 NextTip();
             }
         }
-        if (current_tip == 8) // rememeber info tip
+        if (current_tip == 11) // rememeber info tip
         {
             // if info panel opened
             if (map.menu.infoPanel.activeSelf == true && tips[current_tip].panel.activeSelf == true) {

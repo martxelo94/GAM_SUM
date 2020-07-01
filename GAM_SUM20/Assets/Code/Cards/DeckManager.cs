@@ -17,7 +17,7 @@ public class DeckManager : MonoBehaviour
     private DeckCard[] card_pool_objects;   // auto generated
     private List<DeckCard> card_deck_objects;   // auto generated from input deck
     const string FILE_PATH_POOL = "PlayerCardPool";
-    const string FILE_PATH_DECK = "PlayerCardDeck";
+    public static string FILE_PATH_DECK = "PlayerCardDeck";
     private Camera mainCamera;
 
     public RectTransform deck_highlight;
@@ -65,8 +65,8 @@ public class DeckManager : MonoBehaviour
             DeckCard c = Instantiate(card_prefab, card_pool_panel) as DeckCard;
             c.manager = this;
             c.in_pool = true;
-            c.image.type = (CardType)i;
-            c.UpdateText(card_pool);
+            c.cardImage.type = (CardType)i;
+            c.UpdateText(card_pool[(int)i].count);
 
             card_pool_objects[i] = c;
         }
@@ -103,6 +103,15 @@ public class DeckManager : MonoBehaviour
                 }
             }
         }    
+    }
+
+    public void AddRawDeckToPool(List<CardType> rawDeck)
+    {
+        foreach (CardType t in rawDeck)
+        {
+            card_pool[(int)t].count++;
+            card_pool_objects[(int)t].UpdateText(card_pool[(int)t].count);
+        }
     }
 
     public void SelectCard(DeckCard card)
@@ -144,9 +153,9 @@ public class DeckManager : MonoBehaviour
 
     public void DeckToPool(DeckCard card)
     {
-        CardType type = card.image.type;
+        CardType type = card.cardImage.type;
         card_pool[(int)type].count++;
-        card_pool_objects[(int)type].UpdateText(card_pool);
+        card_pool_objects[(int)type].UpdateText(card_pool[(int)type].count);
 
         card_deck_objects.Remove(card);
         Destroy(card.gameObject);
@@ -154,13 +163,13 @@ public class DeckManager : MonoBehaviour
 
     public void PoolToDeck(DeckCard card)
     {
-        CardType type = card.image.type;
+        CardType type = card.cardImage.type;
         card_pool[(int)type].count--;
-        card_pool_objects[(int)type].UpdateText(card_pool);
+        card_pool_objects[(int)type].UpdateText(card_pool[(int)type].count);
 
         DeckCard copy = Instantiate(card, current_deck_panel) as DeckCard;
         copy.in_pool = false;
-        copy.count_text.enabled = false;
+        copy.count_text_frame.SetActive(false);
         copy.frame_highlight.SetActive(false);
 
         card_deck_objects.Add(copy);
@@ -169,6 +178,7 @@ public class DeckManager : MonoBehaviour
 
     public void SetUpDeck(Deck deck)
     {
+        Assert.IsTrue(card_deck_objects != null && card_deck_objects.Count == 0);
         // copy deck data to deckCards
         CardTypeCount[] deck_to_copy = deck.GetDeck();
         for (int i = 0; i < (int)CardType.CardType_Count; ++i) {
@@ -176,8 +186,8 @@ public class DeckManager : MonoBehaviour
             for (int j = 0; j < deck_to_copy[i].count; ++j) {
                 DeckCard dc = Instantiate(card_prefab, current_deck_panel) as DeckCard;
                 dc.manager = this;
-                dc.image.type = type;
-                dc.count_text.enabled = false;
+                dc.cardImage.type = type;
+                dc.count_text_frame.SetActive(false);
                 dc.in_pool = false;
                 card_deck_objects.Add(dc);
 
@@ -187,11 +197,12 @@ public class DeckManager : MonoBehaviour
 
     void SetUpDeck(List<CardType> deck)
     {
+        Assert.IsTrue(card_deck_objects != null && card_deck_objects.Count == 0);
         foreach (CardType t in deck) {
             DeckCard dc = Instantiate(card_prefab, current_deck_panel) as DeckCard;
             dc.manager = this;
-            dc.image.type = t;
-            dc.count_text.enabled = false;
+            dc.cardImage.type = t;
+            dc.count_text_frame.SetActive(false);
             dc.in_pool = false;
 
             card_deck_objects.Add(dc);
@@ -199,7 +210,7 @@ public class DeckManager : MonoBehaviour
         }
     }
 
-    void RemoveCurrentDeck()
+    public void RemoveCurrentDeck()
     {
         foreach(DeckCard dc in card_deck_objects)
         {
@@ -208,11 +219,11 @@ public class DeckManager : MonoBehaviour
         card_deck_objects = new List<DeckCard>();
     }
 
-    List<CardType> GetDeckUncollapsed()
+    public List<CardType> GetDeckUncollapsed()
     {
         List<CardType> deck = new List<CardType>();
         foreach (DeckCard dc in card_deck_objects)
-            deck.Add(dc.image.type);
+            deck.Add(dc.cardImage.type);
         return deck;
     }
 
@@ -271,18 +282,18 @@ public class DeckManager : MonoBehaviour
 
     public List<CardType> LoadDeckRaw(int index)
     {
+        List<CardType> deck = new List<CardType>();
         string path = FILE_PATH_DECK + index.ToString();
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
 
-            List<CardType> deck = formatter.Deserialize(stream) as List<CardType>;
+           deck = formatter.Deserialize(stream) as List<CardType>;
 
             stream.Close();
-            return deck;
         }
-        return null;
+        return deck;
     }
 
     bool LoadDeck()

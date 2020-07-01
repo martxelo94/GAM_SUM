@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class CampaignMenu : MonoBehaviour
 {
     public GameObject campaignEndPanel;
-    public GameObject battlePanel;
+    public GameObject confirmPanel;
     public GameObject selectedNodePanel;
     public GameObject selectedArmyPanel;
 
@@ -16,6 +16,8 @@ public class CampaignMenu : MonoBehaviour
     public GameObject addCardsButton;
 
     public GameObject infoPanel;
+
+    public DeckManager deckManager;
 
 
     public void ToggleActive(GameObject obj)
@@ -73,9 +75,9 @@ public class CampaignMenu : MonoBehaviour
         selectedNodePanel.SetActive(show);
     }
 
-    public void ShowBattlePanel(bool show)
+    public void ShowConfirmPanel(bool show)
     {
-        battlePanel.SetActive(show);
+        confirmPanel.SetActive(show);
     }
 
     public void ShowMoveButton(bool show)

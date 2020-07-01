@@ -112,6 +112,20 @@ public class GameSettings : MonoBehaviour
             File.Delete(tmp);
             Debug.Log(tmp + " file deleted.");
         }
+        DeckManager deckManager = FindObjectOfType<DeckManager>();
+        if (deckManager != null)
+        {
+            // delete decks
+            for (int i = -2; i < CAMPAIGN_COUNT; ++i)
+            {
+                List<CardType> rawDeck = deckManager.LoadDeckRaw(i);
+                deckManager.AddRawDeckToPool(rawDeck);
+                string tmp = DeckManager.FILE_PATH_DECK + i.ToString();
+                File.Delete(tmp);
+                Debug.Log(tmp + " file deleted.");
+            }
+            deckManager.RemoveCurrentDeck();
+        }
     }
 
     private void Awake()
@@ -139,6 +153,11 @@ public class GameSettings : MonoBehaviour
         {
             DeleteAllSavedData();
         }
+    }
+
+    public void ToggleButton(UnityEngine.UI.Button button)
+    {
+        button.interactable = !button.interactable;
     }
 }
 

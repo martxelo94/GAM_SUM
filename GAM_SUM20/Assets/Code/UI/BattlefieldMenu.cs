@@ -330,6 +330,10 @@ public class BattlefieldMenu : MonoBehaviour
                 defender_deck = d.GetDeck();
             }
         }
+        // update GameSettings
+        GameSettings.INSTANCE.SetAttackDeck(attacker_deck);
+        GameSettings.INSTANCE.SetTargetDeck(defender_deck);
+        // update file
         MapCampaign.UpdateDecksInFile(attacker_deck, defender_deck);
     }
 
@@ -392,17 +396,22 @@ public class BattlefieldMenu : MonoBehaviour
         foreach (PlayerHand hand in hands)
         {
             CardPlayable[] cards = hand.cards;
+            // add card to deck for saving
+            AddUnplayedCardsToDeck(hand.GetDeck(), cards);
+             // disable cards
             for (int i = 0; i < cards.Length; ++i) {
-                // add card to deck for saving
-                if (cards[i].card.type != CardType.None)
-                {
-                    cards[i].hand.GetDeck().AddToDeck(cards[i].card.type, 1);
-                }
                 cards[i].enabled = false;
             }
         }
     }
 
+    void AddUnplayedCardsToDeck(Deck deck, CardPlayable[] cards)
+    {
+        for (int i = 0; i < cards.Length; ++i) {
+            if (cards[i].card.type != CardType.None)
+                deck.AddToDeck(cards[i].card.type, 1);
+        }
+    }
 
 }
 
