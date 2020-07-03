@@ -48,11 +48,7 @@ public class DeckManager : MonoBehaviour
         Assert.IsTrue(pool_highlight != null);
         Assert.IsTrue(card_count_text != null);
 
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
         card_deck_objects = new List<DeckCard>();
         if (LoadPool() && LoadDeck())
         {
@@ -67,6 +63,12 @@ public class DeckManager : MonoBehaviour
             Debug.Log(FILE_PATH_POOL + " failed loading!");
         }
         Assert.IsTrue(card_pool.Length == (int)CardType.CardType_Count);
+
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
 
 
         // set up pool
@@ -208,7 +210,10 @@ public class DeckManager : MonoBehaviour
 
     public void SetUpDeck(Deck deck)
     {
-        Assert.IsTrue(card_deck_objects != null && card_deck_objects.Count == 0);
+        Assert.IsTrue(card_deck_objects != null);
+        if (card_deck_objects.Count > 0)
+            RemoveCurrentDeck();
+        Assert.IsTrue(card_deck_objects.Count == 0);
         // copy deck data to deckCards
         CardTypeCount[] deck_to_copy = deck.GetDeck();
         for (int i = 0; i < (int)CardType.CardType_Count; ++i) {
@@ -228,7 +233,10 @@ public class DeckManager : MonoBehaviour
 
     void SetUpDeck(List<CardType> deck)
     {
-        Assert.IsTrue(card_deck_objects != null && card_deck_objects.Count == 0);
+        Assert.IsTrue(card_deck_objects != null);
+        if (card_deck_objects.Count > 0)
+            RemoveCurrentDeck();
+        Assert.IsTrue(card_deck_objects.Count == 0);
         foreach (CardType t in deck) {
             DeckCard dc = Instantiate(card_prefab, current_deck_panel) as DeckCard;
             dc.manager = this;
@@ -249,6 +257,7 @@ public class DeckManager : MonoBehaviour
             Destroy(dc.gameObject);
         }
         card_deck_objects = new List<DeckCard>();
+        UpdateCardCountText();
     }
 
     public List<CardType> GetDeckUncollapsed()
@@ -386,4 +395,5 @@ public class DeckManager : MonoBehaviour
     {
         card_count_text.text = card_deck_objects.Count.ToString() + "/" + MAX_DECK_CARD_COUNT.ToString();
     }
+
 }

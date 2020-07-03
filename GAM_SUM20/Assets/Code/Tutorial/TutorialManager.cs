@@ -115,6 +115,7 @@ public class TutorialManager : MonoBehaviour
         Assert.IsTrue(current_tip < tips.Length);
         if (current_tip >= 0)
         {
+            tips[current_tip].Exit();
             tips[current_tip].gameObject.SetActive(false);
             HighlightTip(false);         
         }
@@ -122,6 +123,7 @@ public class TutorialManager : MonoBehaviour
         if (current_tip < tips.Length)
         {
             tips[current_tip].gameObject.SetActive(true);
+            tips[current_tip].Enter();
             HighlightTip(true);
         }
     }
@@ -171,11 +173,15 @@ public class TutorialManager : MonoBehaviour
         // highlight previous
         if (IsValidTip()) {
             // crash on init becouse objects from default, not used previously (assert check Outline present to remove)
-            if(tips[current_tip].gameObject.activeSelf == true)
+            if (tips[current_tip].gameObject.activeSelf == true)
+            {
+                tips[current_tip].Exit();
                 HideTip();
+            }
         }
         current_tip = idx;
         tips[current_tip].gameObject.SetActive(true);
+        tips[current_tip].Enter();
         HighlightTip(true);
     }
 

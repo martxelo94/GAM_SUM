@@ -67,7 +67,7 @@ public class CompleteCampaignTutorial : TutorialManager
                 if (deckManager.card_pool_count > init_card_pool_count && tip_add_cards_inactive_condition.activeSelf == false)
                     NextTip();
             }
-            else if (tip_name == "Tip_enemy_army") // SELECT ARMY TO ATTACK
+            else if (tip_name == "Tip_capture_node") // SELECT FIRST NODE TO ATTACK
             {
                 if (map.selected_node != null && map.selected_node.team == TeamType.Opponent)
                 {

@@ -31,12 +31,18 @@ public class MapCampaign : MonoBehaviour
     public CampaignMenu menu;
     public RewardFlipCard rewardCardPrefab;
     public Transform rewardPanel;
+    public Button deckConfirmButton;
 
 
     private void Awake()
     {
         if(menu == null)
             menu = GetComponent<CampaignMenu>();
+        Assert.IsTrue(menu != null);
+        Assert.IsTrue(rewardCardPrefab != null);
+        Assert.IsTrue(rewardPanel != null);
+        Assert.IsTrue(deckConfirmButton != null);
+
         nodes = FindObjectsOfType<MapNode>();
         System.Comparison<MapNode> comp = (a, b) => a.name.CompareTo(b.name);
         System.Array.Sort(nodes, comp);
@@ -77,6 +83,14 @@ public class MapCampaign : MonoBehaviour
         //    FollowGUI();
         // if target node is dead end, then campaign finished
 
+        // check that deck can be confirmed
+        if (menu.deckManager.gameObject.activeSelf == true)
+        {
+            if (menu.deckManager.card_deck_count > 0)
+                deckConfirmButton.interactable = true;
+            else
+                deckConfirmButton.interactable = false;
+        }
     }
 
 
@@ -124,7 +138,7 @@ public class MapCampaign : MonoBehaviour
         target_army.SetDeck(GameSettings.INSTANCE.CopyTargetDeck());
 
         // update editor
-        menu.deckManager.SetUpDeck(target_army);
+        menu.deckManager.SetUpDeck(attack_army);
         menu.deckManager.SaveDeck();
 
         MapNode targetNode = nodes[GameSettings.INSTANCE.target_idx];
@@ -141,7 +155,7 @@ public class MapCampaign : MonoBehaviour
 
         //targetNode.army.CombineCards(targetNode.deck_reward); // no, reward is added to the pool
 
-        StartCoroutine(RewardAnimation(targetNode.deck_reward));
+        
         
     }
 
@@ -341,6 +355,8 @@ public class MapCampaign : MonoBehaviour
         attaker.SetTeamColor();
         target.SetTeamColor();    // done in Start of Node, but might update if captured empty node
 
+        // get reward
+        StartCoroutine(RewardAnimation(target.deck_reward));
 
         // if target node is dead end, then campaign finished
         if (target.nextNodes.Length == 0) {
@@ -383,6 +399,7 @@ public class MapCampaign : MonoBehaviour
                 }
             }
         }
+
         UnselectNode();
         selected_node = node;
         selected_node.Select();
@@ -418,7 +435,7 @@ public class MapCampaign : MonoBehaviour
             {
                 foreach (MapNode n in selected_node.parentNodes)
                 {
-                    if (n.army != null && n.army.team == TeamType.Player && n.army.cards_to_play_count > 0)
+                    if (n.army != null && n.army.team == TeamType.Player)
                     {
                         // show move button
                         menu.ShowArmyPanel(true);
