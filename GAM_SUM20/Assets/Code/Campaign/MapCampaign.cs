@@ -129,33 +129,29 @@ public class MapCampaign : MonoBehaviour
     {
         // load scene
         // update decks
-        Deck attack_army = nodes[GameSettings.INSTANCE.attack_idx].army;
+        MapNode attackNode = nodes[GameSettings.INSTANCE.attack_idx];
+        Deck attack_army = attackNode.army;
         Assert.IsTrue(attack_army != null);
         attack_army.SetDeck(GameSettings.INSTANCE.CopyAttackDeck());
 
+        // enemy army is not changed
+#if false
         Assert.IsTrue(GameSettings.INSTANCE.target_idx > -1);
         Deck target_army = nodes[GameSettings.INSTANCE.target_idx].army;
         target_army.SetDeck(GameSettings.INSTANCE.CopyTargetDeck());
-
+#endif
         // update editor
         menu.deckManager.SetUpDeck(attack_army);
         menu.deckManager.SaveDeck();
 
         MapNode targetNode = nodes[GameSettings.INSTANCE.target_idx];
+        Assert.IsTrue(targetNode.army != null);
 
         if (GameSettings.INSTANCE.last_battle_won)
         {
-            // capture node
-            CaptureNode(nodes[GameSettings.INSTANCE.attack_idx], targetNode);
+            // capture node & get reward
+            CaptureNode(attackNode, targetNode);
         }
-
-        // give reward to target node
-
-        Assert.IsTrue(targetNode.army != null);
-
-        //targetNode.army.CombineCards(targetNode.deck_reward); // no, reward is added to the pool
-
-        
         
     }
 
@@ -318,11 +314,19 @@ public class MapCampaign : MonoBehaviour
         }
     }
 
+    public MapNode GetDeadEndNode()
+    {
+        for (int i = nodes.Length - 1; i >= 0; --i)
+            if (nodes[i].nextNodes.Length == 0)
+                return nodes[i];
+        return null;
+    }
+
     public MapNode GetDeadEndNodeOfTeam(TeamType t)
     {
-        foreach (MapNode n in nodes)
-            if (n.nextNodes.Length == 0 && n.team == t)
-                return n;
+        for (int i = nodes.Length - 1; i >= 0; --i)
+            if (nodes[i].nextNodes.Length == 0 && nodes[i].team == t)
+                return nodes[i];
         return null;
     }
 
@@ -565,7 +569,7 @@ public class MapCampaign : MonoBehaviour
         menu.selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
         menu.selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
     }
-    #endregion
+#endregion
 
     public void AddRandomAidPacket(int max_card_count)
     {

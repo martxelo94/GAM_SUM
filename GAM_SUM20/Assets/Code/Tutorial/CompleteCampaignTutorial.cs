@@ -16,6 +16,7 @@ public class CompleteCampaignTutorial : TutorialManager
     public DeckManager deckManager;
     int init_card_pool_count;
     int init_card_deck_count;
+    TeamType lastNodeTeam;
 
     // Start is called before the first frame update
     new void Start()
@@ -48,9 +49,12 @@ public class CompleteCampaignTutorial : TutorialManager
         if (tips[current_tip].name == "Tip_deck_editor_confirm" && GameSettings.INSTANCE.IsBattle()) {
             NextTip();
         }
+        if (current_tip == tips.Length - 1)
+            HideTip();
         // check if campaign end
-        MapNode lastNode = map.GetDeadEndNodeOfTeam(TeamType.Player);
-        if (lastNode != null) {
+        MapNode lastNode = map.GetDeadEndNode();
+        lastNodeTeam = lastNode.team;
+        if (lastNode != null && lastNodeTeam == TeamType.Player) {
             ShowTip(tips.Length - 1);
         }
     }
@@ -107,6 +111,16 @@ public class CompleteCampaignTutorial : TutorialManager
                     HideTip();  // TODO HACK WARNING CHANGE ((last tip))
                                 //NextTip();
                 }
+            }
+            else if (current_tip == tips.Length - 1)
+            {
+                MapNode lastNode = map.GetDeadEndNode();
+                if (lastNode != null && lastNode.team != lastNodeTeam)
+                {
+                    ShowTip(tips.Length - 1);
+                    lastNodeTeam = lastNode.team;   // ensure only happens once
+                }
+
             }
 
         }
