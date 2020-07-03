@@ -133,6 +133,7 @@ GameObject:
   - component: {fileID: 10973702}
   - component: {fileID: 10973701}
   - component: {fileID: 10973700}
+  - component: {fileID: 10973703}
   m_Layer: 5
   m_Name: Tip_deck_count
   m_TagString: Untagged
@@ -251,6 +252,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 10973698}
   m_CullTransparentMesh: 0
+--- !u!114 &10973703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10973698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3779edc809504e548b62a4e0574dde69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlighted_objects:
+  - {fileID: 1606956412}
+  original_highlighted_scales: []
 --- !u!1 &28240373
 GameObject:
   m_ObjectHideFlags: 0
@@ -3034,6 +3050,7 @@ MonoBehaviour:
   campaign_battle_name: 
   tuto_campaign_savename: CampaignTip
   tuto_battle_savename: BattleTip
+  unlocked_card_types: 
 --- !u!4 &424021947
 Transform:
   m_ObjectHideFlags: 0
@@ -6390,6 +6407,7 @@ GameObject:
   - component: {fileID: 990935635}
   - component: {fileID: 990935634}
   - component: {fileID: 990935633}
+  - component: {fileID: 990935637}
   m_Layer: 5
   m_Name: Tip_damage_taken
   m_TagString: Untagged
@@ -6508,6 +6526,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &990935637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990935632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3779edc809504e548b62a4e0574dde69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlighted_objects:
+  - {fileID: 2104991725}
+  - {fileID: 95733896}
+  original_highlighted_scales: []
 --- !u!1 &1010553994
 GameObject:
   m_ObjectHideFlags: 0
@@ -9241,6 +9275,7 @@ GameObject:
   - component: {fileID: 1431656186}
   - component: {fileID: 1431656185}
   - component: {fileID: 1431656184}
+  - component: {fileID: 1431656187}
   m_Layer: 5
   m_Name: Tip_no_cards
   m_TagString: Untagged
@@ -9359,6 +9394,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431656182}
   m_CullTransparentMesh: 0
+--- !u!114 &1431656187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1431656182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3779edc809504e548b62a4e0574dde69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlighted_objects: []
+  original_highlighted_scales: []
 --- !u!1 &1437783531
 GameObject:
   m_ObjectHideFlags: 0
@@ -10230,6 +10279,7 @@ GameObject:
   - component: {fileID: 1539268576}
   - component: {fileID: 1539268575}
   - component: {fileID: 1539268574}
+  - component: {fileID: 1539268577}
   m_Layer: 5
   m_Name: Tip_any_cards
   m_TagString: Untagged
@@ -10348,6 +10398,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539268572}
   m_CullTransparentMesh: 0
+--- !u!114 &1539268577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539268572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3779edc809504e548b62a4e0574dde69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlighted_objects: []
+  original_highlighted_scales: []
 --- !u!1 &1549302125
 GameObject:
   m_ObjectHideFlags: 0
@@ -11528,6 +11592,7 @@ GameObject:
   - component: {fileID: 1703354794}
   - component: {fileID: 1703354793}
   - component: {fileID: 1703354792}
+  - component: {fileID: 1703354795}
   m_Layer: 5
   m_Name: Tip_resources
   m_TagString: Untagged
@@ -11646,6 +11711,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1703354790}
   m_CullTransparentMesh: 0
+--- !u!114 &1703354795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703354790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3779edc809504e548b62a4e0574dde69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlighted_objects:
+  - {fileID: 430479605}
+  - {fileID: 319749461}
+  original_highlighted_scales: []
 --- !u!1 &1727104402
 GameObject:
   m_ObjectHideFlags: 0
@@ -11916,36 +11997,8 @@ MonoBehaviour:
   highlighterPrefab: {fileID: 6425764311055449668, guid: be4a5fb90568d7d499293b093596dd1f,
     type: 3}
   current_tip: -1
-  tips:
-  - panel: {fileID: 1956972212}
-    highlighted_objects:
-    - {fileID: 835724077}
-    original_highlighted_scales: []
-  - panel: {fileID: 1703354790}
-    highlighted_objects:
-    - {fileID: 430479605}
-    - {fileID: 319749461}
-    original_highlighted_scales: []
-  - panel: {fileID: 10973698}
-    highlighted_objects:
-    - {fileID: 1606956412}
-    original_highlighted_scales: []
-  - panel: {fileID: 1539268572}
-    highlighted_objects: []
-    original_highlighted_scales: []
-  - panel: {fileID: 990935632}
-    highlighted_objects:
-    - {fileID: 2104991725}
-    original_highlighted_scales: []
-  - panel: {fileID: 990935632}
-    highlighted_objects:
-    - {fileID: 95733896}
-    original_highlighted_scales: []
-  - panel: {fileID: 1431656182}
-    highlighted_objects:
-    - {fileID: 1606956412}
-    - {fileID: 1883847473}
-    original_highlighted_scales: []
+  tips: []
+  tips_holder: {fileID: 552365892}
 --- !u!1 &1775800533
 GameObject:
   m_ObjectHideFlags: 0
@@ -13377,6 +13430,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1956972213}
+  - component: {fileID: 1956972214}
   m_Layer: 5
   m_Name: Tip_hand
   m_TagString: Untagged
@@ -13404,6 +13458,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1956972214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1956972212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3779edc809504e548b62a4e0574dde69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlighted_objects:
+  - {fileID: 835724077}
+  original_highlighted_scales: []
 --- !u!1 &1990289649
 GameObject:
   m_ObjectHideFlags: 0

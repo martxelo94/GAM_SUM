@@ -29,7 +29,9 @@ public class MapCampaign : MonoBehaviour
     public GameObject[] armyPrefabs;
 
     public CampaignMenu menu;
-    public CardImage rewardCardPrefab;
+    public RewardFlipCard rewardCardPrefab;
+    public Transform rewardPanel;
+
 
     private void Awake()
     {
@@ -92,7 +94,13 @@ public class MapCampaign : MonoBehaviour
             nodes[i].circleCollider2D.enabled = active;
         }
     }
-
+    public void SetActiveNodes(bool active)
+    {
+        for (int i = 0; i < nodes.Length; ++i)
+        {
+            nodes[i].enabled = active;
+        }
+    }
     public List<Deck> GetArmiesOfTeam(TeamType team)
     {
         List<Deck> armies = new List<Deck>();
@@ -130,16 +138,73 @@ public class MapCampaign : MonoBehaviour
         // give reward to target node
 
         Assert.IsTrue(targetNode.army != null);
-        targetNode.army.CombineCards(targetNode.deck_reward);
 
-        
+        //targetNode.army.CombineCards(targetNode.deck_reward); // no, reward is added to the pool
+
+        StartCoroutine(RewardAnimation(targetNode.deck_reward));
         
     }
 
-    IEnumerator RewardAnimation(MapNode targetNode)
+    bool IsEveryCardFliped(List<RewardFlipCard> rewardFlipCards)
     {
-        CardTypeCount[] reward = targetNode.deck_reward;
+        int fliped_count = 0;
+        foreach (RewardFlipCard c in rewardFlipCards) {
+            if (c.HasFliped())
+                fliped_count++;
+        }
+
+        return fliped_count == rewardFlipCards.Count;
+    }
+
+    IEnumerator RewardAnimation(CardTypeCount[] reward)
+    {
+        SetActiveNodeTriggers(false);
         yield return null;
+
+        Vector3 initScale = rewardPanel.parent.localScale;
+        rewardPanel.parent.localScale = Vector3.zero;
+        rewardPanel.parent.gameObject.SetActive(true);
+
+        List<RewardFlipCard> rewardFlipCards = new List<RewardFlipCard>();
+
+        // add cards to reward
+        for (int i = 0; i < reward.Length; ++i)
+        {
+            if (reward[i].count == 0)
+                continue;
+            RewardFlipCard card = Instantiate(rewardCardPrefab, rewardPanel) as RewardFlipCard;
+            card.reward = reward[i];
+            card.manager = menu.deckManager;
+
+            rewardFlipCards.Add(card);
+        }
+
+        int frames = (int)(0.5f / Time.deltaTime);
+        for(int i = 0; i < frames; ++i)
+        {
+            rewardPanel.parent.localScale = Vector3.Lerp(Vector3.zero, initScale, (float)(i + 1) / frames);
+            yield return null;
+        }
+
+        // wait for every card to be flipped
+        while(!IsEveryCardFliped(rewardFlipCards))
+        {
+            yield return new WaitForSecondsRealtime(1f);
+        }
+        // Remove cards
+        foreach (RewardFlipCard c in rewardFlipCards)
+            Destroy(c.gameObject);
+
+        // reverse scale
+        for (int i = 0; i < frames; ++i)
+        {
+            rewardPanel.parent.localScale = Vector3.Lerp(initScale, Vector3.zero, (float)(i + 1) / frames);
+            yield return null;
+        }
+        rewardPanel.parent.localScale = initScale;
+        rewardPanel.parent.gameObject.SetActive(false);
+
+        SetActiveNodeTriggers(true);
 
     }
 
@@ -483,7 +548,19 @@ public class MapCampaign : MonoBehaviour
         menu.selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
         menu.selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
     }
-#endregion
+    #endregion
+
+    public void AddRandomAidPacket(int max_card_count)
+    {
+        Assert.IsTrue(selected_node != null && selected_node.army != null);
+        CardType[] raw_deck = new CardType[max_card_count];
+        for (int i = 0; i < max_card_count; ++i) {
+            raw_deck[i] = (CardType)GameSettings.INSTANCE.randomizer.Next(0, (int)CardType.CardType_Count);
+        }
+        CardTypeCount[] deck = menu.deckManager.CollapseDeck(raw_deck.ToList());
+
+        StartCoroutine(RewardAnimation(deck));
+    }
 
     public void AddRandomCardsToSelectedDeck(int count)
     {
@@ -498,11 +575,7 @@ public class MapCampaign : MonoBehaviour
         deck.UpdateText();
     }
 
-    public void SetActiveNodes(bool active)
-    {
-        for (int i = 0; i < nodes.Length; ++i)
-            nodes[i].enabled = active;
-    }
+
 
     public void SetAttackerFromDeckEditor(DeckManager deckManager)
     {

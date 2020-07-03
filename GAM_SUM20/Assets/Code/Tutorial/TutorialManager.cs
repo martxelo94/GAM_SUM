@@ -3,26 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class TutorialTips : MonoBehaviour
+public class TutorialManager : MonoBehaviour
 {
-
-    [System.Serializable]
-    public struct TipElements
-    {
-        public GameObject panel;
-        public Transform[] highlighted_objects;
-        public List<Vector3> original_highlighted_scales;
-    }
     public GameObject highlighterPrefab;
     private GameObject[] highlighterInstances;
     public int current_tip = -1;
-    public TipElements[] tips;
+    public TutorialTip[] tips;
+    public Transform tips_holder;
 
     protected string save_filepath = "";
 
     protected void Start()
     {
         Assert.IsTrue(save_filepath.CompareTo("") != 0);    // path initialized
+
+        // get tips
+        tips = new TutorialTip[tips_holder.childCount];
+        for (int i = 0; i < tips.Length; ++i)
+        {
+            Transform t = tips_holder.GetChild(i);
+            TutorialTip tip = t.GetComponent<TutorialTip>();
+            Assert.IsTrue(tip != null);
+            tips[i] = tip;
+            tip.gameObject.SetActive(false);
+        }
+
         // set tip
         current_tip = PlayerPrefs.GetInt(save_filepath, -1);
         //current_tip = current_tip >= tips.Length ? -1 : current_tip;
@@ -38,6 +43,11 @@ public class TutorialTips : MonoBehaviour
             Transform[] transforms = tips[i].highlighted_objects;
             if (transforms != null) {
                 foreach (var t in transforms) {
+                    if (t == null)
+                    {
+                        tips[i].original_highlighted_scales.Add(Vector3.one);
+                        continue;
+                    }
                     // hack fix when size 0
                     if (t.localScale.sqrMagnitude == 0)
                         t.localScale = Vector3.one;
@@ -57,7 +67,7 @@ public class TutorialTips : MonoBehaviour
     {
 #if true
         // make pulse
-        if (IsValidTip() && tips[current_tip].panel.activeSelf == true)
+        if (IsValidTip() && tips[current_tip].gameObject.activeSelf == true)
         {
             Transform[] transforms = tips[current_tip].highlighted_objects;
             if (transforms != null)
@@ -80,6 +90,21 @@ public class TutorialTips : MonoBehaviour
 #endif
     }
 
+    public TutorialTip FindTipByName(string name)
+    {
+        TutorialTip tip = null;
+
+        foreach (TutorialTip t in tips) {
+            if (t.name == name)
+            {
+                tip = t;
+                break;
+            }
+        }
+
+        return tip;
+    }
+
     public bool IsValidTip()
     {
         return current_tip >= 0 && current_tip < tips.Length;
@@ -90,13 +115,13 @@ public class TutorialTips : MonoBehaviour
         Assert.IsTrue(current_tip < tips.Length);
         if (current_tip >= 0)
         {
-            tips[current_tip].panel.SetActive(false);
+            tips[current_tip].gameObject.SetActive(false);
             HighlightTip(false);         
         }
         current_tip++;
         if (current_tip < tips.Length)
         {
-            tips[current_tip].panel.SetActive(true);
+            tips[current_tip].gameObject.SetActive(true);
             HighlightTip(true);
         }
     }
@@ -117,7 +142,7 @@ public class TutorialTips : MonoBehaviour
                     highlighterInstances[i] = Instantiate(highlighterPrefab, highlights[i]);
                 }
             }
-            else
+            else if(highlighterInstances != null)
             {
                 Assert.IsTrue(highlighterInstances.Length == highlights.Length);
                 // destroy
@@ -136,7 +161,7 @@ public class TutorialTips : MonoBehaviour
     {
         Assert.IsTrue(IsValidTip());
         HighlightTip(!hide);
-        tips[current_tip].panel.SetActive(!hide);
+        tips[current_tip].gameObject.SetActive(!hide);
     }
 
     public void ShowTip(int idx)
@@ -146,11 +171,11 @@ public class TutorialTips : MonoBehaviour
         // highlight previous
         if (IsValidTip()) {
             // crash on init becouse objects from default, not used previously (assert check Outline present to remove)
-            if(tips[current_tip].panel.activeSelf == true)
+            if(tips[current_tip].gameObject.activeSelf == true)
                 HideTip();
         }
         current_tip = idx;
-        tips[current_tip].panel.SetActive(true);
+        tips[current_tip].gameObject.SetActive(true);
         HighlightTip(true);
     }
 

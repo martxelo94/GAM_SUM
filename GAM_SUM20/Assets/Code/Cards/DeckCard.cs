@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using TMPro;
+using UnityEngine.EventSystems;
 
+[RequireComponent(typeof(EventTrigger))]
 [RequireComponent(typeof(CardImage))]
-[RequireComponent(typeof(BoxCollider2D))]
 public class DeckCard : MonoBehaviour
 {
-    private BoxCollider2D boxCollider;
+    public EventTrigger eventTrigger;
     public CardImage cardImage;
     public DeckManager manager;
     public bool in_pool = true; // is this card in pool or deck?
@@ -18,10 +19,7 @@ public class DeckCard : MonoBehaviour
     public GameObject count_text_frame;
     public GameObject frame_highlight;
 
-    private void Awake()
-    {
-        boxCollider = GetComponent<BoxCollider2D>();
-    }
+    private bool is_selected = false;
 
     // Start is called before the first frame update
     void Start()
@@ -32,25 +30,26 @@ public class DeckCard : MonoBehaviour
         Assert.IsTrue(count_text_frame != null);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    private void OnMouseDown()
+    public void PointerDown()
     {
+        //if (GameSettings.IsPointerOverUIObject())
+        //    return;
+
+        is_selected = true;
         // select card and move from pool to deck and viceversa
         manager.SelectCard(this);
 
     }
 
-    private void OnMouseUp()
+    public void PointerUp()
     {
         // if card selected, add to deck or pool
-        Assert.IsTrue(manager.selected_card == this);
-        manager.UnselectCard();
-
+        if (is_selected)
+        {
+            Assert.IsTrue(manager.selected_card == this);
+            manager.UnselectCard();
+        }
     }
 
     public void UpdateText(int count)
@@ -64,12 +63,10 @@ public class DeckCard : MonoBehaviour
             if (count == 0)
             {
                 // non selectable
-                boxCollider.enabled = false;
-                cardImage.image.color = Color.grey;
+                Enable(false);
             }
             else {
-                boxCollider.enabled = true;
-                cardImage.image.color = Color.white;
+                Enable(true);
             }
         }
         else {
@@ -77,5 +74,10 @@ public class DeckCard : MonoBehaviour
         }
     }
 
+    public void Enable(bool enable)
+    {
+        eventTrigger.enabled = enable;
+        cardImage.image.color = enable ? Color.white : Color.grey;
+    }
 
 }

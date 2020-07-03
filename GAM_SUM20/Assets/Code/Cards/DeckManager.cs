@@ -8,15 +8,18 @@ using UnityEngine.UI;
 
 public class DeckManager : MonoBehaviour
 {
+    public bool disable_on_start = false;
     public int current_deck_index = 0;
     private bool current_deck_saved = false;
     public RectTransform current_deck_panel;
     public RectTransform card_pool_panel;
     public CardTypeCount[] card_pool;   // this is saved in the player account
+    public int card_pool_count { get; private set; }
     public DeckCard card_prefab;
     private DeckCard[] card_pool_objects;   // auto generated
-    private List<DeckCard> card_deck_objects;   // auto generated from input deck
-    const string FILE_PATH_POOL = "PlayerCardPool";
+    private List<DeckCard> card_deck_objects;  // auto generated from input deck
+    public int card_deck_count { get => card_deck_objects.Count; }
+    public static string FILE_PATH_POOL = "PlayerCardPool";
     public static string FILE_PATH_DECK = "PlayerCardDeck";
     private Camera mainCamera;
 
@@ -27,6 +30,9 @@ public class DeckManager : MonoBehaviour
     public ScrollRect deck_scroll;
     public ScrollRect pool_scroll;
     public ScrollRect menu_scroll;  // horizontal scroll
+
+    public TMPro.TextMeshProUGUI card_count_text;
+    static int MAX_DECK_CARD_COUNT = 20;
 
 
     [HideInInspector]
@@ -40,6 +46,8 @@ public class DeckManager : MonoBehaviour
         Assert.IsTrue(deck_scroll != null);
         Assert.IsTrue(deck_highlight != null);
         Assert.IsTrue(pool_highlight != null);
+        Assert.IsTrue(card_count_text != null);
+
     }
 
     // Start is called before the first frame update
@@ -50,18 +58,21 @@ public class DeckManager : MonoBehaviour
         {
             Debug.Log(FILE_PATH_POOL + " loaded.");
         }
-        if(card_pool.Length != (int)CardType.CardType_Count)
+        if (card_pool.Length != (int)CardType.CardType_Count)
         {
             // initialize default pool
             card_pool = CardTypeCount.Initialize();
+            card_pool_count = 0;
 
             Debug.Log(FILE_PATH_POOL + " failed loading!");
         }
         Assert.IsTrue(card_pool.Length == (int)CardType.CardType_Count);
 
+
         // set up pool
         card_pool_objects = new DeckCard[(int)CardType.CardType_Count];
-        for (int i = 0; i < (int)CardType.CardType_Count; ++i) {
+        for (int i = 0; i < (int)CardType.CardType_Count; ++i)
+        {
             DeckCard c = Instantiate(card_prefab, card_pool_panel) as DeckCard;
             c.manager = this;
             c.in_pool = true;
@@ -69,7 +80,11 @@ public class DeckManager : MonoBehaviour
             c.UpdateText(card_pool[(int)i].count);
 
             card_pool_objects[i] = c;
+
         }
+
+        if (disable_on_start)
+            gameObject.SetActive(false);
     }
 
     private void OnDestroy()
@@ -110,8 +125,16 @@ public class DeckManager : MonoBehaviour
         foreach (CardType t in rawDeck)
         {
             card_pool[(int)t].count++;
+            card_pool_count++;
             card_pool_objects[(int)t].UpdateText(card_pool[(int)t].count);
         }
+    }
+
+    public void AddToPool(CardTypeCount cards)
+    {
+        card_pool[(int)cards.type].count += cards.count;
+        card_pool_count += cards.count;
+        card_pool_objects[(int)cards.type].UpdateText(card_pool[(int)cards.type].count);
     }
 
     public void SelectCard(DeckCard card)
@@ -139,6 +162,7 @@ public class DeckManager : MonoBehaviour
             }
             current_deck_saved = false;
             selected_card.changed_panel = false;
+            UpdateCardCountText();
         }
         deck_highlight.gameObject.SetActive(false);
         pool_highlight.gameObject.SetActive(false);
@@ -155,6 +179,7 @@ public class DeckManager : MonoBehaviour
     {
         CardType type = card.cardImage.type;
         card_pool[(int)type].count++;
+        card_pool_count++;
         card_pool_objects[(int)type].UpdateText(card_pool[(int)type].count);
 
         card_deck_objects.Remove(card);
@@ -163,17 +188,22 @@ public class DeckManager : MonoBehaviour
 
     public void PoolToDeck(DeckCard card)
     {
+        if (card_deck_objects.Count + 1 > MAX_DECK_CARD_COUNT) {
+            return;
+        }
+
         CardType type = card.cardImage.type;
         card_pool[(int)type].count--;
-        card_pool_objects[(int)type].UpdateText(card_pool[(int)type].count);
-
+        card_pool_count--;
         DeckCard copy = Instantiate(card, current_deck_panel) as DeckCard;
         copy.in_pool = false;
         copy.count_text_frame.SetActive(false);
         copy.frame_highlight.SetActive(false);
+        //copy.Enable(true);
 
         card_deck_objects.Add(copy);
 
+        card_pool_objects[(int)type].UpdateText(card_pool[(int)type].count);
     }
 
     public void SetUpDeck(Deck deck)
@@ -193,6 +223,7 @@ public class DeckManager : MonoBehaviour
 
             }
         }
+        UpdateCardCountText();
     }
 
     void SetUpDeck(List<CardType> deck)
@@ -208,6 +239,7 @@ public class DeckManager : MonoBehaviour
             card_deck_objects.Add(dc);
 
         }
+        UpdateCardCountText();
     }
 
     public void RemoveCurrentDeck()
@@ -272,7 +304,7 @@ public class DeckManager : MonoBehaviour
             FileStream stream = new FileStream(FILE_PATH_POOL, FileMode.Open);
 
             card_pool = formatter.Deserialize(stream) as CardTypeCount[];
-
+            card_pool_count = Deck.CardCount(card_pool);
             stream.Close();
 
             return true;
@@ -349,4 +381,9 @@ public class DeckManager : MonoBehaviour
     }
 
     public void SetCurrentDeckIndex(int index) => current_deck_index = index;
+
+    void UpdateCardCountText()
+    {
+        card_count_text.text = card_deck_objects.Count.ToString() + "/" + MAX_DECK_CARD_COUNT.ToString();
+    }
 }

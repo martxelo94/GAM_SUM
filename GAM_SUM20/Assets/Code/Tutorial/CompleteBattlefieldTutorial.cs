@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 [RequireComponent(typeof(BattlefieldMenu))]
-public class CompleteBattlefieldTutorial : TutorialTips
+public class CompleteBattlefieldTutorial : TutorialManager
 {
     BattlefieldMenu menu;
     int player_init_hitpoints;
@@ -16,12 +16,13 @@ public class CompleteBattlefieldTutorial : TutorialTips
     {
         tuto_campaign_filepath = GameSettings.INSTANCE.tuto_campaign_savename;
         save_filepath = GameSettings.INSTANCE.tuto_battle_savename;
+        base.Start();
+
         menu = GetComponent<BattlefieldMenu>();
 
         player_init_hitpoints = menu.playerHitPoints[0].hit_points;
         opponent_init_hitpoints = menu.playerHitPoints[1].hit_points;
 
-        base.Start();
 
         // disable opponent ai
         if (current_tip == 0) {
@@ -35,7 +36,8 @@ public class CompleteBattlefieldTutorial : TutorialTips
         base.Update();
 
         // HARDCODED INPUT CHECK
-        if (current_tip == 0)
+        string tip_name = tips[current_tip].gameObject.name;
+        if (tip_name == "Tip_hand")
         {
             if (DealPlayerDamage.totalTroopCount > 0)
             {
@@ -45,20 +47,20 @@ public class CompleteBattlefieldTutorial : TutorialTips
                 ai.enabled = true;
             }
         }
-        else if (current_tip == 3)
+        else if (tip_name == "Tip_any_cards")
         {
             if (player_init_hitpoints > menu.playerHitPoints[0].hit_points)
             {
-                ShowTip(4);  // player damage
+                NextTip();  // player damage
             }
             else if (opponent_init_hitpoints > menu.playerHitPoints[1].hit_points)
             {
-                ShowTip(5); // opponent damage
+                NextTip(); // opponent damage
             }
         }
-        else if (current_tip == 4 || current_tip == 5) {
+        else if (tip_name == "Tip_damage_taken") {
             if (menu.IsBattleEnd()) {
-                ShowTip(6);
+                ShowTip(5);
             }
         }
     }

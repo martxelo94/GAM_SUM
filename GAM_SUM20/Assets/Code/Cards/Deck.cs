@@ -33,10 +33,6 @@ public class Deck : MonoBehaviour
     private CardTypeCount[] deck_types;
     private int total_card_count = -1;
     public int cards_to_play_count { get; private set; } = -1;
-    // card types in deck
-    //private BitArray deck_drawed;        // cards that passed by your hand
-    //private int current_card = 0;
-    //private int played_cards = 0;
 
     private void Awake()
     {
@@ -258,6 +254,19 @@ public class Deck : MonoBehaviour
             randomNum = randomNum - deck_types[i].count;
         }
         return type;
+    }
+
+    public static int CardCount(CardTypeCount[] cards)
+    {
+        if (cards == null)
+            return -1;
+        Assert.IsTrue(cards.Length == (int)CardType.CardType_Count);
+        int total_count = 0;
+        for (int i = 0; i < (int)CardType.CardType_Count; ++i)
+        {
+            total_count += cards[i].count;
+        }
+        return total_count;
     }
 
     public int CardCount()

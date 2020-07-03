@@ -15,7 +15,6 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        deckManager = GetComponent<DeckManager>();
     }
 
     // Update is called once per frame
@@ -27,11 +26,18 @@ public class MainMenu : MonoBehaviour
         }
     }
 
-    public void DeleteAllSavedData()
+    public void DeleteCampaignSavedData()
     {
-        GameSettings.INSTANCE.DeleteAllSavedData();
+        GameSettings.INSTANCE.DeleteCampaignSavedData();
     }
-
+    public void DeleteDeckSavedData()
+    {
+        GameSettings.INSTANCE.DeleteDeckSavedData();
+    }
+    public void DeletePoolSavedData()
+    {
+        GameSettings.INSTANCE.DeletePoolSavedData();
+    }
     public void LoadLevelScene(int nextLevel)
     {
         GameSettings.INSTANCE.SetNextSceneIdx(nextLevel);
@@ -65,8 +71,8 @@ public class MainMenu : MonoBehaviour
         deckManager.SaveDeck();
 
         // set decks on GameSettings static data
-        GameSettings.INSTANCE.SetAttackDeck(deckManager.CollapseDeck(deckManager.LoadDeckRaw(0)));
+        GameSettings.INSTANCE.SetAttackDeck(deckManager.CollapseDeck(deckManager.LoadDeckRaw(-1)));
         // pray to have a save...
-        GameSettings.INSTANCE.SetTargetDeck(deckManager.CollapseDeck(deckManager.LoadDeckRaw(1)));
+        GameSettings.INSTANCE.SetTargetDeck(deckManager.CollapseDeck(deckManager.LoadDeckRaw(-2)));
     }
 }

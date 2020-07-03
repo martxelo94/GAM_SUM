@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Assertions;
-using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CircleCollider2D))]
 public class MapNode : MonoBehaviour
@@ -100,24 +99,7 @@ public class MapNode : MonoBehaviour
         map.SelectNode(this);
     }
 
-    bool IsPointerOverUIObject()
-    {
-        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
-        eventDataCurrentPosition.position = RawTouchPos();
-        List<RaycastResult> results = new List<RaycastResult>();
-        EventSystem.current.RaycastAll(eventDataCurrentPosition, results);
-        
-        return results.Count > 0;
-    }
-    // screen space
-    Vector2 RawTouchPos()
-    {
-#if UNITY_EDITOR
-    return Input.mousePosition;
-#else
-    return Input.touches[0].position;  
-#endif
-    }
+
     public void Pulse()
     {
         float t = Mathf.PingPong(Time.time, 0.5f);
