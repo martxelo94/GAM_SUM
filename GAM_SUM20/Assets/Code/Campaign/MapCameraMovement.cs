@@ -106,16 +106,17 @@ public class MapCameraMovement : MonoBehaviour
         //Debug.Log("New Height = " + p.y);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawCube(
-            new Vector3(0, minHeight - Screen.height, target.position.z),
-            new Vector3(500, 1, 1));
+            new Vector3(0, minHeight, target.position.z),
+            new Vector3(5, 1, 1));
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(
-            new Vector3(0, maxHeight + Screen.height, target.position.z),
-            new Vector3(500, 1, 1));
+            new Vector3(0, maxHeight, target.position.z),
+            new Vector3(5, 1, 1));
 
     }
+
 }
