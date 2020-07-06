@@ -23,11 +23,12 @@ public class CompleteBattlefieldTutorial : TutorialManager
         player_init_hitpoints = menu.playerHitPoints[0].hit_points;
         opponent_init_hitpoints = menu.playerHitPoints[1].hit_points;
 
-
+        string tip_name = tips[current_tip].gameObject.name;
         // disable opponent ai
-        if (current_tip == 0) {
+        if (tip_name == "Tip_hand") {
             OpponentAI ai = menu.decks[1].GetComponent<OpponentAI>();
             ai.enabled = false;
+            menu.useEndGameCheckTime = false;
         }
 
     }
@@ -45,6 +46,7 @@ public class CompleteBattlefieldTutorial : TutorialManager
                 // enable opponent ai
                 OpponentAI ai = FindObjectOfType<OpponentAI>();
                 ai.enabled = true;
+                menu.useEndGameCheckTime = true;
             }
         }
         else if (tip_name == "Tip_any_cards")

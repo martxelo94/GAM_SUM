@@ -207,12 +207,27 @@ public class MapNode : MonoBehaviour
         return true;
     }
 
+    public void UpdateLinkPositions()
+    {
+        //if (linksInstantiated == null || linksInstantiated.Length != nextNodes.Length)
+        //{
+        //}
+        //Assert.IsTrue(linksInstantiated.Length == nextNodes.Length);
+        linksInstantiated = GetComponentsInChildren<LineRenderer>();
+        for (int i = 0; i < linksInstantiated.Length; ++i)
+        {
+            LineRenderer line = linksInstantiated[i];
+            line.SetPosition(0, transform.position);
+            line.SetPosition(1, nextNodes[i].transform.position);
+        }
+    }
+
     public void CreateLinks()
     {
         if(linksInstantiated != null)
-            foreach (LineRenderer lr in linksInstantiated)
-                    if(lr != null)
-                        DestroyImmediate(lr.gameObject);
+            for(int i = 0; i < linksInstantiated.Length; ++i)
+                    if(linksInstantiated[i] != null)
+                        DestroyImmediate(linksInstantiated[i].gameObject);
         linksInstantiated = new LineRenderer[nextNodes.Length];
         Material mat = Resources.Load("Materials/M_Line") as Material;
         for (int i = 0; i < nextNodes.Length; ++i) {

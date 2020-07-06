@@ -32,6 +32,7 @@ public class BattlefieldMenu : MonoBehaviour
     public TextMeshProUGUI timerText;
     public float endGameCheckTime = 5f;
     private float endGameCheckCurrentTime = 0f;
+    public bool useEndGameCheckTime = true;
     private bool showing_timer = false; // used for coroutine start
     public bool fade_timer = true;
 
@@ -109,29 +110,33 @@ public class BattlefieldMenu : MonoBehaviour
                 }
             }
 #endif
-            endGameCheckCurrentTime += Time.deltaTime;
-            // end game
-            if (endGameCheckCurrentTime > endGameCheckTime)
+            if (useEndGameCheckTime)
             {
-                endGameTimerPanel.gameObject.SetActive(false);
-                ShowEndGamePanel();
-            }
-            else if (fade_timer)
-            {
-                // show time
-                if (((int)endGameCheckCurrentTime % 60) == 0)
+                endGameCheckCurrentTime += Time.deltaTime;
+                // end game
+                if (endGameCheckCurrentTime > endGameCheckTime)
                 {
-                    if (showing_timer == false)
-                        StartCoroutine(FadeTimerPanel());
+                    endGameTimerPanel.gameObject.SetActive(false);
+                    ShowEndGamePanel();
                 }
-                else if (endGameCheckCurrentTime < 3.1f)
+                else if (fade_timer)
                 {
-                    if (showing_timer == false)
-                        StartCoroutine(FadeTimerPanel());
+                    // show time
+                    if (((int)endGameCheckCurrentTime % 60) == 0)
+                    {
+                        if (showing_timer == false)
+                            StartCoroutine(FadeTimerPanel());
+                    }
+                    else if (endGameCheckCurrentTime < 3.1f)
+                    {
+                        if (showing_timer == false)
+                            StartCoroutine(FadeTimerPanel());
+                    }
                 }
+                else
+                    UpdateTimerText();
+
             }
-            else
-                UpdateTimerText();
         }
     }
 #if false

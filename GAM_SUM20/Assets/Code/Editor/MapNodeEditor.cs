@@ -26,5 +26,13 @@ public class MapNodeEditor : Editor
         {
             _target.DestroyArmy();
         }
+        // update link positions
+        Debug.Log(_target.name + " is editing.");
+        _target.UpdateLinkPositions();
+        for(int i = 0; i < _target.parentNodes.Count; ++i)
+        {
+            MapNode parentNode = _target.parentNodes[i];
+            parentNode.UpdateLinkPositions();
+        }
     }
 }

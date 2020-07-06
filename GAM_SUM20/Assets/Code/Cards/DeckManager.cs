@@ -283,8 +283,9 @@ public class DeckManager : MonoBehaviour
 
     void SavePool()
     {
+        string path = Application.persistentDataPath + "/" + FILE_PATH_POOL;
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream stream = new FileStream(FILE_PATH_POOL, FileMode.Create);
+        FileStream stream = new FileStream(path, FileMode.Create);
 
         formatter.Serialize(stream, card_pool);
         stream.Close();
@@ -292,7 +293,7 @@ public class DeckManager : MonoBehaviour
 
     public void SaveDeck()
     {
-        string path = FILE_PATH_DECK + current_deck_index.ToString();
+        string path = Application.persistentDataPath + "/" + FILE_PATH_DECK + current_deck_index.ToString();
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path, FileMode.Create);
 
@@ -309,8 +310,9 @@ public class DeckManager : MonoBehaviour
     bool LoadPool()
     {
         if (File.Exists(FILE_PATH_POOL)) {
+            string path = Application.persistentDataPath + "/" + FILE_PATH_POOL;
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(FILE_PATH_POOL, FileMode.Open);
+            FileStream stream = new FileStream(path, FileMode.Open);
 
             card_pool = formatter.Deserialize(stream) as CardTypeCount[];
             card_pool_count = Deck.CardCount(card_pool);
@@ -324,7 +326,7 @@ public class DeckManager : MonoBehaviour
     public List<CardType> LoadDeckRaw(int index)
     {
         List<CardType> deck = new List<CardType>();
-        string path = FILE_PATH_DECK + index.ToString();
+        string path = Application.persistentDataPath + "/" + FILE_PATH_DECK + index.ToString();
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -339,7 +341,7 @@ public class DeckManager : MonoBehaviour
 
     bool LoadDeck()
     {
-        string path = FILE_PATH_DECK + current_deck_index.ToString();
+        string path = Application.persistentDataPath + "/" + FILE_PATH_DECK + current_deck_index.ToString();
         if (File.Exists(path))
         {
             BinaryFormatter formatter = new BinaryFormatter();
