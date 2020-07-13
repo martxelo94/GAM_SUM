@@ -281,7 +281,7 @@ public class DeckManager : MonoBehaviour
         return deck;
     }
 
-    void SavePool()
+    public void SavePool()
     {
         string path = Application.persistentDataPath + "/" + FILE_PATH_POOL;
         BinaryFormatter formatter = new BinaryFormatter();
@@ -289,6 +289,8 @@ public class DeckManager : MonoBehaviour
 
         formatter.Serialize(stream, card_pool);
         stream.Close();
+
+        Debug.Log("Cards Pool Saved");
     }
 
     public void SaveDeck()
@@ -309,8 +311,8 @@ public class DeckManager : MonoBehaviour
 
     bool LoadPool()
     {
-        if (File.Exists(FILE_PATH_POOL)) {
-            string path = Application.persistentDataPath + "/" + FILE_PATH_POOL;
+        string path = Application.persistentDataPath + "/" + FILE_PATH_POOL;
+        if (File.Exists(path)) {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
 
@@ -318,8 +320,12 @@ public class DeckManager : MonoBehaviour
             card_pool_count = Deck.CardCount(card_pool);
             stream.Close();
 
+            Debug.Log("Cards Pool Loaded");
+
             return true;
         }
+        Debug.LogWarning("Cards Pool failed loading!");
+
         return false;
     }
 

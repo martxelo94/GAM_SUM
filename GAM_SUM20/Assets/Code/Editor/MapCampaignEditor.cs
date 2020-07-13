@@ -19,5 +19,10 @@ public class MapCampaignEditor : Editor
         {
             _target.SaveFile();
         }
+        if (GUILayout.Button("Update Nodes"))
+        {
+            _target.FindNodes();
+            _target.UpdateNodes();
+        }
     }
 }

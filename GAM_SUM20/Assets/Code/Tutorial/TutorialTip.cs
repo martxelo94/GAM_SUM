@@ -5,6 +5,7 @@ using UnityEngine.Assertions;
 
 public class TutorialTip : MonoBehaviour
 {
+    public bool save_tip = true;    // allow to resume the tutorial from this tip
     public Transform[] highlighted_objects;
     [HideInInspector]
     public List<Vector3> original_highlighted_scales;

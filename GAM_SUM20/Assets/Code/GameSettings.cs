@@ -222,9 +222,12 @@ public class GameSettings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // HACK - DELETE SAVED GAMES
+        // HACK - DELETE ALL DATA
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            DeleteCampaignSavedData();
+            DeleteDeckSavedData();
+            DeletePoolSavedData();
             DeleteUnlockCardTypes();
         }
     }

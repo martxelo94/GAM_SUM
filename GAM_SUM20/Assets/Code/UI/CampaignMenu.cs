@@ -12,10 +12,10 @@ public class CampaignMenu : MonoBehaviour
     public GameObject selectedNodePanel;
     public GameObject selectedArmyPanel;
 
-    public GameObject moveButton;
-    public GameObject addCardsButton;
+    public Button moveButton;
+    public Button addCardsButton;
 
-    public GameObject infoPanel;
+    public InfoPanel infoPanel;
 
     public DeckManager deckManager;
 
@@ -61,7 +61,10 @@ public class CampaignMenu : MonoBehaviour
         Time.timeScale = 1.0f;
         SceneManager.LoadScene("Scenes/MainMenu");
     }
-
+    public void ShowInfoPanel(bool show)
+    {
+        infoPanel.gameObject.SetActive(show);
+    }
     public void ShowEndPanel(bool show)
     {
         campaignEndPanel.SetActive(show);
@@ -82,8 +85,8 @@ public class CampaignMenu : MonoBehaviour
 
     public void ShowMoveButton(bool show)
     {
-        moveButton.SetActive(show);
-        addCardsButton.SetActive(!show);
+        moveButton.gameObject.SetActive(show);
+        addCardsButton.gameObject.SetActive(!show);
     }
     public void LockBattlePanel(bool show)
     {

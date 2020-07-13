@@ -13,6 +13,7 @@ public class MapNode : MonoBehaviour
     //[HideInInspector]
     public int node_idx = -1;  //set by MapCampaign to proper game progresion
     private LineRenderer[] linksInstantiated;
+    [HideInInspector]
     public MapCampaign map;
     Vector3 initScale;
     // army stuff
@@ -22,6 +23,7 @@ public class MapNode : MonoBehaviour
 
     // reward for capturing
     public CardTypeCount[] deck_reward;
+    public bool reward_received = false;
 
     public CircleCollider2D circleCollider2D { get; private set; }
 
@@ -89,16 +91,20 @@ public class MapNode : MonoBehaviour
 
     private void OnMouseDown()
     {
+        PointerDown();
+    }
+
+    public void PointerDown()
+    {
         if (map.is_moving)
             return;
 
         // ignore if under GUI
-        //if (IsPointerOverUIObject())
-        //    return;
+        if (GameSettings.IsPointerOverUIObject())
+            return;
 
         map.SelectNode(this);
     }
-
 
     public void Pulse()
     {
@@ -110,14 +116,16 @@ public class MapNode : MonoBehaviour
     {
         Material mat_player = Resources.Load("Materials/M_Player") as Material;
         Material mat_opponent = Resources.Load("Materials/M_Opponent") as Material;
+        Renderer renderer = GetComponent<Renderer>();
+        Material mat = renderer.sharedMaterial;
         switch (team) {
             case TeamType.Player:
-                GetComponent<Renderer>().material = mat_player;
+                mat.color = mat_player.color;
                 for (int i = 0; i < nextNodes.Length; ++i)
                     linksInstantiated[i].startColor = mat_player.color;
                 break;
             case TeamType.Opponent:
-                GetComponent<Renderer>().material = mat_opponent;
+                mat.color = mat_opponent.color;
                 for (int i = 0; i < nextNodes.Length; ++i)
                     linksInstantiated[i].startColor = mat_opponent.color;
                 break;
@@ -126,6 +134,7 @@ public class MapNode : MonoBehaviour
         }
         for (int i = 0; i < nextNodes.Length; ++i) {
             MapNode n = nextNodes[i];
+            linksInstantiated[i].sortingOrder = renderer.sortingOrder - 1;
             switch (n.team)
             {
                 case TeamType.Player:
@@ -194,17 +203,14 @@ public class MapNode : MonoBehaviour
     }
 
 
-    public bool UpdateLinks()
+    public void UpdateLinks()
     {
-        if (linksInstantiated != null && linksInstantiated.Length == nextNodes.Length)
-            return false;
         LineRenderer[] lines = GetComponentsInChildren<LineRenderer>();
         if (lines.Length > 0)
             foreach (LineRenderer l in lines)
-                Destroy(l.gameObject);
+                DestroyImmediate(l.gameObject);
         //if (linksInstantiated == null)
         CreateLinks();
-        return true;
     }
 
     public void UpdateLinkPositions()
@@ -224,10 +230,10 @@ public class MapNode : MonoBehaviour
 
     public void CreateLinks()
     {
-        if(linksInstantiated != null)
-            for(int i = 0; i < linksInstantiated.Length; ++i)
-                    if(linksInstantiated[i] != null)
-                        DestroyImmediate(linksInstantiated[i].gameObject);
+        //if(linksInstantiated != null)
+        //    for(int i = 0; i < linksInstantiated.Length; ++i)
+        //            if(linksInstantiated[i] != null)
+        //                DestroyImmediate(linksInstantiated[i].gameObject);
         linksInstantiated = new LineRenderer[nextNodes.Length];
         Material mat = Resources.Load("Materials/M_Line") as Material;
         for (int i = 0; i < nextNodes.Length; ++i) {

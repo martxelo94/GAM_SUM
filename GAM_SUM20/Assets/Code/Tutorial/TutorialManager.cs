@@ -58,11 +58,6 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    private void OnDisable()
-    {
-        //DeleteTutorialSave();
-    }
-
     protected void Update()
     {
 #if true
@@ -110,8 +105,15 @@ public class TutorialManager : MonoBehaviour
         return current_tip >= 0 && current_tip < tips.Length;
     }
 
+    public void PrevTip()
+    {
+        ShowTip(current_tip - 1);
+    }
+
     public void NextTip()
     {
+        ShowTip(current_tip + 1);
+        /*
         Assert.IsTrue(current_tip < tips.Length);
         if (current_tip >= 0)
         {
@@ -126,6 +128,7 @@ public class TutorialManager : MonoBehaviour
             tips[current_tip].Enter();
             HighlightTip(true);
         }
+        */
     }
 
     void HighlightTip(bool show)
@@ -183,6 +186,11 @@ public class TutorialManager : MonoBehaviour
         tips[current_tip].gameObject.SetActive(true);
         tips[current_tip].Enter();
         HighlightTip(true);
+
+        //save tip
+        if(tips[current_tip].save_tip)
+            PlayerPrefs.SetInt(save_filepath, current_tip);
+
     }
 
     public void DeleteTutorialSave()

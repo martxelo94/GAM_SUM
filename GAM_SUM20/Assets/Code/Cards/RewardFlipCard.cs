@@ -10,7 +10,6 @@ public class RewardFlipCard : MonoBehaviour
 {
     public EventTrigger eventTrigger;
     public CardImage cardImage;
-    public DeckManager manager;
     public TextMeshProUGUI count_text; // how many cards of this type in pool
 
     public CardTypeCount reward;
@@ -63,9 +62,6 @@ public class RewardFlipCard : MonoBehaviour
         cardImage.type = reward.type;
         count_text.transform.parent.gameObject.SetActive(true);
         count_text.text = reward.count.ToString();
-
-        // add card to pool
-        manager.AddToPool(reward);
 
         for (int i = 0; i < frames / 2; ++i)
         {

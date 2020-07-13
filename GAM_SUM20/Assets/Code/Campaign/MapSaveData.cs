@@ -27,6 +27,7 @@ public struct NodeSaveData
     public CardTypeCount[] deck;
     public TeamType team;
     public int model_idx;
+    public bool reward_received;
 
     public NodeSaveData(MapNode node)
     {
@@ -36,6 +37,7 @@ public struct NodeSaveData
             deck = node.army.GetDeck();
         else deck = null;
         team = node.team;
+        reward_received = node.reward_received;
     }
 }
 

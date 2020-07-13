@@ -43,13 +43,8 @@ public class MapCampaign : MonoBehaviour
         Assert.IsTrue(rewardPanel != null);
         Assert.IsTrue(deckConfirmButton != null);
 
-        nodes = FindObjectsOfType<MapNode>();
-        System.Comparison<MapNode> comp = (a, b) => a.name.CompareTo(b.name);
-        System.Array.Sort(nodes, comp);
-        for (int i = 0; i < nodes.Length; ++i) {
-            nodes[i].map = this;
-            nodes[i].node_idx = i;
-        }
+        FindNodes();
+
         LoadFile();
         if (GameSettings.INSTANCE.IsBattle())
             ConfirmBattleResult();
@@ -140,19 +135,20 @@ public class MapCampaign : MonoBehaviour
         Deck target_army = nodes[GameSettings.INSTANCE.target_idx].army;
         target_army.SetDeck(GameSettings.INSTANCE.CopyTargetDeck());
 #endif
-        // update editor
-        menu.deckManager.SetUpDeck(attack_army);
-        menu.deckManager.SaveDeck();
 
         MapNode targetNode = nodes[GameSettings.INSTANCE.target_idx];
         Assert.IsTrue(targetNode.army != null);
+        targetNode.army.SetDeck(GameSettings.INSTANCE.CopyTargetDeck());
 
         if (GameSettings.INSTANCE.last_battle_won)
         {
             // capture node & get reward
             CaptureNode(attackNode, targetNode);
         }
-        
+        // update editor
+        menu.deckManager.SetUpDeck(attack_army);
+        menu.deckManager.SaveDeck();
+
     }
 
     bool IsEveryCardFliped(List<RewardFlipCard> rewardFlipCards)
@@ -168,6 +164,7 @@ public class MapCampaign : MonoBehaviour
 
     IEnumerator RewardAnimation(CardTypeCount[] reward)
     {
+        menu.addCardsButton.interactable = false;
         SetActiveNodeTriggers(false);
         yield return null;
 
@@ -184,7 +181,6 @@ public class MapCampaign : MonoBehaviour
                 continue;
             RewardFlipCard card = Instantiate(rewardCardPrefab, rewardPanel) as RewardFlipCard;
             card.reward = reward[i];
-            card.manager = menu.deckManager;
 
             rewardFlipCards.Add(card);
         }
@@ -201,9 +197,12 @@ public class MapCampaign : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(1f);
         }
-        // Remove cards
+        // add reward & remove
         foreach (RewardFlipCard c in rewardFlipCards)
+        {
+            menu.deckManager.AddToPool(c.reward);
             Destroy(c.gameObject);
+        }
 
         // reverse scale
         for (int i = 0; i < frames; ++i)
@@ -215,7 +214,8 @@ public class MapCampaign : MonoBehaviour
         rewardPanel.parent.gameObject.SetActive(false);
 
         SetActiveNodeTriggers(true);
-
+        selected_node.reward_received = true;
+        menu.infoPanel.reward_received_panel.SetActive(selected_node.reward_received);
     }
 
     // update with battle result
@@ -359,9 +359,6 @@ public class MapCampaign : MonoBehaviour
         attaker.SetTeamColor();
         target.SetTeamColor();    // done in Start of Node, but might update if captured empty node
 
-        // get reward
-        StartCoroutine(RewardAnimation(target.deck_reward));
-
         // if target node is dead end, then campaign finished
         if (target.nextNodes.Length == 0) {
             menu.ShowEndPanel(true);
@@ -419,6 +416,10 @@ public class MapCampaign : MonoBehaviour
         // SHOW INFO PANEL
         menu.ShowNodePanel(true);
 
+        // update infoPanel if is open
+        if (menu.infoPanel.gameObject.activeSelf == true)
+            menu.infoPanel.SetUp(selected_node);
+
         // SHOW ACTION PANEL
         if (selected_node.army != null)
         {
@@ -429,7 +430,10 @@ public class MapCampaign : MonoBehaviour
                 {
                     menu.ShowArmyPanel(true);
                     menu.ShowMoveButton(false);
-
+                    if (selected_node.reward_received)
+                        menu.DisableButton(menu.addCardsButton);
+                    else
+                        menu.EnableButton(menu.addCardsButton);
                     //menu.ShowBattlePanel(false);
                     menu.ShowNodePanel(false);
                 }
@@ -569,7 +573,14 @@ public class MapCampaign : MonoBehaviour
         menu.selectedArmyPanel.transform.position = selected_node.transform.position + Vector3.back * 100;
         menu.selectedNodePanel.transform.position = selected_node.transform.position + Vector3.back * 100;
     }
-#endregion
+    #endregion
+
+    public void ReceiveNodeReward()
+    {
+        CardTypeCount[] deck = selected_node.deck_reward;
+
+        StartCoroutine(RewardAnimation(deck));
+    }
 
     public void AddRandomAidPacket(int max_card_count)
     {
@@ -602,5 +613,34 @@ public class MapCampaign : MonoBehaviour
     {
         target_node.army.SetDeck(deckManager.CollapseDeck(deckManager.GetDeckUncollapsed()));
         target_node.army.UpdateText();
+    }
+
+    public void ToggleInfoPanel()
+    {
+
+        menu.infoPanel.SetUp(selected_node);
+
+        menu.infoPanel.gameObject.SetActive(!menu.infoPanel.gameObject.activeSelf);
+    }
+
+    public void FindNodes()
+    {
+        nodes = FindObjectsOfType<MapNode>();
+        System.Comparison<MapNode> comp = (a, b) => a.name.CompareTo(b.name);
+        System.Array.Sort(nodes, comp);
+        for (int i = 0; i < nodes.Length; ++i)
+        {
+            nodes[i].map = this;
+            nodes[i].node_idx = i;
+        }
+    }
+
+    public void UpdateNodes()
+    {
+        for (int i = 0; i < nodes.Length; ++i)
+        {
+            nodes[i].UpdateLinks();
+            nodes[i].SetTeamColor();
+        }
     }
 }

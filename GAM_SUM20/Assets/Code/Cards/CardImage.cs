@@ -7,7 +7,6 @@ using UnityEngine.Assertions;
 [RequireComponent(typeof(RawImage))]
 public class CardImage : MonoBehaviour
 {
-    [HideInInspector]
     public RawImage image;
 
     [SerializeField]
@@ -27,7 +26,7 @@ public class CardImage : MonoBehaviour
     private void Awake()
     {
         Assert.IsTrue(cardManager != null);
-        image = GetComponent<RawImage>();
+        Assert.IsTrue(image != null);
     }
 
     // Start is called before the first frame update

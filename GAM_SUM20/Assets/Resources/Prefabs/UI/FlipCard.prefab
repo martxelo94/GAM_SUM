@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158abc4e051e182488e1c4ceb3f69baa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
+  image: {fileID: 6385680699586738800}
   m_type: -1
   cardManager: {fileID: 11400000, guid: 6ae97c698b56eec4dae808df14c26c3b, type: 2}
 --- !u!114 &3669990666695200879

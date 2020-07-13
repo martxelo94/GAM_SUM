@@ -4,19 +4,19 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(MapCampaign))]
 public class CompleteCampaignTutorial : TutorialManager
 {
-    MapCampaign map;
+    public MapCampaign map;
 
     Deck player_deck = null;
     int init_card_count;
 
-    public GameObject tip_add_cards_inactive_condition;
+    //public GameObject tip_add_cards_inactive_condition;
     public DeckManager deckManager;
     int init_card_pool_count;
     int init_card_deck_count;
     TeamType lastNodeTeam;
+    MapNode lastNode = null;
 
     // Start is called before the first frame update
     new void Start()
@@ -24,10 +24,10 @@ public class CompleteCampaignTutorial : TutorialManager
         save_filepath = GameSettings.INSTANCE.tuto_campaign_savename;
         base.Start();
 
-        Assert.IsTrue(tip_add_cards_inactive_condition != null);
+        //Assert.IsTrue(tip_add_cards_inactive_condition != null);
         Assert.IsTrue(deckManager != null);
 
-        map = GetComponent<MapCampaign>();
+        Assert.IsTrue(map != null);
         // if tip 4, search target for tip 5... (your army can be anywhere)
         List<Deck> player_armies = map.GetArmiesOfTeam(TeamType.Player);
         Assert.IsTrue(player_armies.Count > 0);
@@ -44,15 +44,22 @@ public class CompleteCampaignTutorial : TutorialManager
         init_card_pool_count = deckManager.card_pool_count;
         init_card_deck_count = deckManager.card_deck_count;
 
+        string tip_name = tips[current_tip].gameObject.name;
 
         // check battle won after Tip_deck_editor_confirm (6)
-        if (tips[current_tip].name == "Tip_deck_editor_confirm" && GameSettings.INSTANCE.IsBattle()) {
+        if (tip_name == "Tip_deck_editor_confirm" && GameSettings.INSTANCE.IsBattle())
+        {
             NextTip();
+        }
+        else if (tip_name == "Tip_deck_editor_confirm")
+        {
+            if(GameSettings.INSTANCE.last_battle_won)
+                NextTip();
         }
         if (current_tip == tips.Length - 1)
             HideTip();
         // check if campaign end
-        MapNode lastNode = map.GetDeadEndNode();
+        lastNode = map.GetDeadEndNode();
         lastNodeTeam = lastNode.team;
         if (lastNode != null && lastNodeTeam == TeamType.Player) {
             ShowTip(tips.Length - 1);
@@ -68,7 +75,7 @@ public class CompleteCampaignTutorial : TutorialManager
             string tip_name = tips[current_tip].gameObject.name;
             if (tip_name == "Tip_add_cards")
             {
-                if (deckManager.card_pool_count > init_card_pool_count && tip_add_cards_inactive_condition.activeSelf == false)
+                if (deckManager.card_pool_count > init_card_pool_count)
                     NextTip();
             }
             else if (tip_name == "Tip_capture_node") // SELECT FIRST NODE TO ATTACK
@@ -106,15 +113,21 @@ public class CompleteCampaignTutorial : TutorialManager
                 if (deckManager.gameObject.activeSelf == true)
                     NextTip();
                 // if info panel opened
-                else if (map.menu.infoPanel.activeSelf == true && tips[current_tip].gameObject.activeSelf == true)
+                else if (map.menu.infoPanel.gameObject.activeSelf == true && tips[current_tip].gameObject.activeSelf == true)
                 {
                     HideTip();  // TODO HACK WARNING CHANGE ((last tip))
-                                //NextTip();
+                }
+            }
+            else if (current_tip == tips.Length - 2)
+            {
+                if (lastNode != null && lastNode.team != lastNodeTeam)
+                {
+                    NextTip();  // advance to last tip
+                    lastNodeTeam = lastNode.team;   // ensure only happens once
                 }
             }
             else if (current_tip == tips.Length - 1)
             {
-                MapNode lastNode = map.GetDeadEndNode();
                 if (lastNode != null && lastNode.team != lastNodeTeam)
                 {
                     ShowTip(tips.Length - 1);
@@ -126,10 +139,4 @@ public class CompleteCampaignTutorial : TutorialManager
         }
     }
 
-    private void OnDestroy()
-    {
-        //save tip
-        PlayerPrefs.SetInt(save_filepath, current_tip);
-
-    }
 }

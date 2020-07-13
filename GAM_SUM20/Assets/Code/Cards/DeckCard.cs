@@ -24,7 +24,6 @@ public class DeckCard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Assert.IsTrue(manager != null);
         Assert.IsTrue(frame_highlight != null);
         Assert.IsTrue(count_text != null);
         Assert.IsTrue(count_text_frame != null);
@@ -33,6 +32,7 @@ public class DeckCard : MonoBehaviour
 
     public void PointerDown()
     {
+        Assert.IsTrue(manager != null);
         //if (GameSettings.IsPointerOverUIObject())
         //    return;
 
@@ -44,6 +44,7 @@ public class DeckCard : MonoBehaviour
 
     public void PointerUp()
     {
+        Assert.IsTrue(manager != null);
         // if card selected, add to deck or pool
         if (is_selected)
         {

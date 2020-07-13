@@ -3,23 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(BattlefieldMenu))]
 public class CompleteBattlefieldTutorial : TutorialManager
 {
-    BattlefieldMenu menu;
+    public BattlefieldMenu menu;
     int player_init_hitpoints;
     int opponent_init_hitpoints;
 
-    private string tuto_campaign_filepath;
 
     new private void Start()
     {
-        tuto_campaign_filepath = GameSettings.INSTANCE.tuto_campaign_savename;
         save_filepath = GameSettings.INSTANCE.tuto_battle_savename;
         base.Start();
 
-        menu = GetComponent<BattlefieldMenu>();
-
+        Assert.IsTrue(menu != null);
         player_init_hitpoints = menu.playerHitPoints[0].hit_points;
         opponent_init_hitpoints = menu.playerHitPoints[1].hit_points;
 
@@ -66,14 +62,5 @@ public class CompleteBattlefieldTutorial : TutorialManager
             }
         }
     }
-    private void OnDestroy()
-    {
-        //save tip
-        PlayerPrefs.SetInt(save_filepath, current_tip);
 
-        // update campaign tip
-        //int tip = PlayerPrefs.GetInt(tuto_campaign_filepath, -2);
-        //Assert.IsTrue(tip != -2);
-        //PlayerPrefs.SetInt(tuto_campaign_filepath, tip + 1);
-    }
 }
