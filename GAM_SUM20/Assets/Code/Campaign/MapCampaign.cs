@@ -29,8 +29,6 @@ public class MapCampaign : MonoBehaviour
     public GameObject[] armyPrefabs;
 
     public CampaignMenu menu;
-    public RewardFlipCard rewardCardPrefab;
-    public Transform rewardPanel;
     public Button deckConfirmButton;
 
 
@@ -38,9 +36,8 @@ public class MapCampaign : MonoBehaviour
     {
         if(menu == null)
             menu = GetComponent<CampaignMenu>();
+
         Assert.IsTrue(menu != null);
-        Assert.IsTrue(rewardCardPrefab != null);
-        Assert.IsTrue(rewardPanel != null);
         Assert.IsTrue(deckConfirmButton != null);
 
         FindNodes();
@@ -151,19 +148,12 @@ public class MapCampaign : MonoBehaviour
 
     }
 
-    bool IsEveryCardFliped(List<RewardFlipCard> rewardFlipCards)
-    {
-        int fliped_count = 0;
-        foreach (RewardFlipCard c in rewardFlipCards) {
-            if (c.HasFliped())
-                fliped_count++;
-        }
-
-        return fliped_count == rewardFlipCards.Count;
-    }
 
     IEnumerator RewardAnimation(CardTypeCount[] reward)
     {
+        RewardFlipCard rewardCardPrefab = menu.deckManager.rewardCardPrefab;
+        Transform rewardPanel = menu.deckManager.rewardPanel;
+
         menu.addCardsButton.interactable = false;
         SetActiveNodeTriggers(false);
         yield return null;
@@ -193,7 +183,7 @@ public class MapCampaign : MonoBehaviour
         }
 
         // wait for every card to be flipped
-        while(!IsEveryCardFliped(rewardFlipCards))
+        while(!menu.deckManager.IsEveryCardFliped(rewardFlipCards))
         {
             yield return new WaitForSecondsRealtime(1f);
         }
@@ -579,9 +569,12 @@ public class MapCampaign : MonoBehaviour
     {
         CardTypeCount[] deck = selected_node.deck_reward;
 
+        menu.addCardsButton.interactable = false;
+        SetActiveNodeTriggers(false);
+
         StartCoroutine(RewardAnimation(deck));
     }
-
+    /*
     public void AddRandomAidPacket(int max_card_count)
     {
         Assert.IsTrue(selected_node != null && selected_node.army != null);
@@ -591,9 +584,8 @@ public class MapCampaign : MonoBehaviour
         }
         CardTypeCount[] deck = menu.deckManager.CollapseDeck(raw_deck.ToList());
 
-        StartCoroutine(RewardAnimation(deck));
+        StartCoroutine(menu.deckManager.RewardAnimation(deck));
     }
-
     public void AddRandomCardsToSelectedDeck(int count)
     {
         if (selected_node == null || selected_node.army == null)
@@ -606,6 +598,7 @@ public class MapCampaign : MonoBehaviour
         }
         deck.UpdateText();
     }
+    */
 
 
 

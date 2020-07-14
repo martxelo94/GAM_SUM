@@ -116,16 +116,16 @@ public class MapNode : MonoBehaviour
     {
         Material mat_player = Resources.Load("Materials/M_Player") as Material;
         Material mat_opponent = Resources.Load("Materials/M_Opponent") as Material;
-        Renderer renderer = GetComponent<Renderer>();
-        Material mat = renderer.sharedMaterial;
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        Assert.IsTrue(renderer != null);
         switch (team) {
             case TeamType.Player:
-                mat.color = mat_player.color;
+                renderer.color = mat_player.color;
                 for (int i = 0; i < nextNodes.Length; ++i)
                     linksInstantiated[i].startColor = mat_player.color;
                 break;
             case TeamType.Opponent:
-                mat.color = mat_opponent.color;
+                renderer.color = mat_opponent.color;
                 for (int i = 0; i < nextNodes.Length; ++i)
                     linksInstantiated[i].startColor = mat_opponent.color;
                 break;

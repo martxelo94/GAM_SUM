@@ -414,6 +414,9 @@ MonoBehaviour:
   deck_scroll: {fileID: 89152316703098835}
   pool_scroll: {fileID: 89152316101419543}
   menu_scroll: {fileID: 0}
+  rewardCardPrefab: {fileID: 3669990666695200879, guid: a4e7730dc98eb464da7482bf7f9bb9db,
+    type: 3}
+  rewardPanel: {fileID: 0}
   card_count_text: {fileID: 2065452273464181203}
   selected_card: {fileID: 0}
 --- !u!1 &89152315928682747
@@ -534,8 +537,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 89152316541167985}
   m_HandleRect: {fileID: 89152316541167986}
   m_Direction: 2
-  m_Value: 1.0127047
-  m_Size: 0.3650045
+  m_Value: 1.0000002
+  m_Size: 0.37617388
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -659,7 +662,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 89152316906445017}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.29090804
+  m_Size: 0.29090908
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2023,7 +2026,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -315.8261}
+  m_AnchoredPosition: {x: 0, y: -308.00015}
   m_SizeDelta: {x: 0, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &89152317458263618

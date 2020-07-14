@@ -31,6 +31,9 @@ public class DeckManager : MonoBehaviour
     public ScrollRect pool_scroll;
     public ScrollRect menu_scroll;  // horizontal scroll
 
+    public RewardFlipCard rewardCardPrefab;
+    public Transform rewardPanel;
+
     public TMPro.TextMeshProUGUI card_count_text;
     static int MAX_DECK_CARD_COUNT = 20;
 
@@ -47,6 +50,9 @@ public class DeckManager : MonoBehaviour
         Assert.IsTrue(deck_highlight != null);
         Assert.IsTrue(pool_highlight != null);
         Assert.IsTrue(card_count_text != null);
+
+        Assert.IsTrue(rewardCardPrefab != null);
+        Assert.IsTrue(rewardPanel != null);
 
 
         card_deck_objects = new List<DeckCard>();
@@ -403,5 +409,19 @@ public class DeckManager : MonoBehaviour
     {
         card_count_text.text = card_deck_objects.Count.ToString() + "/" + MAX_DECK_CARD_COUNT.ToString();
     }
+
+    public bool IsEveryCardFliped(List<RewardFlipCard> rewardFlipCards)
+    {
+        int fliped_count = 0;
+        foreach (RewardFlipCard c in rewardFlipCards)
+        {
+            if (c.HasFliped())
+                fliped_count++;
+        }
+
+        return fliped_count == rewardFlipCards.Count;
+    }
+
+
 
 }
