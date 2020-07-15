@@ -32,7 +32,8 @@ public class DeckManager : MonoBehaviour
     public ScrollRect menu_scroll;  // horizontal scroll
 
     public RewardFlipCard rewardCardPrefab;
-    public Transform rewardPanel;
+    public GameObject rewardPanel;
+    public Transform rewardGridZone;
 
     public TMPro.TextMeshProUGUI card_count_text;
     static int MAX_DECK_CARD_COUNT = 20;

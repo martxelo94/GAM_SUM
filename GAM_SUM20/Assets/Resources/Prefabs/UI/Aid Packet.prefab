@@ -248,9 +248,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: +
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 54b29b1dfaca9834c8f01247f69a4b73, type: 2}
-  m_sharedMaterial: {fileID: -6274796135312129417, guid: 54b29b1dfaca9834c8f01247f69a4b73,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -323,7 +322,7 @@ MonoBehaviour:
     linkCount: 0
     lineCount: 1
     pageCount: 1
-    materialCount: 2
+    materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
@@ -560,8 +559,8 @@ MonoBehaviour:
     month: 0
     day: 0
     hours: 0
-    mins: 1
-    seconds: 10
+    mins: 5
+    seconds: 0
   timerText: {fileID: 8837549513369243775}
   refreshTime: 1
   watchPivot: {fileID: 7089681329294828720}

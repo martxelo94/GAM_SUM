@@ -75,13 +75,16 @@ public class InfoPanel : MonoBehaviour
         for (int i = 0; i < (int)CardType.CardType_Count; ++i)
         {
             CardTypeCount card = reward[i];
-            DeckCard dc = Instantiate(card_prefab, reward_panel) as DeckCard;
-            dc.cardImage.type = card.type;
-            dc.count_text_frame.SetActive(true);
-            dc.UpdateText(card.count);
-            dc.eventTrigger.enabled = false;
+            if (card.count > 0)
+            {
+                DeckCard dc = Instantiate(card_prefab, reward_panel) as DeckCard;
+                dc.cardImage.type = card.type;
+                dc.count_text_frame.SetActive(true);
+                dc.UpdateText(card.count);
+                dc.eventTrigger.enabled = false;
 
-            reward_card_objects.Add(card.type, dc);
+                reward_card_objects.Add(card.type, dc);
+            }
         }
     }
 

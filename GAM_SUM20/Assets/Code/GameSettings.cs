@@ -30,9 +30,9 @@ public class GameSettings : MonoBehaviour
 
     public bool is_campaign_battle;
 
-    private CardTypeCount[] attack_deck = null;    // player deck
+    public CardTypeCount[] attack_deck { get; private set; }    // player deck
     public int attack_idx { get; private set; } = -1;
-    private CardTypeCount[] target_deck = null;    // opponent deck
+    public CardTypeCount[] target_deck { get; private set; }    // opponent deck
     public int target_idx { get; private set; } = -1;
     public bool last_battle_won = false;
     public string campaign_battle_name;
@@ -89,9 +89,14 @@ public class GameSettings : MonoBehaviour
         campaign_battle_name = SceneManager.GetActiveScene().name;
     }
 
-    public void ResetBattle()
+    public void ResetBattleDecks()
     {
         attack_deck = target_deck = null;
+    }
+
+    public void ResetBattle()
+    {
+        ResetBattleDecks();
         attack_idx = target_idx = -1;
         campaign_battle_name = "";
     }
@@ -222,6 +227,7 @@ public class GameSettings : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
         // HACK - DELETE ALL DATA
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -230,6 +236,7 @@ public class GameSettings : MonoBehaviour
             DeletePoolSavedData();
             DeleteUnlockCardTypes();
         }
+#endif
     }
 
     public void ToggleButton(UnityEngine.UI.Button button)

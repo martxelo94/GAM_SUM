@@ -21,9 +21,21 @@ EditorBuildSettings:
     path: Assets/Scenes/BattlefieldTutorial.unity
     guid: 26a2e3fb5075593439080b27c297eede
   - enabled: 1
-    path: Assets/Scenes/Campaign_0.unity
+    path: Assets/Scenes/Campaigns/Campaign_0.unity
     guid: aa2b3433922d24b48b03819507b3c224
   - enabled: 1
-    path: Assets/Scenes/Campaign_1.unity
+    path: Assets/Scenes/Campaigns/Campaign_1.unity
     guid: 1e1767e5a15b7184ca0b7d818402f801
+  - enabled: 1
+    path: Assets/Scenes/Campaigns/Campaign_2.unity
+    guid: e3faff8fc5e1c984794bb7652f99a828
+  - enabled: 1
+    path: Assets/Scenes/Campaigns/Campaign_3.unity
+    guid: 9d1ceb2eabd1a4e43ab3c3ccabd3489d
+  - enabled: 1
+    path: Assets/Scenes/Campaigns/Campaign_4.unity
+    guid: c52e87aae673ef64c98ef2597dbed595
+  - enabled: 1
+    path: Assets/Scenes/Campaigns/Campaign_5.unity
+    guid: 88850e593569a3f4ab2197e810e0b046
   m_configObjects: {}

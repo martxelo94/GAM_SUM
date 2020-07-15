@@ -169,12 +169,13 @@ public class AidPacket : MonoBehaviour
         button.interactable = false;
 
         RewardFlipCard rewardCardPrefab = deckManager.rewardCardPrefab;
-        Transform rewardPanel = deckManager.rewardPanel;
+        GameObject rewardPanel = deckManager.rewardPanel;
+        Transform rewardGridZone = deckManager.rewardGridZone;
         yield return null;
 
-        Vector3 initScale = rewardPanel.parent.localScale;
-        rewardPanel.parent.localScale = Vector3.zero;
-        rewardPanel.parent.gameObject.SetActive(true);
+        Vector3 initScale = rewardGridZone.parent.localScale;
+        rewardGridZone.parent.localScale = Vector3.zero;
+        rewardPanel.SetActive(true);
 
         List<RewardFlipCard> rewardFlipCards = new List<RewardFlipCard>();
 
@@ -183,7 +184,7 @@ public class AidPacket : MonoBehaviour
         {
             if (reward[i].count == 0)
                 continue;
-            RewardFlipCard card = Instantiate(rewardCardPrefab, rewardPanel) as RewardFlipCard;
+            RewardFlipCard card = Instantiate(rewardCardPrefab, rewardGridZone) as RewardFlipCard;
             card.reward = reward[i];
 
             rewardFlipCards.Add(card);
@@ -192,7 +193,7 @@ public class AidPacket : MonoBehaviour
         int frames = (int)(0.5f / Time.deltaTime);
         for (int i = 0; i < frames; ++i)
         {
-            rewardPanel.parent.localScale = Vector3.Lerp(Vector3.zero, initScale, (float)(i + 1) / frames);
+            rewardGridZone.parent.localScale = Vector3.Lerp(Vector3.zero, initScale, (float)(i + 1) / frames);
             yield return null;
         }
 
@@ -211,11 +212,11 @@ public class AidPacket : MonoBehaviour
         // reverse scale
         for (int i = 0; i < frames; ++i)
         {
-            rewardPanel.parent.localScale = Vector3.Lerp(initScale, Vector3.zero, (float)(i + 1) / frames);
+            rewardGridZone.parent.localScale = Vector3.Lerp(initScale, Vector3.zero, (float)(i + 1) / frames);
             yield return null;
         }
-        rewardPanel.parent.localScale = initScale;
-        rewardPanel.parent.gameObject.SetActive(false);
+        rewardGridZone.parent.localScale = initScale;
+        rewardPanel.SetActive(false);
 
         timeEnded = false;
         lastDateUsed = DateTime.Now;

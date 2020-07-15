@@ -23,6 +23,15 @@ public class MapCampaignEditor : Editor
         {
             _target.FindNodes();
             _target.UpdateNodes();
+            _target.FindArmies();
         }
+        //if (GUILayout.Button("Find Nodes"))
+        //{
+        //    _target.FindNodes();
+        //}
+        //if (GUILayout.Button("Find Armies"))
+        //{
+        //    _target.FindArmies();
+        //}
     }
 }

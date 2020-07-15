@@ -41,6 +41,7 @@ public class MapCampaign : MonoBehaviour
         Assert.IsTrue(deckConfirmButton != null);
 
         FindNodes();
+        FindArmies();
 
         LoadFile();
         if (GameSettings.INSTANCE.IsBattle())
@@ -152,15 +153,16 @@ public class MapCampaign : MonoBehaviour
     IEnumerator RewardAnimation(CardTypeCount[] reward)
     {
         RewardFlipCard rewardCardPrefab = menu.deckManager.rewardCardPrefab;
-        Transform rewardPanel = menu.deckManager.rewardPanel;
+        GameObject rewardPanel = menu.deckManager.rewardPanel;
+        Transform rewardGridZone = menu.deckManager.rewardGridZone;
 
         menu.addCardsButton.interactable = false;
         SetActiveNodeTriggers(false);
         yield return null;
 
-        Vector3 initScale = rewardPanel.parent.localScale;
-        rewardPanel.parent.localScale = Vector3.zero;
-        rewardPanel.parent.gameObject.SetActive(true);
+        Vector3 initScale = rewardGridZone.parent.localScale;
+        rewardGridZone.parent.localScale = Vector3.zero;
+        rewardPanel.SetActive(true);
 
         List<RewardFlipCard> rewardFlipCards = new List<RewardFlipCard>();
 
@@ -169,7 +171,7 @@ public class MapCampaign : MonoBehaviour
         {
             if (reward[i].count == 0)
                 continue;
-            RewardFlipCard card = Instantiate(rewardCardPrefab, rewardPanel) as RewardFlipCard;
+            RewardFlipCard card = Instantiate(rewardCardPrefab, rewardGridZone) as RewardFlipCard;
             card.reward = reward[i];
 
             rewardFlipCards.Add(card);
@@ -178,7 +180,7 @@ public class MapCampaign : MonoBehaviour
         int frames = (int)(0.5f / Time.deltaTime);
         for(int i = 0; i < frames; ++i)
         {
-            rewardPanel.parent.localScale = Vector3.Lerp(Vector3.zero, initScale, (float)(i + 1) / frames);
+            rewardGridZone.parent.localScale = Vector3.Lerp(Vector3.zero, initScale, (float)(i + 1) / frames);
             yield return null;
         }
 
@@ -197,11 +199,11 @@ public class MapCampaign : MonoBehaviour
         // reverse scale
         for (int i = 0; i < frames; ++i)
         {
-            rewardPanel.parent.localScale = Vector3.Lerp(initScale, Vector3.zero, (float)(i + 1) / frames);
+            rewardGridZone.parent.localScale = Vector3.Lerp(initScale, Vector3.zero, (float)(i + 1) / frames);
             yield return null;
         }
-        rewardPanel.parent.localScale = initScale;
-        rewardPanel.parent.gameObject.SetActive(false);
+        rewardGridZone.parent.localScale = initScale;
+        rewardPanel.SetActive(false);
 
         SetActiveNodeTriggers(true);
         selected_node.reward_received = true;
@@ -353,6 +355,7 @@ public class MapCampaign : MonoBehaviour
         if (target.nextNodes.Length == 0) {
             menu.ShowEndPanel(true);
         }
+        SetActiveNodeTriggers(true);
     }
 
     public void UnselectNode()
@@ -628,6 +631,25 @@ public class MapCampaign : MonoBehaviour
         }
     }
 
+    public void FindArmies()
+    {
+        Assert.IsTrue(nodes != null);
+        for (int i = 0; i < nodes.Length; ++i)
+        {
+            MapNode node = nodes[i];
+            Deck army = node.GetComponentInChildren<Deck>();
+            if (army != null) {
+                army.UpdateCardCount();
+                army.UpdateText();
+                node.army = army;
+            }
+            else
+                node.army = null;
+
+            Debug.Log("Node " + i + " army = " + army);
+        }
+    }
+
     public void UpdateNodes()
     {
         for (int i = 0; i < nodes.Length; ++i)
@@ -636,4 +658,6 @@ public class MapCampaign : MonoBehaviour
             nodes[i].SetTeamColor();
         }
     }
+
+
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class MainMenu : MonoBehaviour
     public int campaignSceneIndex = 5;
 
     public DeckManager deckManager;
+    public GameObject invalidDeckWarningPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -20,10 +22,12 @@ public class MainMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.S)) {
             // save current open deck
             deckManager.SaveDeck();
         }
+#endif
     }
 
     public void DeleteCampaignSavedData()
@@ -74,5 +78,43 @@ public class MainMenu : MonoBehaviour
         GameSettings.INSTANCE.SetAttackDeck(deckManager.CollapseDeck(deckManager.LoadDeckRaw(-1)));
         // pray to have a save...
         GameSettings.INSTANCE.SetTargetDeck(deckManager.CollapseDeck(deckManager.LoadDeckRaw(-2)));
+    }
+
+    public void CancelQuickGame()
+    {
+        deckManager.gameObject.SetActive(false);
+        GameSettings.INSTANCE.ResetBattleDecks();
+    }
+
+    public void ConfirmQuickGame()
+    {
+        SetQuickGameDecks();
+        // check if both decks have cards
+        int playerDeckCount = Deck.CardCount(GameSettings.INSTANCE.attack_deck);
+        int enemyDeckCount = Deck.CardCount(GameSettings.INSTANCE.target_deck);
+        if (playerDeckCount == 0 || enemyDeckCount == 0) {
+            // deck warning
+            StartCoroutine(MakeInactiveAtTime(invalidDeckWarningPanel, 2f));
+            return;
+        }
+
+        SceneManager.LoadScene("Scenes/LoadingScreen");
+    }
+    public void PrepareAIGame()
+    {
+        deckManager.gameObject.SetActive(true);
+        GameSettings.INSTANCE.SetNextSceneIdx(aiGameSceneIndex);
+    }
+    public void PreparePlayerGame()
+    {
+        deckManager.gameObject.SetActive(true);
+        GameSettings.INSTANCE.SetNextSceneIdx(playerGameSceneIndex);
+    }
+
+    IEnumerator MakeInactiveAtTime(GameObject obj, float seconds)
+    {
+        obj.SetActive(true);
+        yield return new WaitForSecondsRealtime(seconds);
+        obj.SetActive(false);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class MapCameraMovement : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class MapCameraMovement : MonoBehaviour
                 player_deck = d;
                 break;
             }
+        Assert.IsTrue(player_deck != null);
         Vector3 p = player_deck.transform.position;
         p.y = Mathf.Clamp(p.y, minHeight, maxHeight);
         p.x = transform.position.x;
@@ -110,11 +112,11 @@ public class MapCameraMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawCube(
-            new Vector3(0, minHeight, target.position.z),
+            new Vector3(0, minHeight - 10, target.position.z),
             new Vector3(5, 1, 1));
         Gizmos.color = Color.blue;
         Gizmos.DrawCube(
-            new Vector3(0, maxHeight, target.position.z),
+            new Vector3(0, maxHeight + 10, target.position.z),
             new Vector3(5, 1, 1));
 
     }

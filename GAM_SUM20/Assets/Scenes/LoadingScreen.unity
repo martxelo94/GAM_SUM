@@ -531,7 +531,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 06b8af962c1e3034aae97fb7485082e7, type: 3}
+  m_Texture: {fileID: 2800000, guid: 7989b5e6043a1ff46be655c3ca147679, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -802,13 +802,7 @@ MonoBehaviour:
   progressBar: {fileID: 1967616695}
   background: {fileID: 717768518}
   textures:
-  - {fileID: 2800000, guid: ce9782b29274fcf42aca87be04022c22, type: 3}
-  - {fileID: 2800000, guid: d48446c9a2ba2434bb724415dbfc7c59, type: 3}
-  - {fileID: 2800000, guid: 86000ee37ecfc3444947302cbb946f1a, type: 3}
-  - {fileID: 2800000, guid: 06b8af962c1e3034aae97fb7485082e7, type: 3}
-  - {fileID: 2800000, guid: f78e37a3989d0fe4badfc9a85549a54b, type: 3}
-  - {fileID: 2800000, guid: 2f7a78183752f0f41ac103a540be9bc2, type: 3}
-  - {fileID: 2800000, guid: 78da23da6ac46b9418fc9aaae92e39f2, type: 3}
+  - {fileID: 2800000, guid: 7989b5e6043a1ff46be655c3ca147679, type: 3}
 --- !u!4 &2047369795
 Transform:
   m_ObjectHideFlags: 0
