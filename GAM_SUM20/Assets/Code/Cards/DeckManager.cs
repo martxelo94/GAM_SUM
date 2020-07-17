@@ -369,6 +369,7 @@ public class DeckManager : MonoBehaviour
 
             return true;
         }
+        SetUpDeck(new List<CardType>());    // empty deck
         return false;
     }
 
@@ -376,6 +377,8 @@ public class DeckManager : MonoBehaviour
     public void LoadDeckImmediate()
     {
         LoadDeck();
+
+        Debug.Log("Deck loaded immediately");
     }
 
     void MoveSelectedCard()

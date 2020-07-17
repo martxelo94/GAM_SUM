@@ -73,7 +73,8 @@ public class RewardFlipCard : MonoBehaviour
         yield return new WaitForSecondsRealtime(2f);
 
         count_text.transform.parent.gameObject.SetActive(false);
-        cardImage.image.enabled = false;
+        gameObject.SetActive(false);
+        //cardImage.image.enabled = false;
         has_fliped = true;
     }
 }

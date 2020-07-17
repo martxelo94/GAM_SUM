@@ -5608,7 +5608,7 @@ PrefabInstance:
     - target: {fileID: 82351081516972023, guid: 78f83c2d5bcf6714e830dc4c42382462,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -340.93335
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 82351081606460798, guid: 78f83c2d5bcf6714e830dc4c42382462,
         type: 3}
@@ -5628,7 +5628,7 @@ PrefabInstance:
     - target: {fileID: 82351082067652358, guid: 78f83c2d5bcf6714e830dc4c42382462,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -343.19995
+      value: 0.000061035156
       objectReference: {fileID: 0}
     - target: {fileID: 504802961184199302, guid: 78f83c2d5bcf6714e830dc4c42382462,
         type: 3}
@@ -11328,6 +11328,16 @@ PrefabInstance:
         type: 3}
       propertyPath: map
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[1].count
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3546247979921357571, guid: e84b5810a248b734d8e0602a0ec9dc7f,
+        type: 3}
+      propertyPath: deck_reward.Array.data[3].count
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3546247979921357596, guid: e84b5810a248b734d8e0602a0ec9dc7f,
         type: 3}
