@@ -101,7 +101,12 @@ public class MapCameraMovement : MonoBehaviour
     void MoveY(float deltaY)
     {
         Vector3 p = transform.position;
-        p.y += deltaY * speed;
+#if UNITY_EDITOR
+        float deltaSpeed = deltaY * speed;
+#else
+        float deltaSpeed = deltaY;
+#endif
+        p.y += deltaSpeed;
         p.y = Mathf.Clamp(p.y, minHeight, maxHeight);
         transform.position = p;
         //Debug.Log("Moved deltaY = " + deltaY);
